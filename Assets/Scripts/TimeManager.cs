@@ -23,7 +23,7 @@ public class TimeManager : MonoBehaviour {
     public Color dayMiddleColor;
     public Color dayEndColor;
 
-    float currentDayTime;
+    public float currentDayTime;
     float currentTime;
     public bool isDay;
 
@@ -58,6 +58,7 @@ public class TimeManager : MonoBehaviour {
             {
                 currentTime = 0;
                 DayRise();
+
             }
         }
 
@@ -68,6 +69,7 @@ public class TimeManager : MonoBehaviour {
         }
         if(sunLight.color == dayMiddleColor)
         {
+
             sunLight.DOColor(dayEndColor, (currentDayTime - transitionTime) / 2);
         }
         if(sunLight.color == nightStartingColor)
@@ -83,6 +85,7 @@ public class TimeManager : MonoBehaviour {
 
     void DayRise()
     {
+        StartCoroutine("WaitThenWarn");
         isDay = true;
         sunLight.DOColor(dayStartingColor, transitionTime);
         GameManager.Instance.SpawnPotatos();
@@ -90,6 +93,7 @@ public class TimeManager : MonoBehaviour {
 
     void NightFall()
     {
+        HoleCreator.Instance.CreateHoles();
         isDay = false;
         currentDayTime -= dayTimeReduction;
         if(currentDayTime < minDayTime)
@@ -97,5 +101,11 @@ public class TimeManager : MonoBehaviour {
             currentDayTime = minDayTime;
         }
         sunLight.DOColor(nightStartingColor, transitionTime);
+    }
+
+    IEnumerator WaitThenWarn()
+    {
+        yield return new WaitForSeconds(currentDayTime / 2);
+        HoleCreator.Instance.WarnHoles();
     }
 }

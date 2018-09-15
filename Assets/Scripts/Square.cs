@@ -33,6 +33,10 @@ public class Square : MonoBehaviour {
     public Transform leavesParent;
     public List<GameObject> leaves;
 
+    public List<GameObject> stateGraphics;
+
+    public bool canBeHoled;
+
     [Header("Tequila")]
     public int tequilaMultiplier;
 
@@ -157,6 +161,51 @@ public class Square : MonoBehaviour {
         {
             numberPanelAnim.SetBool("isBurrowed", true);
         }
+
+        //graphics
+        if(state == SquareState.hole)
+        {
+            if(TimeManager.Instance.isDay)
+            {
+                if(!stateGraphics[3].activeInHierarchy)
+                {
+                    stateGraphics[0].SetActive(false);
+                    stateGraphics[1].SetActive(false);
+                    stateGraphics[2].SetActive(false);
+                    stateGraphics[3].SetActive(true);
+                }
+            }
+            else
+            {
+                if(!stateGraphics[2].activeInHierarchy)
+                {
+                    stateGraphics[0].SetActive(false);
+                    stateGraphics[1].SetActive(false);
+                    stateGraphics[2].SetActive(true);
+                    stateGraphics[3].SetActive(false);
+                }
+            }
+        }
+        else if(state == SquareState.potato)
+        {
+            if (!stateGraphics[1].activeInHierarchy)
+            {
+                stateGraphics[0].SetActive(false);
+                stateGraphics[1].SetActive(true);
+                stateGraphics[2].SetActive(false);
+                stateGraphics[3].SetActive(false);
+            }
+        }
+        else
+        {
+            if (!stateGraphics[0].activeInHierarchy)
+            {
+                stateGraphics[0].SetActive(true);
+                stateGraphics[1].SetActive(false);
+                stateGraphics[2].SetActive(false);
+                stateGraphics[3].SetActive(false);
+            }
+        }
     }
 
     public void Interact()
@@ -235,6 +284,12 @@ public class Square : MonoBehaviour {
         state = SquareState.empty;
     }
 
+    public void CreateHole()
+    {
+        state = SquareState.hole;
+        potatoAmount = 0;
+    }
+
     public void GrowPotato()
     {
         state = SquareState.potato;
@@ -263,5 +318,21 @@ public class Square : MonoBehaviour {
     public void CompressPotato(int potatoAmount)
     {
         GameManager.Instance.grenadaPotatoes += potatoAmount;
+    }
+
+    public void Redden()
+    {
+        foreach(GameObject graphic in stateGraphics)
+        {
+            graphic.GetComponent<MeshRenderer>().material.color = HoleCreator.Instance.dangerColor;
+        }
+    }
+
+    public void Normalize()
+    {
+        foreach (GameObject graphic in stateGraphics)
+        {
+            graphic.GetComponent<MeshRenderer>().material.color = HoleCreator.Instance.normalColor;
+        }
     }
 }

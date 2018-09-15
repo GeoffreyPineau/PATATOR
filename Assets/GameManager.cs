@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject squarePrefab;
     public Transform squareParentTransform;
-    List<Square> dirtSquareList = new List<Square>();
+    public List<Square> dirtSquareList = new List<Square>();
     List<Square> emptySquares;
 
     [Header("Player Values")]
@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
     public Square[,] squaresArray;
 
     public List<Vector2> excludedPositions;
+    public List<Vector2> noHolesPositions;
     public Vector2 tequilaPressPosition;
     public Vector2 tequilaPumpPosition;
     public int tequilaMultiplier;
@@ -86,6 +87,15 @@ public class GameManager : MonoBehaviour
                     newSquareComponent.type = SquareType.dirt;
                     newSquare.name = "DirtSquare " + x + "," + y;
 
+                    newSquareComponent.canBeHoled = true;
+                    foreach (Vector2 position in noHolesPositions)
+                    {
+                        if(position == new Vector2(x, y))
+                        {
+                            newSquareComponent.canBeHoled = false;
+                        }
+                    }
+
                     newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
                 }
                 if(new Vector2(x, y) == tequilaPressPosition)
@@ -113,6 +123,7 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+        FindObjectOfType<HoleCreator>().dirtSquares = dirtSquareList;
     }
 
     void Update()
