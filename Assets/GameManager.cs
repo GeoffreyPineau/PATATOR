@@ -113,6 +113,9 @@ public class GameManager : MonoBehaviour
         {
             potatoesText.text = "0";
         }
+
+        //grenada compression
+
     }
 
     public void SpawnPotatos()

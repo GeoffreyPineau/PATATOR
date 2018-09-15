@@ -219,7 +219,14 @@ public class Square : MonoBehaviour {
                     }
                 }
             }
-
+        }
+        else if(type == SquareType.compressor)
+        {
+            if (GameManager.Instance.potatoesHeld > 0)
+            {
+                CompressPotato(GameManager.Instance.potatoesHeld);
+                GameManager.Instance.potatoesHeld = 0;
+            }
         }
     }
 
@@ -251,5 +258,10 @@ public class Square : MonoBehaviour {
     public void PressTequila(int potatoAmount)
     {
         GameManager.Instance.pressTequila += potatoAmount * tequilaMultiplier;
+    }
+
+    public void CompressPotato(int potatoAmount)
+    {
+        GameManager.Instance.grenadaPotatoes += potatoAmount;
     }
 }
