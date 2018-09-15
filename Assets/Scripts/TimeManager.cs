@@ -23,7 +23,7 @@ public class TimeManager : MonoBehaviour {
     public Color dayMiddleColor;
     public Color dayEndColor;
 
-    float currentDayTime;
+    public float currentDayTime;
     float currentTime;
     public bool isDay;
 
@@ -68,6 +68,7 @@ public class TimeManager : MonoBehaviour {
         }
         if(sunLight.color == dayMiddleColor)
         {
+            HoleCreator.Instance.SpawnHoles();
             sunLight.DOColor(dayEndColor, (currentDayTime - transitionTime) / 2);
         }
         if(sunLight.color == nightStartingColor)
