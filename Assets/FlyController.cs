@@ -12,7 +12,14 @@ public class FlyController : MonoBehaviour {
     public float explodeDuration;
     public int explodeVibrato;
 
+    public float hitShakeStrength;
+    public float hitDuration;
+    public int hitVibrato;
+
+    private int health;
+
     private bool isExploding;
+    private Tween squashTween;
 
     private void Start()
     {
@@ -36,11 +43,29 @@ public class FlyController : MonoBehaviour {
 
             isExploding = true;
 
-            modelPivot.DOShakeScale(explodeDuration, explodeShakeStrength, explodeVibrato,90,false).OnComplete(delegate
+            if (squashTween != null) squashTween.Kill(true);
+            squashTween = modelPivot.DOShakeScale(explodeDuration, explodeShakeStrength, explodeVibrato,90,false).OnComplete(delegate
             {
                 GameManager.Instance.DamageHeart(GameManager.Instance.flyDamage);
                 Destroy(gameObject);
             });
         }
 	}
+
+    public void Damage(int _damage)
+    {
+        if (isExploding) return;
+
+        health -= _damage;
+
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            if (squashTween != null) squashTween.Kill(true);
+            squashTween = modelPivot.DOShakeScale(hitDuration, hitShakeStrength, hitVibrato, 90, false);
+        }
+    }
 }

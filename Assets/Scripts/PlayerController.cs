@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour {
     private Vector3 aimDirection;
     private Vector3 interactionPosition;
 
+    private float lastFlameTimestamp;
+
     private void Update()
     {
         //Get player input
@@ -60,9 +62,11 @@ public class PlayerController : MonoBehaviour {
         if (directionInput != Vector3.zero)
         {
             targetAngle = Utilities.Angle(directionInput.x, directionInput.z);
+            
             targetAngleFull = Utilities.AngleFull(directionInput.x, directionInput.z);
         }
-        bodyPivot.eulerAngles = new Vector3(0, Mathf.SmoothDampAngle(modelPivot.eulerAngles.y, targetAngle, ref currentRotationVelocity, turnDamp, Mathf.Infinity, Time.deltaTime));
+        bodyPivot.eulerAngles = new Vector3(0, targetAngle);
+        // Mathf.SmoothDampAngle(modelPivot.eulerAngles.y, targetAngle, ref currentRotationVelocity, turnDamp, Mathf.Infinity, Time.deltaTime)
         //
 
         //Aim
@@ -88,12 +92,62 @@ public class PlayerController : MonoBehaviour {
             GameManager.Instance.squaresArray[(int)interactionPosition.x, (int)interactionPosition.z].Interact();
             print(GameManager.Instance.squaresArray[(int)interactionPosition.x, (int)interactionPosition.z].state);
         }
+
+        //Shoot
+        Shoot();
     }
 
     private void FixedUpdate()
     {
         rb.AddForce(directionInput * speed);
     }
+
+    void Shoot()
+    {
+        if (!Input.GetMouseButton(0))
+        {
+            Cooldown();
+            return;
+        }
+
+        if (Time.time < lastFlameTimestamp + GameManager.Instance.sombreroastCooldown)
+        {
+            Cooldown();
+            return;
+        }
+
+        int tequilaCost = (int)Mathf.Lerp(GameManager.Instance.sombreroastMinConsumption, GameManager.Instance.sombreroastMaxConsumption,
+            Mathf.InverseLerp(0, GameManager.Instance.sombreroastMaxHeat, GameManager.Instance.sombreroastCurrentHeat));
+        if (GameManager.Instance.heldTequila < tequilaCost)
+        {
+            Cooldown();
+            return;
+        }
+        else
+        {
+            GameManager.Instance.heldTequila -= tequilaCost;
+
+            ProjectileComponent projectile = Instantiate(flamePrefab, transform.position + aimDirection * interactionPositionOffset*4, Quaternion.identity).GetComponent<ProjectileComponent>();
+            projectile.rb.velocity = aimDirection * GameManager.Instance.sombreroastProjectileSpeed;
+            projectile.damage = (int)Mathf.Lerp(GameManager.Instance.sombreroastMinDamage, GameManager.Instance.sombreroastMaxDamage,
+            Mathf.InverseLerp(0, GameManager.Instance.sombreroastMaxHeat, GameManager.Instance.sombreroastCurrentHeat));
+
+            GameManager.Instance.sombreroastCurrentHeat += GameManager.Instance.sombreroastHeatGain;
+            GameManager.Instance.sombreroastCurrentHeat = Mathf.Clamp(GameManager.Instance.sombreroastCurrentHeat, 0, GameManager.Instance.sombreroastMaxHeat);
+        }
+
+        lastFlameTimestamp = Time.time;
+    }
+
+    void Cooldown()
+    {
+        if (Time.time > lastFlameTimestamp + GameManager.Instance.sombreroastCooldown)
+        {
+            GameManager.Instance.sombreroastCurrentHeat -= Time.deltaTime;
+            GameManager.Instance.sombreroastCurrentHeat = Mathf.Clamp(GameManager.Instance.sombreroastCurrentHeat, 0, GameManager.Instance.sombreroastMaxHeat);
+        }
+    }
+
 
     private void OnDrawGizmos()
     {

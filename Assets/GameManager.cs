@@ -21,8 +21,17 @@ public class GameManager : MonoBehaviour
     public bool hasGrenada;
     public int heldTequila;
     public int maxTequila;
-    public int sombreroastDamage;
-    public int sombreroastConsumption;
+    public int sombreroastMinDamage;
+    public int sombreroastMaxDamage;
+    public int sombreroastMinConsumption;
+    public int sombreroastMaxConsumption;
+    public float sombreroastProjectileSpeed;
+    public float sombreroastCooldown = .5f;
+    public float sombreroastHeatGain = .5f;
+    public float sombreroastMaxHeat = 20;
+    public float sombreroastCurrentHeat = 0;
+    [ColorUsage(false, true)]public  Color sombreroastMinGlow;
+    [ColorUsage(false, true)]public  Color sombreroastMaxGlow;
 
     [Header("Heart Values")]
     public int heartMaxLife;

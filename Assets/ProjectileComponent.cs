@@ -2,15 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileComponent : MonoBehaviour {
+public class ProjectileComponent : MonoBehaviour
+{
+    public Rigidbody rb;
+    public int damage;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.isTrigger) return;
+
+        FlyController flyController = other.GetComponent<FlyController>();
+
+        if (flyController)
+        {
+            flyController.Damage(damage);
+        }
+
+        Destroy(gameObject);
+    }
 }
