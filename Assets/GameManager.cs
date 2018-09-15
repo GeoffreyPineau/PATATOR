@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     List<Square> squareList = new List<Square>();
     List<Square> emptySquares;
 
+    [Header("Player Values")]
+    public int potatoesHeld;
+
     [Header("Potato Spawning")]
     public int initialPotatoNumber;
     public AnimationCurve potatoAddingCurve;

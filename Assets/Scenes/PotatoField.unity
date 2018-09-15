@@ -230,7 +230,14 @@ MonoBehaviour:
   squarePrefab: {fileID: 1415271810987972, guid: 73420cce62a71e7429a6bf58a8a6f340,
     type: 2}
   squareParentTransform: {fileID: 713386753}
+  potatoesHeld: 0
   initialPotatoNumber: 5
+  potatoAddingCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &465012480
 Transform:
   m_ObjectHideFlags: 0
