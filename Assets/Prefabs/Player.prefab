@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4593576407931956}
   - component: {fileID: 33147091927452318}
   - component: {fileID: 23522561200883254}
-  - component: {fileID: 65924119012473678}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -96,7 +95,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1481108074572526}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6, y: 0, z: 4}
+  m_LocalPosition: {x: 8.16, y: 0, z: 4.004903}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4563355546360536}
@@ -160,18 +159,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 1
---- !u!65 &65924119012473678
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1136702602924670}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114980220667251964
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -188,6 +175,7 @@ MonoBehaviour:
   speed: 300
   dashSpeed: 100
   turnDamp: 0.114
+  interactionPositionOffset: 0.4
   squashDashValue: {x: 0.1, y: -0.2, z: 0.1}
   squashDashDuration: 0.7
 --- !u!136 &136260652323622020
