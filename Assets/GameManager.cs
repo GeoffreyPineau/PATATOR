@@ -55,6 +55,8 @@ public class GameManager : MonoBehaviour
     public List<Vector2> noHolesPositions;
     public Vector2 tequilaPressPosition;
     public Vector2 tequilaPumpPosition;
+    public Vector2 grenadaCompressorPosition;
+    public Vector2 grenadaPosition;
     public int tequilaMultiplier;
 
 
@@ -123,6 +125,28 @@ public class GameManager : MonoBehaviour
 
                     newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
                 }
+                if(new Vector2(x, y) == grenadaCompressorPosition)
+                {
+                    GameObject newSquare = Instantiate(squarePrefab, squareParentTransform);
+                    Square newSquareComponent = newSquare.GetComponent<Square>();
+
+                    squaresArray[x, y] = newSquareComponent;
+                    newSquareComponent.type = SquareType.compressor;
+                    newSquare.name = "GrenadaCompressor";
+
+                    newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
+                }
+                if(new Vector2(x, y) == grenadaPosition)
+                {
+                    GameObject newSquare = Instantiate(squarePrefab, squareParentTransform);
+                    Square newSquareComponent = newSquare.GetComponent<Square>();
+
+                    squaresArray[x, y] = newSquareComponent;
+                    newSquareComponent.type = SquareType.grenada;
+                    newSquare.name = "GrenadaPosition";
+
+                    newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
+                }
             }
         }
         FindObjectOfType<HoleCreator>().dirtSquares = dirtSquareList;
@@ -140,7 +164,12 @@ public class GameManager : MonoBehaviour
         }
 
         //grenada compression
+        if(grenadaPotatoes >= potatoesForGrenada)
+        {
+            grenadas++;
+            grenadaPotatoes -= potatoesForGrenada;
 
+        }
     }
 
     public void SpawnPotatos()
