@@ -9,6 +9,9 @@ public class HoleCreator : MonoBehaviour {
     public List<Square> dirtSquares;
     List<Square> availableSquares;
 
+    public Color normalColor;
+    public Color dangerColor;
+
     [Header("Tweaking")]
     public int initialNumber;
     public int numberBonus;
@@ -25,29 +28,39 @@ public class HoleCreator : MonoBehaviour {
         availableSquares = new List<Square>();
         foreach(Square square in dirtSquares)
         {
-            if(square.state != SquareState.hole)
+            if(square.state != SquareState.hole && square.canBeHoled)
             {
                 availableSquares.Add(square);
             }
         }
     }
 
-    IEnumerator SpawnHole()
+    void WarnHole()
     {
         RefreshSquares();
         Square chosenSquare = availableSquares[Random.Range(0, availableSquares.Count)];
-        yield return new WaitForSeconds(TimeManager.Instance.currentDayTime / 2);
-        chosenSquare.CreateHole();
+        chosenSquare.Redden();
+        warnedHoles.Add(chosenSquare);
     }
 
-    public void SpawnHoles()
+    public void CreateHoles()
     {
+        foreach(Square square in warnedHoles)
+        {
+            square.CreateHole();
+            square.Normalize();
+        }
+    }
 
+    List<Square> warnedHoles;
+    public void WarnHoles()
+    {
+        warnedHoles = new List<Square>();
         int holes = initialNumber + (numberBonus * currentWave);
         if (holes > maxHoles) holes = maxHoles;
         for(int i = 0; i < holes; i++)
         {
-            StartCoroutine("SpawnHole");
+            WarnHole();
         }
         currentWave++;
     }

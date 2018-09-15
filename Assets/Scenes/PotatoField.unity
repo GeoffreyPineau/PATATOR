@@ -333,8 +333,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2d91bbc42a0ae44927d8d9c7004c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cycleTime: 45
-  initialDayTime: 20
+  cycleTime: 20
+  initialDayTime: 10
   dayTimeReduction: 2
   minDayTime: 6
   transitionTime: 4
@@ -1144,6 +1144,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dirtSquares: []
-  initialNumber: 2
-  numberBonus: 2
-  maxHoles: 10
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  dangerColor: {r: 0.8490566, g: 0.30838373, b: 0.30838373, a: 1}
+  initialNumber: 1
+  numberBonus: 1
+  maxHoles: 5
