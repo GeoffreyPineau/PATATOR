@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
+
     public int columns;
     public int rows;
 
@@ -18,12 +20,18 @@ public class GameManager : MonoBehaviour
     [Header("Potato Spawning")]
     public int initialPotatoNumber;
     public AnimationCurve potatoAddingCurve;
+    public int twoLeavesMin;
+    public int threeLeavesMin;
+    public int fourLeavesMin;
+    public int fiveLeavesMin;
 
-    private int[,] squaresArray;
+    public Square[,] squaresArray;
 
     void Awake()
     {
-        squaresArray = new int[columns, rows];
+        Instance = this;
+
+        squaresArray = new Square[columns, rows];
         //generate squares
         for (int x = 0; x < squaresArray.GetLength(0); x++)
         {
@@ -35,7 +43,11 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     GameObject newSquare = Instantiate(squarePrefab, squareParentTransform);
-                    squareList.Add(newSquare.GetComponent<Square>());
+                    Square newSquareComponent = newSquare.GetComponent<Square>();
+
+                    squaresArray[x, y] = newSquareComponent;
+                    squareList.Add(newSquareComponent);
+
                     newSquare.transform.position = new Vector3(x + 0.5f, 0, y);
                 }
             }
@@ -49,6 +61,13 @@ public class GameManager : MonoBehaviour
             RefreshEmptySquares();
             Square chosenSquare = emptySquares[Random.Range(0, emptySquares.Count)];
             chosenSquare.GrowPotato();
+        }
+        foreach (Square square in squareList)
+        {
+            if (square.state == SquareState.potato)
+            {
+                square.AddPotato();
+            }
         }
     }
 
@@ -66,18 +85,18 @@ public class GameManager : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        squaresArray = new int[columns, rows];
+        int [,] fakeArray = new int[columns, rows];
 
-        for (int x = 0; x < squaresArray.GetLength(0); x ++)
+        for (int x = 0; x < fakeArray.GetLength(0); x ++)
         {
-            for (int y = 0; y < squaresArray.GetLength(1); y++)
+            for (int y = 0; y < fakeArray.GetLength(1); y++)
             {
                 if ((x == 5 || x == 6) && (y == 3 || y == 4))
                 {
                 }
                 else
                 {
-                    Gizmos.DrawSphere(new Vector3(x + .5f, 0f, y + .5f), .3f);
+                    Gizmos.DrawSphere(new Vector3(x + .5f, 0f, y + .5f), .1f);
                 }
             }
         }
