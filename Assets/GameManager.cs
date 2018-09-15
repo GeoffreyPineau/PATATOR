@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
+
     public int columns;
     public int rows;
 
@@ -12,14 +14,23 @@ public class GameManager : MonoBehaviour
     List<Square> squareList = new List<Square>();
     List<Square> emptySquares;
 
+    [Header("Player Values")]
+    public int potatoesHeld;
+
     [Header("Potato Spawning")]
     public int initialPotatoNumber;
     public AnimationCurve potatoAddingCurve;
+    public int twoLeavesMin;
+    public int threeLeavesMin;
+    public int fourLeavesMin;
+    public int fiveLeavesMin;
 
     private int[,] squaresArray;
 
     void Awake()
     {
+        Instance = this;
+
         squaresArray = new int[columns, rows];
         //generate squares
         for (int x = 0; x < squaresArray.GetLength(0); x++)
@@ -46,6 +57,13 @@ public class GameManager : MonoBehaviour
             RefreshEmptySquares();
             Square chosenSquare = emptySquares[Random.Range(0, emptySquares.Count)];
             chosenSquare.GrowPotato();
+        }
+        foreach (Square square in squareList)
+        {
+            if (square.state == SquareState.potato)
+            {
+                square.AddPotato();
+            }
         }
     }
 
@@ -74,7 +92,7 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    Gizmos.DrawSphere(new Vector3(x + .5f, 0f, y + .5f), .3f);
+                    //Gizmos.DrawSphere(new Vector3(x + .5f, 0f, y + .5f), .3f);
                 }
             }
         }
