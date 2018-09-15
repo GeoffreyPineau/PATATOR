@@ -5,6 +5,8 @@ using DG.Tweening;
 
 public class TimeManager : MonoBehaviour {
 
+    public static TimeManager Instance;
+
     [Header("Tweaking")]
     public float cycleTime;
     public float initialDayTime;
@@ -23,10 +25,16 @@ public class TimeManager : MonoBehaviour {
 
     float currentDayTime;
     float currentTime;
-    bool isDay;
+    public bool isDay;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
+        
         currentDayTime = initialDayTime;
         sunLight.color = nightEndColor;
         DayRise();
