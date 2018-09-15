@@ -238,7 +238,7 @@ MonoBehaviour:
   maxTequila: 200
   pressTequila: 0
   grenadaPotatoes: 0
-  potatoesForGrenada: 0
+  potatoesForGrenada: 3
   grenadas: 0
   initialPotatoNumber: 5
   maxPotatoes: 20
@@ -290,8 +290,23 @@ MonoBehaviour:
   - {x: 5, y: 4}
   - {x: 6, y: 3}
   - {x: 6, y: 4}
+  noHolesPositions:
+  - {x: 4, y: 2}
+  - {x: 5, y: 2}
+  - {x: 6, y: 2}
+  - {x: 7, y: 2}
+  - {x: 4, y: 5}
+  - {x: 5, y: 5}
+  - {x: 6, y: 5}
+  - {x: 7, y: 5}
+  - {x: 4, y: 3}
+  - {x: 4, y: 4}
+  - {x: 7, y: 3}
+  - {x: 7, y: 4}
   tequilaPressPosition: {x: 0, y: 7}
   tequilaPumpPosition: {x: 0, y: 5}
+  grenadaCompressorPosition: {x: 11, y: 7}
+  grenadaPosition: {x: 11, y: 5}
   tequilaMultiplier: 10
 --- !u!4 &465012480
 Transform:
