@@ -142,8 +142,9 @@ public class Square : MonoBehaviour {
 
     }
 
-    public void Interact(Interaction interaction)
+    public void Interact()
     {
+        /*
         if(interaction == Interaction.explode)
         {
             state = SquareState.empty;
@@ -156,6 +157,7 @@ public class Square : MonoBehaviour {
         {
             state = SquareState.potato;
         }
+        */
     }
 
     public void GrowPotato()

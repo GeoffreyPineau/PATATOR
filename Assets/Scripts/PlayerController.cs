@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour {
         interactionInput = Input.GetMouseButtonDown(1);
         if (interactionInput)
         {
+            GameManager.Instance.squaresArray[(int)interactionPosition.x, (int)interactionPosition.z].Interact();
         }
     }
 
