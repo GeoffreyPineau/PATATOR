@@ -35,6 +35,8 @@ public class Square : MonoBehaviour {
 
     public List<GameObject> stateGraphics;
 
+    public bool canBeHoled;
+
     [Header("Tequila")]
     public int tequilaMultiplier;
 
@@ -285,6 +287,7 @@ public class Square : MonoBehaviour {
     public void CreateHole()
     {
         state = SquareState.hole;
+        potatoAmount = 0;
     }
 
     public void GrowPotato()
@@ -315,5 +318,21 @@ public class Square : MonoBehaviour {
     public void CompressPotato(int potatoAmount)
     {
         GameManager.Instance.grenadaPotatoes += potatoAmount;
+    }
+
+    public void Redden()
+    {
+        foreach(GameObject graphic in stateGraphics)
+        {
+            graphic.GetComponent<MeshRenderer>().material.color = HoleCreator.Instance.dangerColor;
+        }
+    }
+
+    public void Normalize()
+    {
+        foreach (GameObject graphic in stateGraphics)
+        {
+            graphic.GetComponent<MeshRenderer>().material.color = HoleCreator.Instance.normalColor;
+        }
     }
 }

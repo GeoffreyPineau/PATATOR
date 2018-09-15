@@ -21,6 +21,18 @@ public class GameManager : MonoBehaviour
     public bool hasGrenada;
     public int heldTequila;
     public int maxTequila;
+    public int sombreroastDamage;
+    public int sombreroastConsumption;
+
+    [Header("Heart Values")]
+    public int heartMaxLife;
+    [HideInInspector] public int heartCurrentLife;
+    public float heartRadius;
+    public Vector2 heartPosition;
+
+    [Header("Monster Values")]
+    public float flyDamage;
+    public float flyLife;
 
     [Header("Containers Values")]
     public int pressTequila;
@@ -40,6 +52,7 @@ public class GameManager : MonoBehaviour
     public Square[,] squaresArray;
 
     public List<Vector2> excludedPositions;
+    public List<Vector2> noHolesPositions;
     public Vector2 tequilaPressPosition;
     public Vector2 tequilaPumpPosition;
     public int tequilaMultiplier;
@@ -73,6 +86,15 @@ public class GameManager : MonoBehaviour
                     dirtSquareList.Add(newSquareComponent);
                     newSquareComponent.type = SquareType.dirt;
                     newSquare.name = "DirtSquare " + x + "," + y;
+
+                    newSquareComponent.canBeHoled = true;
+                    foreach (Vector2 position in noHolesPositions)
+                    {
+                        if(position == new Vector2(x, y))
+                        {
+                            newSquareComponent.canBeHoled = false;
+                        }
+                    }
 
                     newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
                 }
