@@ -77,6 +77,7 @@ public class TimeManager : MonoBehaviour {
     {
         isDay = true;
         sunLight.DOColor(dayStartingColor, transitionTime);
+        GameManager.Instance.SpawnPotatos();
     }
 
     void NightFall()
