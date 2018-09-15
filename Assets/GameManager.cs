@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Heart Values")]
     public int heartMaxLife;
-    [HideInInspector] public int heartCurrentLife;
+    public int heartCurrentLife;
     public float heartRadius;
     public Vector3 heartPosition;
 
@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
 
     public List<Vector2> excludedPositions;
     public List<Vector2> noHolesPositions;
+    public List<Vector2> heartSquaresPositions;
     public Vector2 tequilaPressPosition;
     public Vector2 tequilaPumpPosition;
     public Vector2 grenadaCompressorPosition;
@@ -155,6 +156,20 @@ public class GameManager : MonoBehaviour
                     newSquare.name = "GrenadaPosition";
 
                     newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
+                }
+                foreach(Vector2 position in heartSquaresPositions)
+                {
+                    if(new Vector2(x, y) == position)
+                    {
+                        GameObject newSquare = Instantiate(squarePrefab, squareParentTransform);
+                        Square newSquareComponent = newSquare.GetComponent<Square>();
+
+                        squaresArray[x, y] = newSquareComponent;
+                        newSquareComponent.type = SquareType.heart;
+                        newSquare.name = "HeartPosition";
+
+                        newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
+                    }
                 }
             }
         }

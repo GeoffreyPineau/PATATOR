@@ -25,6 +25,8 @@ public class Square : MonoBehaviour {
     public SquareState state;
     public SquareType type;
 
+    public GameObject selectionLid;
+
     [Header("Dirt")]
     public Animator numberPanelAnim;
     public TextMeshPro numberPanelText;
@@ -206,6 +208,21 @@ public class Square : MonoBehaviour {
                 stateGraphics[3].SetActive(false);
             }
         }
+
+        //deselect
+        if(!selected)
+        {
+            selectionLid.SetActive(false);
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if(selected)
+        {
+            selected = false;
+
+        }
     }
 
     public void Interact()
@@ -245,6 +262,7 @@ public class Square : MonoBehaviour {
                     potatoAmount = 0;
                 }
             }
+
         }
         else if(type == SquareType.press)
         {
@@ -290,6 +308,13 @@ public class Square : MonoBehaviour {
                 GameManager.Instance.grenadas--;
             }
         }
+        else
+        {
+            if (GameManager.Instance.heartCurrentLife < GameManager.Instance.heartMaxLife)
+            {
+                AbsorbPotato(GameManager.Instance.potatoesHeld);
+            }
+        }
     }
 
     void Explode()
@@ -324,6 +349,13 @@ public class Square : MonoBehaviour {
         }
     }
 
+    bool selected;
+    public void Select()
+    {
+        selectionLid.SetActive(true);
+        selected = true;
+    }
+
     public void PressTequila(int potatoAmount)
     {
         GameManager.Instance.pressTequila += potatoAmount * tequilaMultiplier;
@@ -332,6 +364,15 @@ public class Square : MonoBehaviour {
     public void CompressPotato(int potatoAmount)
     {
         GameManager.Instance.grenadaPotatoes += potatoAmount;
+    }
+
+    public void AbsorbPotato(int potatoAmount)
+    {
+        GameManager.Instance.heartCurrentLife += potatoAmount;
+        if(GameManager.Instance.heartCurrentLife > GameManager.Instance.heartMaxLife)
+        {
+            GameManager.Instance.heartCurrentLife = GameManager.Instance.heartMaxLife;
+        }
     }
 
     public void Redden()
