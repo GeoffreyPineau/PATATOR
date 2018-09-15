@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject squarePrefab;
     public Transform squareParentTransform;
-    List<Square> dirtSquareList = new List<Square>();
+    public List<Square> dirtSquareList = new List<Square>();
     List<Square> emptySquares;
 
     [Header("Player Values")]
@@ -101,6 +101,7 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+        FindObjectOfType<HoleCreator>().dirtSquares = dirtSquareList;
     }
 
     void Update()
