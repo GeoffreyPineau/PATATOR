@@ -236,6 +236,11 @@ public class Square : MonoBehaviour {
                 if((GameManager.Instance.potatoesHeld + potatoAmount) <= GameManager.Instance.maxPotatoes)
                 {
                     GameManager.Instance.potatoesHeld += potatoAmount;
+                    if(GameManager.Instance.hasGrenada)
+                    {
+                        GameManager.Instance.hasGrenada = false;
+                        GameManager.Instance.grenadas++;
+                    }
                     state = SquareState.empty;
                     potatoAmount = 0;
                 }
@@ -277,11 +282,20 @@ public class Square : MonoBehaviour {
                 GameManager.Instance.potatoesHeld = 0;
             }
         }
+        else if(type == SquareType.grenada)
+        {
+            if(GameManager.Instance.grenadas > 0 && GameManager.Instance.potatoesHeld <= 0 && GameManager.Instance.hasGrenada == false)
+            {
+                GameManager.Instance.hasGrenada = true;
+                GameManager.Instance.grenadas--;
+            }
+        }
     }
 
     void Explode()
     {
         state = SquareState.empty;
+        GameManager.Instance.hasGrenada = false;
     }
 
     public void CreateHole()
