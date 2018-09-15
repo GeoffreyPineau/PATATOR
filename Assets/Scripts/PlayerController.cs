@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
     public Transform modelPivot;
     public Transform bodyPivot;
     public Transform headPivot;
+    public GameObject flamePrefab;
 
     [Header("Variables")]
     [Space]
