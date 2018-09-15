@@ -25,13 +25,6 @@ public class TimeManager : MonoBehaviour {
     float currentTime;
     bool isDay;
 
-    GameManager gameManager;
-
-    void Awake()
-    {
-        gameManager = FindObjectOfType<GameManager>();
-    }
-
     private void Start()
     {
         currentDayTime = initialDayTime;
@@ -84,7 +77,7 @@ public class TimeManager : MonoBehaviour {
     {
         isDay = true;
         sunLight.DOColor(dayStartingColor, transitionTime);
-        gameManager.SpawnPotatos();
+        GameManager.Instance.SpawnPotatos();
     }
 
     void NightFall()
