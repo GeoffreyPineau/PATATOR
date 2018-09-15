@@ -241,7 +241,7 @@ MonoBehaviour:
   heartMaxLife: 0
   heartCurrentLife: 0
   heartRadius: 0
-  heartPosition: {x: 0, y: 0}
+  heartPosition: {x: 0, y: 0, z: 0}
   flyDamage: 0
   flyLife: 0
   pressTequila: 0
