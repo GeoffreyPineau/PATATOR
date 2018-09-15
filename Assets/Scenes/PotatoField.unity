@@ -236,9 +236,17 @@ MonoBehaviour:
   hasGrenada: 0
   heldTequila: 0
   maxTequila: 200
+  sombreroastDamage: 0
+  sombreroastConsumption: 0
+  heartMaxLife: 0
+  heartCurrentLife: 0
+  heartRadius: 0
+  heartPosition: {x: 0, y: 0}
+  flyDamage: 0
+  flyLife: 0
   pressTequila: 0
   grenadaPotatoes: 0
-  potatoesForGrenada: 0
+  potatoesForGrenada: 3
   grenadas: 0
   initialPotatoNumber: 5
   maxPotatoes: 20
@@ -290,8 +298,23 @@ MonoBehaviour:
   - {x: 5, y: 4}
   - {x: 6, y: 3}
   - {x: 6, y: 4}
+  noHolesPositions:
+  - {x: 4, y: 2}
+  - {x: 5, y: 2}
+  - {x: 6, y: 2}
+  - {x: 7, y: 2}
+  - {x: 4, y: 5}
+  - {x: 5, y: 5}
+  - {x: 6, y: 5}
+  - {x: 7, y: 5}
+  - {x: 4, y: 3}
+  - {x: 4, y: 4}
+  - {x: 7, y: 3}
+  - {x: 7, y: 4}
   tequilaPressPosition: {x: 0, y: 7}
   tequilaPumpPosition: {x: 0, y: 5}
+  grenadaCompressorPosition: {x: 11, y: 7}
+  grenadaPosition: {x: 11, y: 5}
   tequilaMultiplier: 10
 --- !u!4 &465012480
 Transform:
@@ -463,7 +486,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &714841565
 GameObject:
@@ -1032,7 +1055,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4909863453467894, guid: 7aacf134eac807c4eb5cac04e59cf751, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7aacf134eac807c4eb5cac04e59cf751, type: 2}

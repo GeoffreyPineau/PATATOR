@@ -28,11 +28,11 @@ public class GameManager : MonoBehaviour
     public int heartMaxLife;
     [HideInInspector] public int heartCurrentLife;
     public float heartRadius;
-    public Vector2 heartPosition;
+    public Vector3 heartPosition;
 
     [Header("Monster Values")]
-    public float flyDamage;
-    public float flyLife;
+    public int flyDamage;
+    public int flyLife;
 
     [Header("Containers Values")]
     public int pressTequila;
@@ -55,12 +55,16 @@ public class GameManager : MonoBehaviour
     public List<Vector2> noHolesPositions;
     public Vector2 tequilaPressPosition;
     public Vector2 tequilaPumpPosition;
+    public Vector2 grenadaCompressorPosition;
+    public Vector2 grenadaPosition;
     public int tequilaMultiplier;
 
 
     void Awake()
     {
         Instance = this;
+
+        heartCurrentLife = heartMaxLife;
 
         squaresArray = new Square[columns, rows];
         //generate squares
@@ -121,6 +125,28 @@ public class GameManager : MonoBehaviour
 
                     newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
                 }
+                if(new Vector2(x, y) == grenadaCompressorPosition)
+                {
+                    GameObject newSquare = Instantiate(squarePrefab, squareParentTransform);
+                    Square newSquareComponent = newSquare.GetComponent<Square>();
+
+                    squaresArray[x, y] = newSquareComponent;
+                    newSquareComponent.type = SquareType.compressor;
+                    newSquare.name = "GrenadaCompressor";
+
+                    newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
+                }
+                if(new Vector2(x, y) == grenadaPosition)
+                {
+                    GameObject newSquare = Instantiate(squarePrefab, squareParentTransform);
+                    Square newSquareComponent = newSquare.GetComponent<Square>();
+
+                    squaresArray[x, y] = newSquareComponent;
+                    newSquareComponent.type = SquareType.grenada;
+                    newSquare.name = "GrenadaPosition";
+
+                    newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
+                }
             }
         }
         FindObjectOfType<HoleCreator>().dirtSquares = dirtSquareList;
@@ -138,7 +164,12 @@ public class GameManager : MonoBehaviour
         }
 
         //grenada compression
+        if(grenadaPotatoes >= potatoesForGrenada)
+        {
+            grenadas++;
+            grenadaPotatoes -= potatoesForGrenada;
 
+        }
     }
 
     public void SpawnPotatos()
@@ -168,6 +199,27 @@ public class GameManager : MonoBehaviour
                 emptySquares.Add(square);
             }
         }
+    }
+
+    public void DamageHeart(int damage)
+    {
+        if (heartCurrentLife <= 0) return;
+        heartCurrentLife -= damage;
+
+        if (heartCurrentLife <= 0)
+        {
+            LoseGame();
+        }
+    }
+
+    public void LoseGame()
+    {
+
+    }
+
+    public void WinGame()
+    {
+
     }
 
     private void OnDrawGizmos()
