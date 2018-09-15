@@ -15,20 +15,17 @@ public enum SquareType
     dirt,
     heart,
     press,
+    pump,
+    compressor,
     grenada
-}
-
-public enum Interaction
-{
-    explode,
-    uproot,
-    root
 }
 
 public class Square : MonoBehaviour {
 
     public SquareState state;
     public SquareType type;
+
+    [Header("Dirt")]
     public Animator numberPanelAnim;
     public TextMeshPro numberPanelText;
     public int potatoAmount;
@@ -36,78 +33,98 @@ public class Square : MonoBehaviour {
     public Transform leavesParent;
     public List<GameObject> leaves;
 
+    [Header("Tequila")]
+    public int tequilaMultiplier;
+
+
     void Awake()
     {
         state = SquareState.empty;
-        numberPanelAnim.SetBool("isBurrowed", false);
-
-        //disable leaves
-        leaves[0].SetActive(false);
-        leaves[1].SetActive(false);
-        leaves[2].SetActive(false);
-        leaves[3].SetActive(false);
-        leaves[4].SetActive(false);
-        leavesParent.transform.eulerAngles = new Vector3(0, Random.Range(0, 360), 0);
+        if (type == SquareType.dirt)
+        {
+            numberPanelAnim.SetBool("isBurrowed", false);
+            //disable leaves
+            leaves[0].SetActive(false);
+            leaves[1].SetActive(false);
+            leaves[2].SetActive(false);
+            leaves[3].SetActive(false);
+            leaves[4].SetActive(false);
+            leavesParent.transform.eulerAngles = new Vector3(0, Random.Range(0, 360), 0);
+        }
     }
 
     void Update()
     {
         //show and hide panel
-        if(potatoAmount > 0)
+        if(type == SquareType.dirt)
         {
-            if(numberPanelAnim.GetBool("isBurrowed") == true)
+            if (potatoAmount > 0)
             {
-                leavesParent.transform.eulerAngles = new Vector3(0, Random.Range(0, 360), 0);
-                numberPanelAnim.SetBool("isBurrowed", false);
-
-            }
-            numberPanelText.text = potatoAmount.ToString();
-        }
-        else
-        {
-            numberPanelAnim.SetBool("isBurrowed", true);
-        }
-
-        //leaves
-        #region
-        if(potatoAmount > 0)
-        {
-            if (potatoAmount > GameManager.Instance.twoLeavesMin)
-            {
-                if (potatoAmount > GameManager.Instance.threeLeavesMin)
+                if (numberPanelAnim.GetBool("isBurrowed") == true)
                 {
-                    if (potatoAmount > GameManager.Instance.fourLeavesMin)
+                    leavesParent.transform.eulerAngles = new Vector3(0, Random.Range(0, 360), 0);
+                    numberPanelAnim.SetBool("isBurrowed", false);
+
+                }
+                numberPanelText.text = potatoAmount.ToString();
+            }
+            else
+            {
+                numberPanelAnim.SetBool("isBurrowed", true);
+            }
+
+            //leaves
+            #region
+            if (potatoAmount > 0)
+            {
+                if (potatoAmount > GameManager.Instance.twoLeavesMin)
+                {
+                    if (potatoAmount > GameManager.Instance.threeLeavesMin)
                     {
-                        if (potatoAmount > GameManager.Instance.fiveLeavesMin)
+                        if (potatoAmount > GameManager.Instance.fourLeavesMin)
                         {
-                            if (!leaves[4].activeInHierarchy)
+                            if (potatoAmount > GameManager.Instance.fiveLeavesMin)
                             {
-                                leaves[0].SetActive(false);
-                                leaves[1].SetActive(false);
-                                leaves[2].SetActive(false);
-                                leaves[3].SetActive(false);
-                                leaves[4].SetActive(true);
+                                if (!leaves[4].activeInHierarchy)
+                                {
+                                    leaves[0].SetActive(false);
+                                    leaves[1].SetActive(false);
+                                    leaves[2].SetActive(false);
+                                    leaves[3].SetActive(false);
+                                    leaves[4].SetActive(true);
+                                }
+                            }
+                            else
+                            {
+                                if (!leaves[3].activeInHierarchy)
+                                {
+                                    leaves[0].SetActive(false);
+                                    leaves[1].SetActive(false);
+                                    leaves[2].SetActive(false);
+                                    leaves[3].SetActive(true);
+                                    leaves[4].SetActive(false);
+                                }
                             }
                         }
                         else
                         {
-                            if (!leaves[3].activeInHierarchy)
+                            if (!leaves[2].activeInHierarchy)
                             {
                                 leaves[0].SetActive(false);
                                 leaves[1].SetActive(false);
-                                leaves[2].SetActive(false);
-                                leaves[3].SetActive(true);
+                                leaves[2].SetActive(true);
+                                leaves[3].SetActive(false);
                                 leaves[4].SetActive(false);
                             }
                         }
                     }
                     else
                     {
-                        if (!leaves[2].activeInHierarchy)
+                        if (!leaves[1].activeInHierarchy)
                         {
                             leaves[0].SetActive(false);
-                            leaves[1].SetActive(false);
-                            leaves[2].SetActive(true);
+                            leaves[1].SetActive(true);
+                            leaves[2].SetActive(false);
                             leaves[3].SetActive(false);
                             leaves[4].SetActive(false);
                         }
@@ -115,10 +132,10 @@ public class Square : MonoBehaviour {
                 }
                 else
                 {
-                    if (!leaves[1].activeInHierarchy)
+                    if (!leaves[0].activeInHierarchy)
                     {
-                        leaves[0].SetActive(false);
-                        leaves[1].SetActive(true);
+                        leaves[0].SetActive(true);
+                        leaves[1].SetActive(false);
                         leaves[2].SetActive(false);
                         leaves[3].SetActive(false);
                         leaves[4].SetActive(false);
@@ -127,56 +144,112 @@ public class Square : MonoBehaviour {
             }
             else
             {
-                if (!leaves[0].activeInHierarchy)
-                {
-                    leaves[0].SetActive(true);
-                    leaves[1].SetActive(false);
-                    leaves[2].SetActive(false);
-                    leaves[3].SetActive(false);
-                    leaves[4].SetActive(false);
-                }
+                leaves[0].SetActive(false);
+                leaves[1].SetActive(false);
+                leaves[2].SetActive(false);
+                leaves[3].SetActive(false);
+                leaves[4].SetActive(false);
             }
+
+            #endregion
         }
         else
         {
-            leaves[0].SetActive(false);
-            leaves[1].SetActive(false);
-            leaves[2].SetActive(false);
-            leaves[3].SetActive(false);
-            leaves[4].SetActive(false);
+            numberPanelAnim.SetBool("isBurrowed", true);
         }
-
-        #endregion
-
-
     }
 
     public void Interact()
     {
-        /*
-        if(interaction == Interaction.explode)
+        if (type == SquareType.dirt)
         {
-            state = SquareState.empty;
+            if(state == SquareState.hole)
+            {
+                if (!TimeManager.Instance.isDay)
+                {
+                    if(GameManager.Instance.hasGrenada)
+                    {
+                        Explode();
+                        GameManager.Instance.hasGrenada = false;
+                    }
+                }
+            }
+            else if(state == SquareState.empty)
+            {
+                    if(GameManager.Instance.potatoesHeld > 0)
+                    {
+                        GrowPotato(GameManager.Instance.potatoesHeld);
+                        GameManager.Instance.potatoesHeld = 0;
+                    }
+            } 
+            else if(state == SquareState.potato)
+            {
+                if((GameManager.Instance.potatoesHeld + potatoAmount) <= GameManager.Instance.maxPotatoes)
+                {
+                    GameManager.Instance.potatoesHeld += potatoAmount;
+                    state = SquareState.empty;
+                    potatoAmount = 0;
+                }
+            }
         }
-        else if(interaction == Interaction.uproot)
+        else if(type == SquareType.press)
         {
-            state = SquareState.empty;
+            if(GameManager.Instance.potatoesHeld > 0)
+            {
+                PressTequila(GameManager.Instance.potatoesHeld);
+                GameManager.Instance.potatoesHeld = 0;
+            }
         }
-        else
+        else if(type == SquareType.pump)
         {
-            state = SquareState.potato;
+            if(GameManager.Instance.pressTequila > 0)
+            {
+                if (GameManager.Instance.heldTequila < GameManager.Instance.maxTequila)
+                {
+                    int addedTequila = GameManager.Instance.maxTequila - GameManager.Instance.heldTequila;
+                    if(addedTequila > GameManager.Instance.pressTequila)
+                    {
+                        addedTequila = GameManager.Instance.pressTequila;
+                    }
+                    GameManager.Instance.pressTequila -= addedTequila;
+                    GameManager.Instance.heldTequila += addedTequila;
+                    if(GameManager.Instance.heldTequila > GameManager.Instance.maxTequila)
+                    {
+                        GameManager.Instance.heldTequila = GameManager.Instance.maxTequila;
+                    }
+                }
+            }
+
         }
-        */
+    }
+
+    void Explode()
+    {
+        state = SquareState.empty;
     }
 
     public void GrowPotato()
     {
         state = SquareState.potato;
+    } 
+
+    public void GrowPotato(int amount)
+    {
+        state = SquareState.potato;
+        potatoAmount += amount;
     }
 
-    
     public void AddPotato()
     {
         potatoAmount += Mathf.RoundToInt(GameManager.Instance.potatoAddingCurve.Evaluate(potatoAmount));
+        if(potatoAmount > GameManager.Instance.maxPotatoes)
+        {
+            potatoAmount = GameManager.Instance.maxPotatoes;
+        }
+    }
+
+    public void PressTequila(int potatoAmount)
+    {
+        GameManager.Instance.pressTequila += potatoAmount * tequilaMultiplier;
     }
 }
