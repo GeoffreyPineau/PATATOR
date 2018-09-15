@@ -21,6 +21,18 @@ public class GameManager : MonoBehaviour
     public bool hasGrenada;
     public int heldTequila;
     public int maxTequila;
+    public int sombreroastDamage;
+    public int sombreroastConsumption;
+
+    [Header("Heart Values")]
+    public int heartMaxLife;
+    [HideInInspector] public int heartCurrentLife;
+    public float heartRadius;
+    public Vector2 heartPosition;
+
+    [Header("Monster Values")]
+    public float flyDamage;
+    public float flyLife;
 
     [Header("Containers Values")]
     public int pressTequila;
