@@ -10,6 +10,14 @@ public enum SquareState
     hole
 }
 
+public enum SquareType
+{
+    dirt,
+    heart,
+    press,
+    grenada
+}
+
 public enum Interaction
 {
     explode,
@@ -20,6 +28,7 @@ public enum Interaction
 public class Square : MonoBehaviour {
 
     public SquareState state;
+    public SquareType type;
     public Animator numberPanelAnim;
     public TextMeshPro numberPanelText;
     public int potatoAmount;

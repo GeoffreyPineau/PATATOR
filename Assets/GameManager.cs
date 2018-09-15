@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject squarePrefab;
     public Transform squareParentTransform;
-    List<Square> squareList = new List<Square>();
+    List<Square> dirtSquareList = new List<Square>();
     List<Square> emptySquares;
 
     [Header("Player Values")]
@@ -46,9 +46,9 @@ public class GameManager : MonoBehaviour
                     Square newSquareComponent = newSquare.GetComponent<Square>();
 
                     squaresArray[x, y] = newSquareComponent;
-                    squareList.Add(newSquareComponent);
+                    dirtSquareList.Add(newSquareComponent);
 
-                    newSquare.transform.position = new Vector3(x + 0.5f, 0, y);
+                    newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
                 }
             }
         }
@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
             Square chosenSquare = emptySquares[Random.Range(0, emptySquares.Count)];
             chosenSquare.GrowPotato();
         }
-        foreach (Square square in squareList)
+        foreach (Square square in dirtSquareList)
         {
             if (square.state == SquareState.potato)
             {
@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
     void RefreshEmptySquares()
     {
         emptySquares = new List<Square>();
-        foreach(Square square in squareList)
+        foreach(Square square in dirtSquareList)
         {
             if(square.state == SquareState.empty)
             {
