@@ -19,3 +19,7 @@
 
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
+.vs/PATATORGIT/v15/Server/sqlite3/storage.ide-shm
+.vs/PATATORGIT/v15/Server/sqlite3/db.lock
+.vs/PATATORGIT/v15/Server/sqlite3/storage.ide-wal
+.vs/PATATORGIT/v15/Server/sqlite3/storage.ide
