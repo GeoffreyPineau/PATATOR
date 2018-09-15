@@ -88,6 +88,7 @@ public class PlayerController : MonoBehaviour {
             GameManager.Instance.squaresArray[(int)interactionPosition.x, (int)interactionPosition.z].Interact();
             print(GameManager.Instance.squaresArray[(int)interactionPosition.x, (int)interactionPosition.z].state);
         }
+        GameManager.Instance.squaresArray[(int)interactionPosition.x, (int)interactionPosition.z].Select();
     }
 
     private void FixedUpdate()
