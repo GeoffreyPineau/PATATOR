@@ -42,6 +42,9 @@ public class Square : MonoBehaviour {
     [Header("Tequila")]
     public int tequilaMultiplier;
 
+    [Header("Flies")]
+    float flyTimer;
+
 
     void Awake()
     {
@@ -173,8 +176,8 @@ public class Square : MonoBehaviour {
                 {
                     stateGraphics[0].SetActive(false);
                     stateGraphics[1].SetActive(false);
-                    stateGraphics[2].SetActive(false);
-                    stateGraphics[3].SetActive(true);
+                    stateGraphics[2].SetActive(true);
+                    stateGraphics[3].SetActive(false);
                 }
             }
             else
@@ -185,6 +188,16 @@ public class Square : MonoBehaviour {
                     stateGraphics[1].SetActive(false);
                     stateGraphics[2].SetActive(true);
                     stateGraphics[3].SetActive(false);
+                }
+
+                flyTimer += Time.deltaTime;
+                if(flyTimer > GameManager.Instance.flyDelay)
+                {
+                    flyTimer = 0;
+                    Transform newFly = Instantiate(GameManager.Instance.flyPrefab, GameManager.Instance.flyParent).transform;
+                    newFly.position = transform.position;
+                    float rand = Random.Range(-0.1f, 0.1f);
+                    newFly.localScale += new Vector3(rand, rand, rand);
                 }
             }
         }
@@ -231,14 +244,11 @@ public class Square : MonoBehaviour {
         {
             if(state == SquareState.hole)
             {
-                if (!TimeManager.Instance.isDay)
-                {
                     if(GameManager.Instance.hasGrenada)
                     {
                         Explode();
                         GameManager.Instance.hasGrenada = false;
                     }
-                }
             }
             else if(state == SquareState.empty)
             {
@@ -305,8 +315,13 @@ public class Square : MonoBehaviour {
         {
             if(GameManager.Instance.grenadas > 0 && GameManager.Instance.potatoesHeld <= 0 && GameManager.Instance.hasGrenada == false)
             {
+                
                 GameManager.Instance.hasGrenada = true;
                 GameManager.Instance.grenadas--;
+                if(GameManager.Instance.grenadas > 0)
+                {
+                    GameManager.Instance.animatedGrenadaAnim.SetTrigger("recharge");
+                }
             }
         }
         else
@@ -366,6 +381,7 @@ public class Square : MonoBehaviour {
     public void CompressPotato(int potatoAmount)
     {
         GameManager.Instance.grenadaPotatoes += potatoAmount;
+        GameManager.Instance.grenadaFabricAnim.SetTrigger("compress");
     }
 
     public void AbsorbPotato(int potatoAmount)

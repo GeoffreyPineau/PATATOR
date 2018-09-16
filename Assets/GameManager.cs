@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public int potatoesHeld;
     public TextMeshPro potatoesText;
     public bool hasGrenada;
+    public float stepCooldown;
     public float heldTequila;
     public float maxTequila;
     public float flameAbsorbtion;
@@ -47,6 +48,7 @@ public class GameManager : MonoBehaviour
     [Header("Monster Values")]
     public int flyDamage;
     public float flyLife;
+    public float flyBurnedLife;
 
     [Header("Containers Values")]
     public int pressTequila;
@@ -64,6 +66,11 @@ public class GameManager : MonoBehaviour
     public int fourLeavesMin;
     public int fiveLeavesMin;
 
+    [Header("Monster Spawning")]
+    public GameObject flyPrefab;
+    public Transform flyParent;
+    public float flyDelay;
+
     public Square[,] squaresArray;
 
     public List<Vector2> excludedPositions;
@@ -78,7 +85,12 @@ public class GameManager : MonoBehaviour
     [Header("Animations")]
     public Animator tequilaPressAnim;
     public Transform tequilaTransform;
+    Vector3 targetScale;
     float scaleMultiplier;
+
+    public Animator grenadaFabricAnim;
+    public Animator playerHandsAnim;
+    public Animator animatedGrenadaAnim;
 
     void Awake()
     {
@@ -190,9 +202,13 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if(potatoesHeld > 0)
+        playerHandsAnim.SetBool("holdsPotato", false);
+        playerHandsAnim.SetBool("holdsGrenada", false);
+        if (potatoesHeld > 0)
         {
             potatoesText.text = potatoesHeld.ToString();
+            playerHandsAnim.SetBool("holdsPotato", true);
+            playerHandsAnim.SetBool("holdsGrenada", false);
         }
         else
         {
@@ -207,9 +223,33 @@ public class GameManager : MonoBehaviour
 
         }
 
-        //tequila level
+        if(hasGrenada)
+        {
+            playerHandsAnim.SetBool("holdsPotato", false);
+            playerHandsAnim.SetBool("holdsGrenada", true);
+        }
 
-        tequilaTransform.localScale = new Vector3(1, scaleMultiplier * pressTequila, 1);
+        //tequila level
+        if(pressTequila > 0)
+        {
+            targetScale = new Vector3(1, scaleMultiplier * pressTequila, 1);
+        }
+        else
+        {
+            targetScale = Vector3.zero;
+        }
+
+        tequilaTransform.localScale = Vector3.Lerp(tequilaTransform.localScale, targetScale, 0.2f);
+
+        if(grenadas > 0)
+        {
+            animatedGrenadaAnim.SetBool("isVisible", true);
+        }
+        else
+        {
+            animatedGrenadaAnim.SetBool("isVisible", false);
+        }
+
     }
 
     public void SpawnPotatos()

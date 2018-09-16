@@ -13,7 +13,10 @@ public enum FlyState
 
 public class FlyController : MonoBehaviour {
 
-    private FlyState state = FlyState.alive;
+    public FlyState state = FlyState.alive;
+
+    public ParticleSystem combustion;
+    public GameObject ashPrefab;
 
     public NavMeshAgent agent;
     public Transform modelPivot;
@@ -29,6 +32,7 @@ public class FlyController : MonoBehaviour {
     [ColorUsage(false,true)] public Color blinkColor;
 
     public float fallSpeed;
+    public AnimationCurve deathSquashCurve;
     [ColorUsage(false, true)] public Color burnColor;
 
     private float health;
@@ -78,19 +82,53 @@ public class FlyController : MonoBehaviour {
     
     public void Damage(float _damage)
     {
+        if (state == FlyState.ash) return;
         if (isExploding) return;
 
         health -= _damage;
 
         if (health <= 0)
         {
-            Destroy(gameObject);
+            if (state == FlyState.alive)
+            {
+                combustion.Play();
+                agent.isStopped = true;
+                foreach (MeshRenderer meshRenderer in rendererList)
+                {
+                    meshRenderer.material.DOColor(burnColor,fallSpeed);
+                }
+                modelPivot.DOLocalMoveY(0, fallSpeed);
+                modelPivot.DOPunchScale(new Vector3(0.3f, -0.5f, 0.3f)*2,fallSpeed).SetDelay(fallSpeed);
+                //Die
+                health = GameManager.Instance.flyBurnedLife;
+                state = FlyState.dead;
+                GetComponent<BoxCollider>().bounds.Expand(-0.15f);
+                GetComponentInChildren<Animator>().enabled = false;
+            }
+            else if (state == FlyState.dead)
+            {
+                combustion.Play();
+                gameObject.layer = 13;
+                modelPivot.gameObject.SetActive(false);
+                ashPrefab.SetActive(true);
+                ashPrefab.transform.eulerAngles = new Vector3(-90, Random.Range(-90, 360), 0);
+                state = FlyState.ash;
+                GetComponent<BoxCollider>().enabled = false;
+
+                ashPrefab.transform.DOLocalMoveY(-1, 3).SetDelay(5).OnComplete(delegate
+                 {
+                     Destroy(gameObject);
+                 });
+            }
         }
         else
         {
-            StartCoroutine(BlinkRed());
-            if (squashTween != null) squashTween.Kill(true);
-            squashTween = modelPivot.DOShakeScale(hitDuration, hitShakeStrength, hitVibrato, 90, false);
+            if (state == FlyState.alive)
+            {
+                StartCoroutine(BlinkRed());
+                if (squashTween != null) squashTween.Kill(true);
+                squashTween = modelPivot.DOShakeScale(hitDuration, hitShakeStrength, hitVibrato, 90, false);
+            }
         }
     }
 
