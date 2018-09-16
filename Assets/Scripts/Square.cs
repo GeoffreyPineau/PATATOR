@@ -35,6 +35,8 @@ public class Square : MonoBehaviour {
     public Transform leavesParent;
     public List<GameObject> leaves;
 
+    public Transform graphicsParent;
+
     public List<GameObject> stateGraphics;
 
     public bool canBeHoled;
@@ -59,6 +61,16 @@ public class Square : MonoBehaviour {
             leaves[3].SetActive(false);
             leaves[4].SetActive(false);
             leavesParent.transform.eulerAngles = new Vector3(0, Random.Range(0, 360), 0);
+
+            int rot = Random.Range(1, 5);
+            float rot2;
+            if (rot == 1) rot2 = 90;
+            else if (rot == 2) rot2 = 180;
+            else if (rot == 3) rot2 = 270;
+            else rot2 = 0;
+
+            graphicsParent.transform.eulerAngles = new Vector3(0, rot2, 0);
+
         }
     }
 
