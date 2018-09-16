@@ -78,7 +78,10 @@ public class GameManager : MonoBehaviour
     [Header("Animations")]
     public Animator tequilaPressAnim;
     public Transform tequilaTransform;
+    Vector3 targetScale;
     float scaleMultiplier;
+
+    public Animator grenadaFabricAnim;
 
     void Awake()
     {
@@ -208,8 +211,17 @@ public class GameManager : MonoBehaviour
         }
 
         //tequila level
+        if(pressTequila > 0)
+        {
+            targetScale = new Vector3(1, scaleMultiplier * pressTequila, 1);
+        }
+        else
+        {
+            targetScale = Vector3.zero;
+        }
 
-        tequilaTransform.localScale = new Vector3(1, scaleMultiplier * pressTequila, 1);
+        tequilaTransform.localScale = Vector3.Lerp(tequilaTransform.localScale, targetScale, 0.2f);
+
     }
 
     public void SpawnPotatos()

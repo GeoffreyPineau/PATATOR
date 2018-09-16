@@ -366,6 +366,7 @@ public class Square : MonoBehaviour {
     public void CompressPotato(int potatoAmount)
     {
         GameManager.Instance.grenadaPotatoes += potatoAmount;
+        GameManager.Instance.grenadaFabricAnim.SetTrigger("compress");
     }
 
     public void AbsorbPotato(int potatoAmount)
