@@ -285,7 +285,8 @@ public class Square : MonoBehaviour {
                     }
                     GameManager.Instance.pressTequila -= addedTequila;
                     GameManager.Instance.heldTequila += addedTequila;
-                    if(GameManager.Instance.heldTequila > GameManager.Instance.maxTequila)
+                    GameManager.Instance.tequilaPressAnim.SetTrigger("pour");
+                    if (GameManager.Instance.heldTequila > GameManager.Instance.maxTequila)
                     {
                         GameManager.Instance.heldTequila = GameManager.Instance.maxTequila;
                     }
@@ -359,6 +360,7 @@ public class Square : MonoBehaviour {
     public void PressTequila(int potatoAmount)
     {
         GameManager.Instance.pressTequila += potatoAmount * tequilaMultiplier;
+        GameManager.Instance.tequilaPressAnim.SetTrigger("press");
     }
 
     public void CompressPotato(int potatoAmount)

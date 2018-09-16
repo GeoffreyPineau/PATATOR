@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Containers Values")]
     public int pressTequila;
+    public int maxPressTequila;
     public int grenadaPotatoes;
     public int potatoesForGrenada;
     public int grenadas;
@@ -69,6 +70,10 @@ public class GameManager : MonoBehaviour
     public Vector2 grenadaPosition;
     public int tequilaMultiplier;
 
+    [Header("Animations")]
+    public Animator tequilaPressAnim;
+    public Transform tequilaTransform;
+    float scaleMultiplier;
 
     void Awake()
     {
@@ -174,6 +179,8 @@ public class GameManager : MonoBehaviour
             }
         }
         FindObjectOfType<HoleCreator>().dirtSquares = dirtSquareList;
+
+        scaleMultiplier = 1 / maxPressTequila;
     }
 
     void Update()
@@ -194,6 +201,10 @@ public class GameManager : MonoBehaviour
             grenadaPotatoes -= potatoesForGrenada;
 
         }
+
+        //tequila level
+
+        tequilaTransform.localScale = new Vector3(1, scaleMultiplier * pressTequila, 1);
     }
 
     public void SpawnPotatos()
