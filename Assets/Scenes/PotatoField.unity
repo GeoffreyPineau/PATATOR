@@ -157,6 +157,28 @@ Prefab:
       propertyPath: m_RootOrder
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0.82586
+      objectReference: {fileID: 0}
+    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 0.82586
+      objectReference: {fileID: 0}
+    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 0.82586
+      objectReference: {fileID: 0}
+    - target: {fileID: 114958809433017838, guid: dfc1803fce81107419febba848a011df,
+        type: 2}
+      propertyPath: blinkColor.r
+      value: 34.29675
+      objectReference: {fileID: 0}
+    - target: {fileID: 114958809433017838, guid: dfc1803fce81107419febba848a011df,
+        type: 2}
+      propertyPath: blinkColor.g
+      value: 0.0000014991134
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfc1803fce81107419febba848a011df, type: 2}
   m_IsPrefabAsset: 0
@@ -1652,6 +1674,29 @@ Transform:
   m_Father: {fileID: 714841566}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1248191577 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1307037009227206, guid: dfc1803fce81107419febba848a011df,
+    type: 2}
+  m_PrefabInternal: {fileID: 141780300}
+--- !u!95 &1248191578
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1248191577}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9e881e1d012f33f4b95543737c66516b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1264500089
 GameObject:
   m_ObjectHideFlags: 0

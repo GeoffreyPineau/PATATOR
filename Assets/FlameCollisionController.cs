@@ -17,7 +17,7 @@ public class FlameCollisionController : MonoBehaviour {
     {
         if (Time.time > lastColliderTimestamp + (1/GameManager.Instance.sombreroastRateOverTime))
         {
-            ProjectileComponent projComponent = Instantiate(flameCollider,transform).GetComponent<ProjectileComponent>();
+            ProjectileComponent projComponent = Instantiate(flameCollider).GetComponent<ProjectileComponent>();
             projComponent.rb.transform.position = transform.position;
             projComponent.rb.velocity = transform.forward * GameManager.Instance.sombreroastSpeed;
             projComponent.lifetime = GameManager.Instance.sombreroastLifetime;
