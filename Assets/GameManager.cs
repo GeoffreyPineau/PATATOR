@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public int potatoesHeld;
     public TextMeshPro potatoesText;
     public bool hasGrenada;
+    public float stepCooldown;
     public float heldTequila;
     public float maxTequila;
     public float flameAbsorbtion;
@@ -47,6 +48,7 @@ public class GameManager : MonoBehaviour
     [Header("Monster Values")]
     public int flyDamage;
     public float flyLife;
+    public float flyBurnedLife;
 
     [Header("Containers Values")]
     public int pressTequila;
@@ -63,6 +65,11 @@ public class GameManager : MonoBehaviour
     public int threeLeavesMin;
     public int fourLeavesMin;
     public int fiveLeavesMin;
+
+    [Header("Monster Spawning")]
+    public GameObject flyPrefab;
+    public Transform flyParent;
+    public float flyDelay;
 
     public Square[,] squaresArray;
 

@@ -318,17 +318,18 @@ MonoBehaviour:
   potatoesHeld: 0
   potatoesText: {fileID: 0}
   hasGrenada: 0
+  stepCooldown: 0.05
   heldTequila: 100
   maxTequila: 100
   flameAbsorbtion: 0.5
   sombreroastSpeed: 12
   sombreroastLifetime: 2
   sombreroastRateOverTime: 6.33
-  sombreroastMinDamage: 0.2
+  sombreroastMinDamage: 1
   sombreroastMaxDamage: 5
   sombreroastMinConsumption: 0.05
   sombreroastMaxConsumption: 2
-  sombreroastCooldown: 0
+  sombreroastCooldown: 0.2
   sombreroastHeatLossMultiplier: 2
   sombreroastMaxHeat: 6
   sombreroastCurrentHeat: 0
@@ -342,6 +343,7 @@ MonoBehaviour:
   heartPosition: {x: 6, y: 0, z: 4}
   flyDamage: 0
   flyLife: 5
+  flyBurnedLife: 1.5
   pressTequila: 0
   grenadaPotatoes: 0
   potatoesForGrenada: 0
@@ -1177,62 +1179,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dada753b9e0e7f4aa65b439c4ac765b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &1372051365
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 11.29
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0.53
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_RootOrder
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 114958809433017838, guid: dfc1803fce81107419febba848a011df,
-        type: 2}
-      propertyPath: explodeShakeStrength
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 114958809433017838, guid: dfc1803fce81107419febba848a011df,
-        type: 2}
-      propertyPath: explodeVibrato
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 1307037009227206, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_Name
-      value: Fly (2)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: dfc1803fce81107419febba848a011df, type: 2}
-  m_IsPrefabAsset: 0
 --- !u!1 &1606536330
 GameObject:
   m_ObjectHideFlags: 0
@@ -1299,62 +1245,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50.000004, y: -317.44, z: 0}
---- !u!1001 &1674688785
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 11.29
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0.53
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_RootOrder
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 114958809433017838, guid: dfc1803fce81107419febba848a011df,
-        type: 2}
-      propertyPath: explodeShakeStrength
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 114958809433017838, guid: dfc1803fce81107419febba848a011df,
-        type: 2}
-      propertyPath: explodeVibrato
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 1307037009227206, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_Name
-      value: Fly (3)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: dfc1803fce81107419febba848a011df, type: 2}
-  m_IsPrefabAsset: 0
+--- !u!4 &1898525682 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4778005521101720, guid: 7aacf134eac807c4eb5cac04e59cf751,
+    type: 2}
+  m_PrefabInternal: {fileID: 1957232094}
 --- !u!1001 &1957232094
 Prefab:
   m_ObjectHideFlags: 0
@@ -1399,62 +1294,23 @@ Prefab:
       propertyPath: moveWithCustomTransform
       value: 
       objectReference: {fileID: 714841566}
+    - target: {fileID: 114980220667251964, guid: 7aacf134eac807c4eb5cac04e59cf751,
+        type: 2}
+      propertyPath: stepPrefab
+      value: 
+      objectReference: {fileID: 1096387907711936, guid: 196c130d696583b41a3c18dd475c8857,
+        type: 2}
+    - target: {fileID: 114980220667251964, guid: 7aacf134eac807c4eb5cac04e59cf751,
+        type: 2}
+      propertyPath: canonPivot
+      value: 
+      objectReference: {fileID: 1898525682}
+    - target: {fileID: 114980220667251964, guid: 7aacf134eac807c4eb5cac04e59cf751,
+        type: 2}
+      propertyPath: armeVidePrefab
+      value: 
+      objectReference: {fileID: 1352913373504418, guid: 021d66ed53850c9438cb9e50f7e6a8a0,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7aacf134eac807c4eb5cac04e59cf751, type: 2}
-  m_IsPrefabAsset: 0
---- !u!1001 &2058918439
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 11.29
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0.53
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4309658139645680, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_RootOrder
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 114958809433017838, guid: dfc1803fce81107419febba848a011df,
-        type: 2}
-      propertyPath: explodeShakeStrength
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 114958809433017838, guid: dfc1803fce81107419febba848a011df,
-        type: 2}
-      propertyPath: explodeVibrato
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 1307037009227206, guid: dfc1803fce81107419febba848a011df, type: 2}
-      propertyPath: m_Name
-      value: Fly (1)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: dfc1803fce81107419febba848a011df, type: 2}
   m_IsPrefabAsset: 0

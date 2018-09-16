@@ -42,6 +42,9 @@ public class Square : MonoBehaviour {
     [Header("Tequila")]
     public int tequilaMultiplier;
 
+    [Header("Flies")]
+    float flyTimer;
+
 
     void Awake()
     {
@@ -185,6 +188,14 @@ public class Square : MonoBehaviour {
                     stateGraphics[1].SetActive(false);
                     stateGraphics[2].SetActive(true);
                     stateGraphics[3].SetActive(false);
+                }
+
+                flyTimer += Time.deltaTime;
+                if(flyTimer > GameManager.Instance.flyDelay)
+                {
+                    flyTimer = 0;
+                    Transform newFly = Instantiate(GameManager.Instance.flyPrefab, GameManager.Instance.flyParent).transform;
+                    newFly.position = transform.position;
                 }
             }
         }
