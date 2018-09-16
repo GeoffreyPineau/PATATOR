@@ -635,6 +635,7 @@ MonoBehaviour:
   potatoesHeld: 0
   potatoesText: {fileID: 759787064}
   hasGrenada: 0
+  stepCooldown: 0
   heldTequila: 0
   maxTequila: 200
   flameAbsorbtion: 0
@@ -659,6 +660,7 @@ MonoBehaviour:
   heartPosition: {x: 6, y: 0, z: 4}
   flyDamage: 1
   flyLife: 0
+  flyBurnedLife: 0
   pressTequila: 0
   maxPressTequila: 2000
   grenadaPotatoes: 0
@@ -766,6 +768,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509997488}
+  - component: {fileID: 509997489}
   m_Layer: 0
   m_Name: MusicManager
   m_TagString: Untagged
@@ -788,6 +791,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &509997489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 509997487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4adae302fcde9744f9ef7bcbfc9b4af9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dayMusic: {fileID: 609148772}
+  nightMusic: {fileID: 291356114}
 --- !u!1 &523361564
 GameObject:
   m_ObjectHideFlags: 0
@@ -943,7 +959,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 3fa60af5f40d12a4a948eafd700ef6a9, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0
   m_Pitch: 1
   Loop: 1

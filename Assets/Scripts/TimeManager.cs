@@ -89,6 +89,7 @@ public class TimeManager : MonoBehaviour {
         isDay = true;
         sunLight.DOColor(dayStartingColor, transitionTime);
         GameManager.Instance.SpawnPotatos();
+        MusicManager.Instance.Day();
     }
 
     void NightFall()
@@ -101,6 +102,7 @@ public class TimeManager : MonoBehaviour {
             currentDayTime = minDayTime;
         }
         sunLight.DOColor(nightStartingColor, transitionTime);
+        MusicManager.Instance.Night();
     }
 
     IEnumerator WaitThenWarn()

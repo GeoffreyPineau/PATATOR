@@ -43,4 +43,9 @@ public class ProjectileComponent : MonoBehaviour
         }
 
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(transform.position, .2f);
+    }
 }
