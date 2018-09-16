@@ -557,6 +557,9 @@ MonoBehaviour:
   threeLeavesMin: 5
   fourLeavesMin: 9
   fiveLeavesMin: 15
+  flyPrefab: {fileID: 1307037009227206, guid: dfc1803fce81107419febba848a011df, type: 2}
+  flyParent: {fileID: 1447340276}
+  flyDelay: 2
   excludedPositions:
   - {x: 0, y: 7}
   - {x: 0, y: 6}
@@ -1553,6 +1556,34 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 95241891080194338, guid: ee4b7af3a35119641b220ff7e9da8ffe,
     type: 2}
   m_PrefabInternal: {fileID: 1444131476}
+--- !u!1 &1447340275
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1447340276}
+  m_Layer: 0
+  m_Name: FlyParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1447340276
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1447340275}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1464241145
 Prefab:
   m_ObjectHideFlags: 0

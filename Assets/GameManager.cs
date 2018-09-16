@@ -64,6 +64,11 @@ public class GameManager : MonoBehaviour
     public int fourLeavesMin;
     public int fiveLeavesMin;
 
+    [Header("Monster Spawning")]
+    public GameObject flyPrefab;
+    public Transform flyParent;
+    public float flyDelay;
+
     public Square[,] squaresArray;
 
     public List<Vector2> excludedPositions;
