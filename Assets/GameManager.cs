@@ -19,19 +19,24 @@ public class GameManager : MonoBehaviour
     public int potatoesHeld;
     public TextMeshPro potatoesText;
     public bool hasGrenada;
-    public int heldTequila;
-    public int maxTequila;
-    public int sombreroastMinDamage;
-    public int sombreroastMaxDamage;
-    public int sombreroastMinConsumption;
-    public int sombreroastMaxConsumption;
-    public float sombreroastProjectileSpeed;
+    public float heldTequila;
+    public float maxTequila;
+    public float flameAbsorbtion;
+    public float sombreroastSpeed;
+    public float sombreroastLifetime;
+    public float sombreroastRateOverTime;
+    public float sombreroastMinDamage;
+    public float sombreroastMaxDamage;
+    public float sombreroastMinConsumption;
+    public float sombreroastMaxConsumption;
     public float sombreroastCooldown = .5f;
-    public float sombreroastHeatGain = .5f;
+    public float sombreroastHeatLossMultiplier = 2f;
     public float sombreroastMaxHeat = 20;
     public float sombreroastCurrentHeat = 0;
     [ColorUsage(false, true)]public  Color sombreroastMinGlow;
     [ColorUsage(false, true)]public  Color sombreroastMaxGlow;
+    [ColorUsage(true, true)] public Color sombreroastMinColor;
+    [ColorUsage(true, true)] public Color sombreroastMaxColor;
 
     [Header("Heart Values")]
     public int heartMaxLife;
@@ -41,10 +46,11 @@ public class GameManager : MonoBehaviour
 
     [Header("Monster Values")]
     public int flyDamage;
-    public int flyLife;
+    public float flyLife;
 
     [Header("Containers Values")]
     public int pressTequila;
+    public int maxPressTequila;
     public int grenadaPotatoes;
     public int potatoesForGrenada;
     public int grenadas;
@@ -69,6 +75,10 @@ public class GameManager : MonoBehaviour
     public Vector2 grenadaPosition;
     public int tequilaMultiplier;
 
+    [Header("Animations")]
+    public Animator tequilaPressAnim;
+    public Transform tequilaTransform;
+    float scaleMultiplier;
 
     void Awake()
     {
@@ -174,6 +184,8 @@ public class GameManager : MonoBehaviour
             }
         }
         FindObjectOfType<HoleCreator>().dirtSquares = dirtSquareList;
+
+        scaleMultiplier = 1 / maxPressTequila;
     }
 
     void Update()
@@ -194,6 +206,10 @@ public class GameManager : MonoBehaviour
             grenadaPotatoes -= potatoesForGrenada;
 
         }
+
+        //tequila level
+
+        tequilaTransform.localScale = new Vector3(1, scaleMultiplier * pressTequila, 1);
     }
 
     public void SpawnPotatos()
