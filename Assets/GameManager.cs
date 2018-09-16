@@ -203,8 +203,8 @@ public class GameManager : MonoBehaviour
                         squaresArray[x, y] = newSquareComponent;
                         newSquareComponent.type = SquareType.heart;
                         newSquare.name = "HeartPosition";
-                        Destroy(newSquareComponent.selectionLid);
-                        newSquareComponent.selectionLid = heartLid;
+                        //Destroy(newSquareComponent.selectionLid);
+                        //newSquareComponent.selectionLid = heartLid;
                         heartSquares.Add(newSquareComponent);
 
                         newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
@@ -223,7 +223,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         //heartlid
-        bool deselects = true ;
+        /*bool deselects = true ;
         foreach(Square heartSquare in heartSquares)
         {
             if(heartSquare.selected)
@@ -240,7 +240,7 @@ public class GameManager : MonoBehaviour
         {
             heartLid.SetActive(true);
 
-        }
+        }*/
     
         //heart scale
         newScale = Mathf.Lerp(newScale, 0.623f + (heartScaleMultiplier * heartCurrentLife), 0.1f);
@@ -351,7 +351,7 @@ public class GameManager : MonoBehaviour
 
     public void LoseGame()
     {
-
+        PauseButton.Instance.GameOver();
     }
 
     public void WinGame()

@@ -237,7 +237,7 @@ public class Square : MonoBehaviour {
         //deselect
         if(!selected)
         {
-            if(type != SquareType.heart)
+            //if(type != SquareType.heart)
             selectionLid.SetActive(false);
         }
     }
@@ -246,7 +246,7 @@ public class Square : MonoBehaviour {
     {
         if(selected)
         {
-            if (type != SquareType.heart)
+            //if (type != SquareType.heart)
             selected = false;
 
         }
@@ -382,10 +382,10 @@ public class Square : MonoBehaviour {
     public bool selected;
     public void Select()
     {
-        if(type != SquareType.heart)
-        {
+        //if(type != SquareType.heart)
+        //{
             selectionLid.SetActive(true);
-        }
+//        }
 
 
         selected = true;
