@@ -771,7 +771,7 @@ MonoBehaviour:
   modelPivot: {fileID: 4667961743248908}
   explodeShakeStrength: 1
   explodeDuration: 0.3
-  explodeVibrato: 20
+  explodeVibrato: 10
 --- !u!195 &195479001881356096
 NavMeshAgent:
   m_ObjectHideFlags: 1

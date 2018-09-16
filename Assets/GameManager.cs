@@ -21,12 +21,21 @@ public class GameManager : MonoBehaviour
     public bool hasGrenada;
     public int heldTequila;
     public int maxTequila;
-    public int sombreroastDamage;
-    public int sombreroastConsumption;
+    public int sombreroastMinDamage;
+    public int sombreroastMaxDamage;
+    public int sombreroastMinConsumption;
+    public int sombreroastMaxConsumption;
+    public float sombreroastProjectileSpeed;
+    public float sombreroastCooldown = .5f;
+    public float sombreroastHeatGain = .5f;
+    public float sombreroastMaxHeat = 20;
+    public float sombreroastCurrentHeat = 0;
+    [ColorUsage(false, true)]public  Color sombreroastMinGlow;
+    [ColorUsage(false, true)]public  Color sombreroastMaxGlow;
 
     [Header("Heart Values")]
     public int heartMaxLife;
-    [HideInInspector] public int heartCurrentLife;
+    public int heartCurrentLife;
     public float heartRadius;
     public Vector3 heartPosition;
 
@@ -53,6 +62,7 @@ public class GameManager : MonoBehaviour
 
     public List<Vector2> excludedPositions;
     public List<Vector2> noHolesPositions;
+    public List<Vector2> heartSquaresPositions;
     public Vector2 tequilaPressPosition;
     public Vector2 tequilaPumpPosition;
     public Vector2 grenadaCompressorPosition;
@@ -146,6 +156,20 @@ public class GameManager : MonoBehaviour
                     newSquare.name = "GrenadaPosition";
 
                     newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
+                }
+                foreach(Vector2 position in heartSquaresPositions)
+                {
+                    if(new Vector2(x, y) == position)
+                    {
+                        GameObject newSquare = Instantiate(squarePrefab, squareParentTransform);
+                        Square newSquareComponent = newSquare.GetComponent<Square>();
+
+                        squaresArray[x, y] = newSquareComponent;
+                        newSquareComponent.type = SquareType.heart;
+                        newSquare.name = "HeartPosition";
+
+                        newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
+                    }
                 }
             }
         }
