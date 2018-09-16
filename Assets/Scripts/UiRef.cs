@@ -7,6 +7,7 @@ using TMPro;
 public class UiRef : MonoBehaviour {
 
     public RawImage TequilaFuel;
+    public TextMeshProUGUI Fuel;
     public Slider PotatoHeartLife;
     public TextMeshProUGUI PotatosLife;
     public RawImage TimeIcon;
