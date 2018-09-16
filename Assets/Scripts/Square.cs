@@ -42,6 +42,9 @@ public class Square : MonoBehaviour {
     [Header("Tequila")]
     public int tequilaMultiplier;
 
+    [Header("Flies")]
+    float flyTimer;
+
 
     void Awake()
     {
@@ -186,6 +189,14 @@ public class Square : MonoBehaviour {
                     stateGraphics[2].SetActive(true);
                     stateGraphics[3].SetActive(false);
                 }
+
+                flyTimer += Time.deltaTime;
+                if(flyTimer > GameManager.Instance.flyDelay)
+                {
+                    flyTimer = 0;
+                    Transform newFly = Instantiate(GameManager.Instance.flyPrefab, GameManager.Instance.flyParent).transform;
+                    newFly.position = transform.position;
+                }
             }
         }
         else if(state == SquareState.potato)
@@ -285,7 +296,8 @@ public class Square : MonoBehaviour {
                     }
                     GameManager.Instance.pressTequila -= addedTequila;
                     GameManager.Instance.heldTequila += addedTequila;
-                    if(GameManager.Instance.heldTequila > GameManager.Instance.maxTequila)
+                    GameManager.Instance.tequilaPressAnim.SetTrigger("pour");
+                    if (GameManager.Instance.heldTequila > GameManager.Instance.maxTequila)
                     {
                         GameManager.Instance.heldTequila = GameManager.Instance.maxTequila;
                     }
@@ -304,8 +316,13 @@ public class Square : MonoBehaviour {
         {
             if(GameManager.Instance.grenadas > 0 && GameManager.Instance.potatoesHeld <= 0 && GameManager.Instance.hasGrenada == false)
             {
+                
                 GameManager.Instance.hasGrenada = true;
                 GameManager.Instance.grenadas--;
+                if(GameManager.Instance.grenadas > 0)
+                {
+                    GameManager.Instance.animatedGrenadaAnim.SetTrigger("recharge");
+                }
             }
         }
         else
@@ -359,11 +376,13 @@ public class Square : MonoBehaviour {
     public void PressTequila(int potatoAmount)
     {
         GameManager.Instance.pressTequila += potatoAmount * tequilaMultiplier;
+        GameManager.Instance.tequilaPressAnim.SetTrigger("press");
     }
 
     public void CompressPotato(int potatoAmount)
     {
         GameManager.Instance.grenadaPotatoes += potatoAmount;
+        GameManager.Instance.grenadaFabricAnim.SetTrigger("compress");
     }
 
     public void AbsorbPotato(int potatoAmount)
