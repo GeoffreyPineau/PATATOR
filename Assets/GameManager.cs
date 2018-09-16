@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class GameManager : MonoBehaviour
     public Transform squareParentTransform;
     public List<Square> dirtSquareList = new List<Square>();
     List<Square> emptySquares;
+
+    [Header("UI")]
+    public Image healthBar;
 
     [Header("Player Values")]
     public int potatoesHeld;
@@ -94,6 +98,9 @@ public class GameManager : MonoBehaviour
     public Animator grenadaFabricAnim;
     public Animator playerHandsAnim;
     public Animator animatedGrenadaAnim;
+
+    public GameObject heartLid;
+
 
     void Awake()
     {
@@ -185,6 +192,7 @@ public class GameManager : MonoBehaviour
 
                     newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
                 }
+                heartSquares = new List<Square>();
                 foreach(Vector2 position in heartSquaresPositions)
                 {
                     if(new Vector2(x, y) == position)
@@ -195,6 +203,9 @@ public class GameManager : MonoBehaviour
                         squaresArray[x, y] = newSquareComponent;
                         newSquareComponent.type = SquareType.heart;
                         newSquare.name = "HeartPosition";
+                        Destroy(newSquareComponent.selectionLid);
+                        newSquareComponent.selectionLid = heartLid;
+                        heartSquares.Add(newSquareComponent);
 
                         newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
                     }
@@ -207,8 +218,28 @@ public class GameManager : MonoBehaviour
     }
 
     float newScale;
+    float newLifeScale;
+    List<Square> heartSquares;
     void Update()
     {
+        //heartlid
+        bool deselects = true ;
+        foreach(Square heartSquare in heartSquares)
+        {
+            if(heartSquare.selected)
+            {
+                deselects = false;
+            }
+        }
+        if(deselects)
+        {
+            heartLid.SetActive(false);
+        }
+        else
+        {
+            heartLid.SetActive(true);
+        }
+    
         //heart scale
         newScale = Mathf.Lerp(newScale, 0.623f + (heartScaleMultiplier * heartCurrentLife), 0.1f);
         heartPotatoTransform.localScale = new Vector3(newScale, newScale, newScale);
@@ -225,6 +256,9 @@ public class GameManager : MonoBehaviour
         {
             potatoesText.text = "0";
         }
+
+        newLifeScale = Mathf.Lerp(newLifeScale, 0.01f * heartCurrentLife, 0.4f);
+        healthBar.fillAmount = newLifeScale;
 
         //grenada compression
         if(grenadaPotatoes >= potatoesForGrenada)
