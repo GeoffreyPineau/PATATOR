@@ -176,8 +176,8 @@ public class Square : MonoBehaviour {
                 {
                     stateGraphics[0].SetActive(false);
                     stateGraphics[1].SetActive(false);
-                    stateGraphics[2].SetActive(false);
-                    stateGraphics[3].SetActive(true);
+                    stateGraphics[2].SetActive(true);
+                    stateGraphics[3].SetActive(false);
                 }
             }
             else
@@ -244,14 +244,11 @@ public class Square : MonoBehaviour {
         {
             if(state == SquareState.hole)
             {
-                if (!TimeManager.Instance.isDay)
-                {
                     if(GameManager.Instance.hasGrenada)
                     {
                         Explode();
                         GameManager.Instance.hasGrenada = false;
                     }
-                }
             }
             else if(state == SquareState.empty)
             {
