@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028419, g: 0.22571439, b: 0.30692238, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028465, g: 0.22571513, b: 0.30692357, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2937,17 +2937,22 @@ MonoBehaviour:
   hasGrenada: 0
   heldTequila: 0
   maxTequila: 0
+  flameAbsorbtion: 0
+  sombreroastSpeed: 0
+  sombreroastLifetime: 0
+  sombreroastRateOverTime: 0
   sombreroastMinDamage: 0
   sombreroastMaxDamage: 0
   sombreroastMinConsumption: 0
   sombreroastMaxConsumption: 0
-  sombreroastProjectileSpeed: 0
   sombreroastCooldown: 0.5
-  sombreroastHeatGain: 0.5
+  sombreroastHeatLossMultiplier: 2
   sombreroastMaxHeat: 20
   sombreroastCurrentHeat: 0
   sombreroastMinGlow: {r: 0, g: 0, b: 0, a: 0}
   sombreroastMaxGlow: {r: 0, g: 0, b: 0, a: 0}
+  sombreroastMinColor: {r: 0, g: 0, b: 0, a: 0}
+  sombreroastMaxColor: {r: 0, g: 0, b: 0, a: 0}
   heartMaxLife: 0
   heartCurrentLife: 0
   heartRadius: 0
@@ -2955,6 +2960,7 @@ MonoBehaviour:
   flyDamage: 0
   flyLife: 0
   pressTequila: 0
+  maxPressTequila: 0
   grenadaPotatoes: 0
   potatoesForGrenada: 0
   grenadas: 0
@@ -2978,6 +2984,8 @@ MonoBehaviour:
   grenadaCompressorPosition: {x: 0, y: 0}
   grenadaPosition: {x: 0, y: 0}
   tequilaMultiplier: 0
+  tequilaPressAnim: {fileID: 0}
+  tequilaTransform: {fileID: 0}
 --- !u!4 &465012480
 Transform:
   m_ObjectHideFlags: 0
@@ -9641,6 +9649,48 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 22c0934513fafd747a0a0a68cc5759bb,
     type: 3}
   m_PrefabInternal: {fileID: 1784977668}
+--- !u!1001 &1786911731
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4213509481834508, guid: e7eab496d27621d429e3fcc0ea3dd625, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 4.5429544
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213509481834508, guid: e7eab496d27621d429e3fcc0ea3dd625, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.26352978
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213509481834508, guid: e7eab496d27621d429e3fcc0ea3dd625, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 3.2060008
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213509481834508, guid: e7eab496d27621d429e3fcc0ea3dd625, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213509481834508, guid: e7eab496d27621d429e3fcc0ea3dd625, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213509481834508, guid: e7eab496d27621d429e3fcc0ea3dd625, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213509481834508, guid: e7eab496d27621d429e3fcc0ea3dd625, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213509481834508, guid: e7eab496d27621d429e3fcc0ea3dd625, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e7eab496d27621d429e3fcc0ea3dd625, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1001 &1805489279
 Prefab:
   m_ObjectHideFlags: 0

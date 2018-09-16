@@ -11,7 +11,11 @@ public class PlayerController : MonoBehaviour {
     public Transform modelPivot;
     public Transform bodyPivot;
     public Transform headPivot;
-    public GameObject flamePrefab;
+    public ParticleSystem psFlames;
+    public GameObject psDamage;
+    public GameObject stepPrefab;
+    public Transform canonPivot;
+    public GameObject armeVidePrefab;
 
     [Header("Variables")]
     [Space]
@@ -36,6 +40,7 @@ public class PlayerController : MonoBehaviour {
     private Vector3 aimPosition;
     private Vector3 aimDirection;
     private Vector3 interactionPosition;
+    private float lastStepTimestamp;
 
     private float lastFlameTimestamp;
 
@@ -51,6 +56,12 @@ public class PlayerController : MonoBehaviour {
         dashInput = Input.GetKeyDown(KeyCode.Space) && directionInput != Vector3.zero;
         if (dashInput)
         {
+            GameObject smokePuff = Instantiate(stepPrefab, transform.position, stepPrefab.transform.rotation);
+            ParticleSystem parts = smokePuff.GetComponent<ParticleSystem>();
+            float totalDuration = parts.main.startLifetime.constantMax;
+            Destroy(smokePuff, totalDuration);
+
+
             rb.AddForce(directionInput * dashSpeed, ForceMode.Impulse);
             //Squash
             if (squashTween != null) squashTween.Kill(true);
@@ -61,8 +72,16 @@ public class PlayerController : MonoBehaviour {
         //Turn player model body
         if (directionInput != Vector3.zero)
         {
+            if (Time.time > lastStepTimestamp + GameManager.Instance.stepCooldown)
+            {
+                GameObject smokePuff = Instantiate(stepPrefab, transform.position, stepPrefab.transform.rotation);
+                ParticleSystem parts = smokePuff.GetComponent<ParticleSystem>();
+                float totalDuration = parts.main.startLifetime.constantMax;
+                Destroy(smokePuff, totalDuration);
+                lastStepTimestamp = Time.time;
+            }
+
             targetAngle = Utilities.Angle(directionInput.x, directionInput.z);
-            
             targetAngleFull = Utilities.AngleFull(directionInput.x, directionInput.z);
         }
         bodyPivot.eulerAngles = new Vector3(0, targetAngle);
@@ -94,64 +113,75 @@ public class PlayerController : MonoBehaviour {
         }
         GameManager.Instance.squaresArray[(int)interactionPosition.x, (int)interactionPosition.z].Select();
 
-        //Shoot
-        Shoot();
+        
     }
 
     private void FixedUpdate()
     {
         rb.AddForce(directionInput * speed);
+
+        //Shoot
+        Shoot();
     }
 
     void Shoot()
     {
+        bool hasShot = false;
+
+        var main = psFlames.main;
+        main.startColor = Color.Lerp(GameManager.Instance.sombreroastMinColor, GameManager.Instance.sombreroastMaxColor,
+            Mathf.InverseLerp(0, GameManager.Instance.sombreroastMaxHeat, GameManager.Instance.sombreroastCurrentHeat));
+
         if (!Input.GetMouseButton(0))
         {
             Cooldown();
             return;
         }
-
-        if (Time.time < lastFlameTimestamp + GameManager.Instance.sombreroastCooldown)
-        {
-            Cooldown();
-            return;
-        }
-
-        int tequilaCost = (int)Mathf.Lerp(GameManager.Instance.sombreroastMinConsumption, GameManager.Instance.sombreroastMaxConsumption,
+        float tequilaCost = Mathf.Lerp(GameManager.Instance.sombreroastMinConsumption, GameManager.Instance.sombreroastMaxConsumption,
             Mathf.InverseLerp(0, GameManager.Instance.sombreroastMaxHeat, GameManager.Instance.sombreroastCurrentHeat));
         if (GameManager.Instance.heldTequila < tequilaCost)
         {
             Cooldown();
-            return;
         }
         else
         {
             GameManager.Instance.heldTequila -= tequilaCost;
 
-            ProjectileComponent projectile = Instantiate(flamePrefab, transform.position + aimDirection * interactionPositionOffset*4, Quaternion.identity).GetComponent<ProjectileComponent>();
-            projectile.rb.velocity = aimDirection * GameManager.Instance.sombreroastProjectileSpeed;
-            projectile.damage = (int)Mathf.Lerp(GameManager.Instance.sombreroastMinDamage, GameManager.Instance.sombreroastMaxDamage,
-            Mathf.InverseLerp(0, GameManager.Instance.sombreroastMaxHeat, GameManager.Instance.sombreroastCurrentHeat));
+            if (!psFlames.isEmitting) psFlames.Play();
+            if (!psDamage.activeInHierarchy) psDamage.SetActive(true);
 
-            GameManager.Instance.sombreroastCurrentHeat += GameManager.Instance.sombreroastHeatGain;
+            hasShot = true;
+
+            GameManager.Instance.sombreroastCurrentHeat += Time.deltaTime;
             GameManager.Instance.sombreroastCurrentHeat = Mathf.Clamp(GameManager.Instance.sombreroastCurrentHeat, 0, GameManager.Instance.sombreroastMaxHeat);
         }
 
-        lastFlameTimestamp = Time.time;
+        if (!hasShot && Time.time > lastFlameTimestamp + GameManager.Instance.sombreroastCooldown)
+        {
+            GameObject smokePuff = Instantiate(armeVidePrefab, canonPivot.position, canonPivot.rotation);
+            ParticleSystem parts = smokePuff.GetComponent<ParticleSystem>();
+            float totalDuration = parts.main.startLifetime.constantMax;
+            Destroy(smokePuff, totalDuration);
+
+            lastFlameTimestamp = Time.time;
+        }
     }
 
     void Cooldown()
     {
+        if (psFlames.isEmitting) psFlames.Stop();
+        if (psDamage.activeInHierarchy) psDamage.SetActive(false);
+
         if (Time.time > lastFlameTimestamp + GameManager.Instance.sombreroastCooldown)
         {
-            GameManager.Instance.sombreroastCurrentHeat -= Time.deltaTime;
+            GameManager.Instance.sombreroastCurrentHeat -= Time.deltaTime * GameManager.Instance.sombreroastHeatLossMultiplier;
             GameManager.Instance.sombreroastCurrentHeat = Mathf.Clamp(GameManager.Instance.sombreroastCurrentHeat, 0, GameManager.Instance.sombreroastMaxHeat);
         }
     }
 
 
     private void OnDrawGizmos()
-    {
+    {/*
         Gizmos.DrawSphere(interactionPosition, .1f);
 
         interactionPosition = Utilities.GetFlooredPosition(interactionPosition);
@@ -163,6 +193,6 @@ public class PlayerController : MonoBehaviour {
         Gizmos.DrawSphere(aimPosition, .2f);
         Gizmos.color = Color.gray;
 
-        Gizmos.DrawRay(transform.position + Vector3.up * 0.5f, aimDirection + Vector3.up * 0.5f);
+        Gizmos.DrawRay(transform.position + Vector3.up * 0.5f, aimDirection + Vector3.up * 0.5f);*/
     }
 }
