@@ -88,6 +88,9 @@ public class GameManager : MonoBehaviour
     Vector3 targetScale;
     float scaleMultiplier;
 
+    public Transform heartPotatoTransform;
+    float heartScaleMultiplier;
+
     public Animator grenadaFabricAnim;
     public Animator playerHandsAnim;
     public Animator animatedGrenadaAnim;
@@ -95,6 +98,9 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
+        heartScaleMultiplier = (0.938f - 0.623f) / heartMaxLife;
+        heartPotatoTransform.localScale = new Vector3(0.938f, 0.938f, 0.938f);
+        newScale = 0.938f;
 
         heartCurrentLife = heartMaxLife;
 
@@ -200,8 +206,13 @@ public class GameManager : MonoBehaviour
         scaleMultiplier = 1 / maxPressTequila;
     }
 
+    float newScale;
     void Update()
     {
+        //heart scale
+        newScale = Mathf.Lerp(newScale, 0.623f + (heartScaleMultiplier * heartCurrentLife), 0.1f);
+        heartPotatoTransform.localScale = new Vector3(newScale, newScale, newScale);
+
         playerHandsAnim.SetBool("holdsPotato", false);
         playerHandsAnim.SetBool("holdsGrenada", false);
         if (potatoesHeld > 0)
@@ -254,12 +265,15 @@ public class GameManager : MonoBehaviour
 
     public void SpawnPotatos()
     {
-        for(int i = 0; i < initialPotatoNumber; i++)
+        float ia = 0;
+        for (int i = 0; i < initialPotatoNumber; i++)
         {
             RefreshEmptySquares();
             Square chosenSquare = emptySquares[Random.Range(0, emptySquares.Count)];
-            chosenSquare.GrowPotato();
+            StartCoroutine(WaitThenSpawnPotato(ia, chosenSquare));
+            ia += 0.5f;
         }
+
         foreach (Square square in dirtSquareList)
         {
             if (square.state == SquareState.potato)
@@ -267,6 +281,13 @@ public class GameManager : MonoBehaviour
                 square.AddPotato();
             }
         }
+    }
+
+    IEnumerator WaitThenSpawnPotato(float delay, Square square)
+    {
+        yield return new WaitForSeconds(delay);
+        square.GrowPotato();
+        square.potatoAmount = 1;
     }
 
     void RefreshEmptySquares()
