@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour {
     public GameObject stepPrefab;
     public Transform canonPivot;
     public GameObject armeVidePrefab;
+    public AudioSource flameSource;
+    public AudioSource puffSource;
+    public float flameVolume = 0.3f;
 
     [Header("Variables")]
     [Space]
@@ -123,9 +126,10 @@ public class PlayerController : MonoBehaviour {
         //Shoot
         Shoot();
     }
-
+    
     void Shoot()
     {
+
         bool hasShot = false;
 
         var main = psFlames.main;
@@ -151,6 +155,7 @@ public class PlayerController : MonoBehaviour {
             if (!psDamage.activeInHierarchy) psDamage.SetActive(true);
 
             hasShot = true;
+            if (!flameSource.isPlaying) flameSource.Play();
 
             GameManager.Instance.sombreroastCurrentHeat += Time.deltaTime;
             GameManager.Instance.sombreroastCurrentHeat = Mathf.Clamp(GameManager.Instance.sombreroastCurrentHeat, 0, GameManager.Instance.sombreroastMaxHeat);
@@ -163,12 +168,16 @@ public class PlayerController : MonoBehaviour {
             float totalDuration = parts.main.startLifetime.constantMax;
             Destroy(smokePuff, totalDuration);
 
+            puffSource.Play();
+
             lastFlameTimestamp = Time.time;
         }
     }
 
     void Cooldown()
     {
+        if (flameSource.isPlaying) flameSource.Stop();
+
         if (psFlames.isEmitting) psFlames.Stop();
         if (psDamage.activeInHierarchy) psDamage.SetActive(false);
 

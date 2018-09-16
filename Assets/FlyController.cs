@@ -18,6 +18,10 @@ public class FlyController : MonoBehaviour {
     public ParticleSystem combustion;
     public GameObject ashPrefab;
 
+    public AudioSource exploSource;
+    public AudioSource burnSource;
+    public AudioSource wingSource;
+
     public NavMeshAgent agent;
     public Transform modelPivot;
     public float explodeShakeStrength;
@@ -74,6 +78,7 @@ public class FlyController : MonoBehaviour {
             if (squashTween != null) squashTween.Kill(true);
             squashTween = modelPivot.DOShakeScale(explodeDuration, explodeShakeStrength, explodeVibrato,90,false).OnComplete(delegate
             {
+                AudioSource.PlayClipAtPoint(exploSource.clip, transform.position,4f);
                 GameManager.Instance.DamageHeart(GameManager.Instance.flyDamage);
                 Destroy(gameObject);
             });
@@ -91,6 +96,8 @@ public class FlyController : MonoBehaviour {
         {
             if (state == FlyState.alive)
             {
+                wingSource.Stop();
+                burnSource.Play();
                 combustion.Play();
                 agent.isStopped = true;
                 foreach (MeshRenderer meshRenderer in rendererList)
@@ -107,6 +114,7 @@ public class FlyController : MonoBehaviour {
             }
             else if (state == FlyState.dead)
             {
+                burnSource.Play();
                 combustion.Play();
                 gameObject.layer = 13;
                 modelPivot.gameObject.SetActive(false);
