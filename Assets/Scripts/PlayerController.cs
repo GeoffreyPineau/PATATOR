@@ -181,7 +181,7 @@ public class PlayerController : MonoBehaviour {
 
 
     private void OnDrawGizmos()
-    {
+    {/*
         Gizmos.DrawSphere(interactionPosition, .1f);
 
         interactionPosition = Utilities.GetFlooredPosition(interactionPosition);
@@ -193,6 +193,6 @@ public class PlayerController : MonoBehaviour {
         Gizmos.DrawSphere(aimPosition, .2f);
         Gizmos.color = Color.gray;
 
-        Gizmos.DrawRay(transform.position + Vector3.up * 0.5f, aimDirection + Vector3.up * 0.5f);
+        Gizmos.DrawRay(transform.position + Vector3.up * 0.5f, aimDirection + Vector3.up * 0.5f);*/
     }
 }

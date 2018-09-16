@@ -186,7 +186,7 @@ GameObject:
   - component: {fileID: 4619597841543910}
   - component: {fileID: 95438947235465246}
   m_Layer: 0
-  m_Name: ANIMATION_MOUCHE_6
+  m_Name: FlyVisuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
