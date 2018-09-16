@@ -312,25 +312,70 @@ Prefab:
       propertyPath: m_Name
       value: GUI
       objectReference: {fileID: 0}
-    - target: {fileID: 114961987708855094, guid: 889d1994e26ce504c92782135c895e98,
-        type: 2}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114961987708855094, guid: 889d1994e26ce504c92782135c895e98,
-        type: 2}
-      propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 114346776197992136, guid: 889d1994e26ce504c92782135c895e98,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114346776197992136, guid: 889d1994e26ce504c92782135c895e98,
         type: 2}
       propertyPath: m_isInputParsingRequired
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224338069553796980, guid: 889d1994e26ce504c92782135c895e98,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 131.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1861707374730352, guid: 889d1994e26ce504c92782135c895e98, type: 2}
+      propertyPath: m_Name
+      value: Potato
+      objectReference: {fileID: 0}
+    - target: {fileID: 1556218308848882, guid: 889d1994e26ce504c92782135c895e98, type: 2}
+      propertyPath: m_Name
+      value: PotatoSlider
+      objectReference: {fileID: 0}
+    - target: {fileID: 1154862304787704, guid: 889d1994e26ce504c92782135c895e98, type: 2}
+      propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1307700619735264, guid: 889d1994e26ce504c92782135c895e98, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224910124701683582, guid: 889d1994e26ce504c92782135c895e98,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224439828957232408, guid: 889d1994e26ce504c92782135c895e98,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 46.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 224338069553796980, guid: 889d1994e26ce504c92782135c895e98,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 224915412275371698, guid: 889d1994e26ce504c92782135c895e98,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.39999962
+      objectReference: {fileID: 0}
+    - target: {fileID: 224915412275371698, guid: 889d1994e26ce504c92782135c895e98,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 44.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1963653532459712, guid: 889d1994e26ce504c92782135c895e98, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114266369455384304, guid: 889d1994e26ce504c92782135c895e98,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 889d1994e26ce504c92782135c895e98, type: 2}
