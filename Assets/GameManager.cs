@@ -82,6 +82,8 @@ public class GameManager : MonoBehaviour
     float scaleMultiplier;
 
     public Animator grenadaFabricAnim;
+    public Animator playerHandsAnim;
+    public Animator animatedGrenadaAnim;
 
     void Awake()
     {
@@ -193,9 +195,13 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if(potatoesHeld > 0)
+        playerHandsAnim.SetBool("holdsPotato", false);
+        playerHandsAnim.SetBool("holdsGrenada", false);
+        if (potatoesHeld > 0)
         {
             potatoesText.text = potatoesHeld.ToString();
+            playerHandsAnim.SetBool("holdsPotato", true);
+            playerHandsAnim.SetBool("holdsGrenada", false);
         }
         else
         {
@@ -210,6 +216,12 @@ public class GameManager : MonoBehaviour
 
         }
 
+        if(hasGrenada)
+        {
+            playerHandsAnim.SetBool("holdsPotato", false);
+            playerHandsAnim.SetBool("holdsGrenada", true);
+        }
+
         //tequila level
         if(pressTequila > 0)
         {
@@ -221,6 +233,15 @@ public class GameManager : MonoBehaviour
         }
 
         tequilaTransform.localScale = Vector3.Lerp(tequilaTransform.localScale, targetScale, 0.2f);
+
+        if(grenadas > 0)
+        {
+            animatedGrenadaAnim.SetBool("isVisible", true);
+        }
+        else
+        {
+            animatedGrenadaAnim.SetBool("isVisible", false);
+        }
 
     }
 

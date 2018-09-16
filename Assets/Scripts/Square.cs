@@ -305,8 +305,13 @@ public class Square : MonoBehaviour {
         {
             if(GameManager.Instance.grenadas > 0 && GameManager.Instance.potatoesHeld <= 0 && GameManager.Instance.hasGrenada == false)
             {
+                
                 GameManager.Instance.hasGrenada = true;
                 GameManager.Instance.grenadas--;
+                if(GameManager.Instance.grenadas > 0)
+                {
+                    GameManager.Instance.animatedGrenadaAnim.SetTrigger("recharge");
+                }
             }
         }
         else
