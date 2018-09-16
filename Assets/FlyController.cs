@@ -98,6 +98,7 @@ public class FlyController : MonoBehaviour {
                     meshRenderer.material.DOColor(burnColor,fallSpeed);
                 }
                 modelPivot.DOLocalMoveY(0, fallSpeed);
+                modelPivot.DOPunchScale(new Vector3(0.3f, -0.5f, 0.3f)*2,fallSpeed).SetDelay(fallSpeed);
                 //Die
                 health = GameManager.Instance.flyBurnedLife;
                 state = FlyState.dead;
