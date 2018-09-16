@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4667961743248908}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ModelPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   - component: {fileID: 4638879502906440}
   - component: {fileID: 33768910282583076}
   - component: {fileID: 23991149016519232}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: oeuil2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ GameObject:
   - component: {fileID: 4117892787492080}
   - component: {fileID: 33279653198114898}
   - component: {fileID: 23191213158200580}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bourlet2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 195479001881356096}
   - component: {fileID: 54760020154275994}
   - component: {fileID: 65739376862885544}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Fly
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 4414640835445186}
   - component: {fileID: 33027364369636744}
   - component: {fileID: 23791211466336156}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bourlet1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 4186419307927818}
   - component: {fileID: 33057400453028572}
   - component: {fileID: 23209675999907000}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: trompe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 4368380528499024}
   - component: {fileID: 33926661765803162}
   - component: {fileID: 23470814121182302}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: aile1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 4643996322932424}
   - component: {fileID: 33038224585197174}
   - component: {fileID: 23753402655869158}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Mouche_FBX_001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,7 +157,7 @@ GameObject:
   - component: {fileID: 4278547726235248}
   - component: {fileID: 33240851403675942}
   - component: {fileID: 23689382929092872}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: tete
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +174,7 @@ GameObject:
   - component: {fileID: 4211808680786674}
   - component: {fileID: 33031140825541712}
   - component: {fileID: 23615316406801614}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: aile2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 4370962056699896}
   - component: {fileID: 33010041199227334}
   - component: {fileID: 23127796057659258}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: oeuil1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -257,7 +257,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1307037009227206}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.47, y: 0, z: 1.47}
+  m_LocalPosition: {x: 11.29, y: 0, z: 0.53}
   m_LocalScale: {x: 0.82586, y: 0.82586, z: 0.82586}
   m_Children:
   - {fileID: 4667961743248908}
@@ -768,10 +768,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 195479001881356096}
-  modelPivot: {fileID: 4667961743248908}
-  explodeShakeStrength: 1
+  modelPivot: {fileID: 4643996322932424}
+  explodeShakeStrength: 0.8
   explodeDuration: 0.3
-  explodeVibrato: 10
+  explodeVibrato: 20
+  hitShakeStrength: 0.5
+  hitDuration: 0.1
+  hitVibrato: 10
+  blinkTime: 0.1
+  blinkColor: {r: 34.29675, g: 0.0000014991134, b: 0, a: 0}
+  fallSpeed: 0
+  burnColor: {r: 0, g: 0, b: 0, a: 0}
+  rendererList: []
+  startColorList: []
 --- !u!195 &195479001881356096
 NavMeshAgent:
   m_ObjectHideFlags: 1
