@@ -185,6 +185,7 @@ MonoBehaviour:
   TequilaFuel: {fileID: 400573819}
   PotatoHeartLife: {fileID: 1306822941}
   PotatosLife: {fileID: 1192838926}
+  TimeIcon: {fileID: 939958053}
 --- !u!4 &235614110
 Transform:
   m_ObjectHideFlags: 0
@@ -196,7 +197,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &283965136
 Prefab:
@@ -243,7 +244,7 @@ Prefab:
     - target: {fileID: 224559719085562448, guid: 889d1994e26ce504c92782135c895e98,
         type: 2}
       propertyPath: m_RootOrder
-      value: 14
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 224559719085562448, guid: 889d1994e26ce504c92782135c895e98,
         type: 2}
@@ -300,6 +301,10 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 695464158}
+    - target: {fileID: 1991714581768830, guid: 889d1994e26ce504c92782135c895e98, type: 2}
+      propertyPath: m_Name
+      value: GUI
+      objectReference: {fileID: 0}
     - target: {fileID: 114961987708855094, guid: 889d1994e26ce504c92782135c895e98,
         type: 2}
       propertyPath: m_havePropertiesChanged
@@ -903,6 +908,12 @@ Transform:
   m_Father: {fileID: 714841566}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &939958053 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114072812965964136, guid: 889d1994e26ce504c92782135c895e98,
+    type: 2}
+  m_PrefabInternal: {fileID: 283965136}
+  m_Script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &951954025
 GameObject:
   m_ObjectHideFlags: 0

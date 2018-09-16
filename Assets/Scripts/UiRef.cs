@@ -9,6 +9,7 @@ public class UiRef : MonoBehaviour {
     public RawImage TequilaFuel;
     public Slider PotatoHeartLife;
     public TextMeshProUGUI PotatosLife;
+    public RawImage TimeIcon;
 
 
 
