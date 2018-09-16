@@ -113,6 +113,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &30708331 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114346776197992136, guid: 889d1994e26ce504c92782135c895e98,
+    type: 2}
+  m_PrefabInternal: {fileID: 283965136}
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
 --- !u!1001 &81095099
 Prefab:
   m_ObjectHideFlags: 0
@@ -183,6 +189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TequilaFuel: {fileID: 400573819}
+  Fuel: {fileID: 30708331}
   PotatoHeartLife: {fileID: 1306822941}
   PotatosLife: {fileID: 1192838926}
   TimeIcon: {fileID: 939958053}
@@ -311,6 +318,16 @@ Prefab:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114961987708855094, guid: 889d1994e26ce504c92782135c895e98,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114346776197992136, guid: 889d1994e26ce504c92782135c895e98,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114346776197992136, guid: 889d1994e26ce504c92782135c895e98,
         type: 2}
       propertyPath: m_isInputParsingRequired
       value: 1
