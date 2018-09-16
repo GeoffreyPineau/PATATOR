@@ -703,6 +703,10 @@ MonoBehaviour:
   headPivot: {fileID: 4412380993173514}
   psFlames: {fileID: 198932355282428810}
   psDamage: {fileID: 1762753604069406}
+  stepPrefab: {fileID: 1096387907711936, guid: 196c130d696583b41a3c18dd475c8857, type: 2}
+  canonPivot: {fileID: 4778005521101720}
+  armeVidePrefab: {fileID: 1352913373504418, guid: 021d66ed53850c9438cb9e50f7e6a8a0,
+    type: 2}
   speed: 300
   dashSpeed: 100
   turnDamp: 0.1

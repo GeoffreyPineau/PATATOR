@@ -31,6 +31,8 @@ public class ProjectileComponent : MonoBehaviour
 
         if (flyController)
         {
+            if (flyController.state == FlyState.ash) return;
+
             flyController.Damage(damage);
             
             lifetime = lifetime * GameManager.Instance.flameAbsorbtion;
