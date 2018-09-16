@@ -1373,6 +1373,8 @@ MonoBehaviour:
   state: 0
   combustion: {fileID: 198596482408624652}
   ashPrefab: {fileID: 1674352735878444}
+  explosionPrefab: {fileID: 1172413241125166, guid: 05df016ef4d85da4aa200f9cf18f6df7,
+    type: 2}
   exploSource: {fileID: 82510778986791380}
   burnSource: {fileID: 82027910118462176}
   wingSource: {fileID: 82916818821408600}

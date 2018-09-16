@@ -17,6 +17,7 @@ public class FlyController : MonoBehaviour {
 
     public ParticleSystem combustion;
     public GameObject ashPrefab;
+    public GameObject explosionPrefab;
 
     public AudioSource exploSource;
     public AudioSource burnSource;
@@ -80,6 +81,7 @@ public class FlyController : MonoBehaviour {
             {
                 AudioSource.PlayClipAtPoint(exploSource.clip, transform.position,4f);
                 GameManager.Instance.DamageHeart(GameManager.Instance.flyDamage);
+                Instantiate(explosionPrefab, transform.position + Vector3.up *0.5f, explosionPrefab.transform.rotation);
                 Destroy(gameObject);
             });
         }
