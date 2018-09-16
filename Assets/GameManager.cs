@@ -230,6 +230,7 @@ public class GameManager : MonoBehaviour
             {
                 deselects = false;
             }
+            heartSquare.selected = false;
         }
         if(deselects)
         {
@@ -238,6 +239,7 @@ public class GameManager : MonoBehaviour
         else
         {
             heartLid.SetActive(true);
+
         }
     
         //heart scale
