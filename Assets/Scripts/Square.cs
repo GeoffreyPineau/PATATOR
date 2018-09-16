@@ -25,6 +25,8 @@ public class Square : MonoBehaviour {
     public SquareState state;
     public SquareType type;
 
+    public GameObject selectionLid;
+
     [Header("Dirt")]
     public Animator numberPanelAnim;
     public TextMeshPro numberPanelText;
@@ -32,6 +34,10 @@ public class Square : MonoBehaviour {
 
     public Transform leavesParent;
     public List<GameObject> leaves;
+
+    public List<GameObject> stateGraphics;
+
+    public bool canBeHoled;
 
     [Header("Tequila")]
     public int tequilaMultiplier;
@@ -157,6 +163,66 @@ public class Square : MonoBehaviour {
         {
             numberPanelAnim.SetBool("isBurrowed", true);
         }
+
+        //graphics
+        if(state == SquareState.hole)
+        {
+            if(TimeManager.Instance.isDay)
+            {
+                if(!stateGraphics[3].activeInHierarchy)
+                {
+                    stateGraphics[0].SetActive(false);
+                    stateGraphics[1].SetActive(false);
+                    stateGraphics[2].SetActive(false);
+                    stateGraphics[3].SetActive(true);
+                }
+            }
+            else
+            {
+                if(!stateGraphics[2].activeInHierarchy)
+                {
+                    stateGraphics[0].SetActive(false);
+                    stateGraphics[1].SetActive(false);
+                    stateGraphics[2].SetActive(true);
+                    stateGraphics[3].SetActive(false);
+                }
+            }
+        }
+        else if(state == SquareState.potato)
+        {
+            if (!stateGraphics[1].activeInHierarchy)
+            {
+                stateGraphics[0].SetActive(false);
+                stateGraphics[1].SetActive(true);
+                stateGraphics[2].SetActive(false);
+                stateGraphics[3].SetActive(false);
+            }
+        }
+        else
+        {
+            if (!stateGraphics[0].activeInHierarchy)
+            {
+                stateGraphics[0].SetActive(true);
+                stateGraphics[1].SetActive(false);
+                stateGraphics[2].SetActive(false);
+                stateGraphics[3].SetActive(false);
+            }
+        }
+
+        //deselect
+        if(!selected)
+        {
+            selectionLid.SetActive(false);
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if(selected)
+        {
+            selected = false;
+
+        }
     }
 
     public void Interact()
@@ -187,10 +253,16 @@ public class Square : MonoBehaviour {
                 if((GameManager.Instance.potatoesHeld + potatoAmount) <= GameManager.Instance.maxPotatoes)
                 {
                     GameManager.Instance.potatoesHeld += potatoAmount;
+                    if(GameManager.Instance.hasGrenada)
+                    {
+                        GameManager.Instance.hasGrenada = false;
+                        GameManager.Instance.grenadas++;
+                    }
                     state = SquareState.empty;
                     potatoAmount = 0;
                 }
             }
+
         }
         else if(type == SquareType.press)
         {
@@ -228,11 +300,33 @@ public class Square : MonoBehaviour {
                 GameManager.Instance.potatoesHeld = 0;
             }
         }
+        else if(type == SquareType.grenada)
+        {
+            if(GameManager.Instance.grenadas > 0 && GameManager.Instance.potatoesHeld <= 0 && GameManager.Instance.hasGrenada == false)
+            {
+                GameManager.Instance.hasGrenada = true;
+                GameManager.Instance.grenadas--;
+            }
+        }
+        else
+        {
+            if (GameManager.Instance.heartCurrentLife < GameManager.Instance.heartMaxLife)
+            {
+                AbsorbPotato(GameManager.Instance.potatoesHeld);
+            }
+        }
     }
 
     void Explode()
     {
         state = SquareState.empty;
+        GameManager.Instance.hasGrenada = false;
+    }
+
+    public void CreateHole()
+    {
+        state = SquareState.hole;
+        potatoAmount = 0;
     }
 
     public void GrowPotato()
@@ -255,6 +349,13 @@ public class Square : MonoBehaviour {
         }
     }
 
+    bool selected;
+    public void Select()
+    {
+        selectionLid.SetActive(true);
+        selected = true;
+    }
+
     public void PressTequila(int potatoAmount)
     {
         GameManager.Instance.pressTequila += potatoAmount * tequilaMultiplier;
@@ -263,5 +364,30 @@ public class Square : MonoBehaviour {
     public void CompressPotato(int potatoAmount)
     {
         GameManager.Instance.grenadaPotatoes += potatoAmount;
+    }
+
+    public void AbsorbPotato(int potatoAmount)
+    {
+        GameManager.Instance.heartCurrentLife += potatoAmount;
+        if(GameManager.Instance.heartCurrentLife > GameManager.Instance.heartMaxLife)
+        {
+            GameManager.Instance.heartCurrentLife = GameManager.Instance.heartMaxLife;
+        }
+    }
+
+    public void Redden()
+    {
+        foreach(GameObject graphic in stateGraphics)
+        {
+            graphic.GetComponent<MeshRenderer>().material.color = HoleCreator.Instance.dangerColor;
+        }
+    }
+
+    public void Normalize()
+    {
+        foreach (GameObject graphic in stateGraphics)
+        {
+            graphic.GetComponent<MeshRenderer>().material.color = HoleCreator.Instance.normalColor;
+        }
     }
 }
