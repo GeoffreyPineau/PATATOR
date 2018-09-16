@@ -15,7 +15,7 @@ public class FlyController : MonoBehaviour {
 
     public FlyState state = FlyState.alive;
 
-    public GameObject poofPrefab;
+    public ParticleSystem combustion;
     public GameObject ashPrefab;
 
     public NavMeshAgent agent;
@@ -91,6 +91,7 @@ public class FlyController : MonoBehaviour {
         {
             if (state == FlyState.alive)
             {
+                combustion.Play();
                 agent.isStopped = true;
                 foreach (MeshRenderer meshRenderer in rendererList)
                 {
@@ -101,15 +102,22 @@ public class FlyController : MonoBehaviour {
                 health = GameManager.Instance.flyBurnedLife;
                 state = FlyState.dead;
                 GetComponent<BoxCollider>().bounds.Expand(-0.15f);
+                GetComponentInChildren<Animator>().enabled = false;
             }
             else if (state == FlyState.dead)
             {
+                combustion.Play();
                 gameObject.layer = 13;
                 modelPivot.gameObject.SetActive(false);
                 ashPrefab.SetActive(true);
                 ashPrefab.transform.eulerAngles = new Vector3(-90, Random.Range(-90, 360), 0);
                 state = FlyState.ash;
                 GetComponent<BoxCollider>().enabled = false;
+
+                ashPrefab.transform.DOLocalMoveY(-1, 3).SetDelay(5).OnComplete(delegate
+                 {
+                     Destroy(gameObject);
+                 });
             }
         }
         else
