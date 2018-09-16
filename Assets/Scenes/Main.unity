@@ -1730,7 +1730,10 @@ MonoBehaviour:
     type: 2}
   squareParentTransform: {fileID: 713386753}
   dirtSquareList: []
+  heartExploPrefab: {fileID: 1689451174437574, guid: 8f9e4ec6c14abd847a740a354d36cd81,
+    type: 2}
   healthBar: {fileID: 1152948601}
+  tequilaText: {fileID: 1954029578}
   potatoesHeld: 0
   potatoesText: {fileID: 759787064}
   hasGrenada: 0
@@ -1754,7 +1757,7 @@ MonoBehaviour:
   sombreroastMinColor: {r: 6.8831816, g: 2.5947073, b: 0, a: 1}
   sombreroastMaxColor: {r: 0, g: 1.6954161, b: 6.8831816, a: 1}
   heartMaxLife: 100
-  heartCurrentLife: 0
+  heartCurrentLife: 1
   heartRadius: 1.5
   heartPosition: {x: 6, y: 0, z: 4}
   flyDamage: 1
@@ -7090,6 +7093,12 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22c0934513fafd747a0a0a68cc5759bb, type: 3}
   m_IsPrefabAsset: 0
+--- !u!114 &1954029578 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114346776197992136, guid: 889d1994e26ce504c92782135c895e98,
+    type: 2}
+  m_PrefabInternal: {fileID: 1770955154}
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
 --- !u!1001 &1963261215
 Prefab:
   m_ObjectHideFlags: 0

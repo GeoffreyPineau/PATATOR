@@ -17,7 +17,9 @@ public class GameManager : MonoBehaviour
     List<Square> emptySquares;
 
     [Header("UI")]
+    public GameObject heartExploPrefab;
     public Image healthBar;
+    public TextMeshProUGUI tequilaText;
 
     [Header("Player Values")]
     public int potatoesHeld;
@@ -222,6 +224,8 @@ public class GameManager : MonoBehaviour
     List<Square> heartSquares;
     void Update()
     {
+        tequilaText.text = (Mathf.Round(heldTequila)).ToString();
+
         //heartlid
         bool deselects = true ;
         foreach(Square heartSquare in heartSquares)
@@ -346,6 +350,7 @@ public class GameManager : MonoBehaviour
         if (heartCurrentLife <= 0)
         {
             LoseGame();
+            Instantiate(heartExploPrefab, heartPosition, heartExploPrefab.transform.rotation);
         }
     }
 
