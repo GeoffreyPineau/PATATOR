@@ -69,7 +69,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224915412275371698}
   m_Layer: 5
-  m_Name: Handle Slide Area
+  m_Name: PotatoSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 222727809002183136}
   - component: {fileID: 114888687074987886}
   m_Layer: 5
-  m_Name: Handle
+  m_Name: Potato
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -286,7 +286,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1307700619735264}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -791,7 +791,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 190.00012, y: -1.6000004}
+  m_AnchoredPosition: {x: 131.1, y: 1.6}
   m_SizeDelta: {x: 236, y: 195}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224360290102298848
@@ -847,7 +847,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -12.07, y: 0}
+  m_AnchoredPosition: {x: 46.3, y: 0}
   m_SizeDelta: {x: -8.36, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224517395900938314
@@ -982,6 +982,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -10.9, y: 2.3}
+  m_AnchoredPosition: {x: 44.8, y: -0.39999962}
   m_SizeDelta: {x: -8.36, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
