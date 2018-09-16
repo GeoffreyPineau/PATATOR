@@ -11,7 +11,8 @@ public class PlayerController : MonoBehaviour {
     public Transform modelPivot;
     public Transform bodyPivot;
     public Transform headPivot;
-    public GameObject flamePrefab;
+    public ParticleSystem psFlames;
+    public GameObject psDamage;
 
     [Header("Variables")]
     [Space]
@@ -94,17 +95,23 @@ public class PlayerController : MonoBehaviour {
         }
         GameManager.Instance.squaresArray[(int)interactionPosition.x, (int)interactionPosition.z].Select();
 
-        //Shoot
-        Shoot();
+        
     }
 
     private void FixedUpdate()
     {
         rb.AddForce(directionInput * speed);
+
+        //Shoot
+        Shoot();
     }
 
     void Shoot()
     {
+        var main = psFlames.main;
+        main.startColor = Color.Lerp(GameManager.Instance.sombreroastMinColor, GameManager.Instance.sombreroastMaxColor,
+            Mathf.InverseLerp(0, GameManager.Instance.sombreroastMaxHeat, GameManager.Instance.sombreroastCurrentHeat));
+
         if (!Input.GetMouseButton(0))
         {
             Cooldown();
@@ -117,7 +124,7 @@ public class PlayerController : MonoBehaviour {
             return;
         }
 
-        int tequilaCost = (int)Mathf.Lerp(GameManager.Instance.sombreroastMinConsumption, GameManager.Instance.sombreroastMaxConsumption,
+        float tequilaCost = Mathf.Lerp(GameManager.Instance.sombreroastMinConsumption, GameManager.Instance.sombreroastMaxConsumption,
             Mathf.InverseLerp(0, GameManager.Instance.sombreroastMaxHeat, GameManager.Instance.sombreroastCurrentHeat));
         if (GameManager.Instance.heldTequila < tequilaCost)
         {
@@ -128,12 +135,10 @@ public class PlayerController : MonoBehaviour {
         {
             GameManager.Instance.heldTequila -= tequilaCost;
 
-            ProjectileComponent projectile = Instantiate(flamePrefab, transform.position + aimDirection * interactionPositionOffset*4, Quaternion.identity).GetComponent<ProjectileComponent>();
-            projectile.rb.velocity = aimDirection * GameManager.Instance.sombreroastProjectileSpeed;
-            projectile.damage = (int)Mathf.Lerp(GameManager.Instance.sombreroastMinDamage, GameManager.Instance.sombreroastMaxDamage,
-            Mathf.InverseLerp(0, GameManager.Instance.sombreroastMaxHeat, GameManager.Instance.sombreroastCurrentHeat));
+            if (!psFlames.isEmitting) psFlames.Play();
+            if (!psDamage.activeInHierarchy) psDamage.SetActive(true);
 
-            GameManager.Instance.sombreroastCurrentHeat += GameManager.Instance.sombreroastHeatGain;
+            GameManager.Instance.sombreroastCurrentHeat += Time.deltaTime;
             GameManager.Instance.sombreroastCurrentHeat = Mathf.Clamp(GameManager.Instance.sombreroastCurrentHeat, 0, GameManager.Instance.sombreroastMaxHeat);
         }
 
@@ -142,9 +147,12 @@ public class PlayerController : MonoBehaviour {
 
     void Cooldown()
     {
+        if (psFlames.isEmitting) psFlames.Stop();
+        if (psDamage.activeInHierarchy) psDamage.SetActive(false);
+
         if (Time.time > lastFlameTimestamp + GameManager.Instance.sombreroastCooldown)
         {
-            GameManager.Instance.sombreroastCurrentHeat -= Time.deltaTime;
+            GameManager.Instance.sombreroastCurrentHeat -= Time.deltaTime * GameManager.Instance.sombreroastHeatLossMultiplier;
             GameManager.Instance.sombreroastCurrentHeat = Mathf.Clamp(GameManager.Instance.sombreroastCurrentHeat, 0, GameManager.Instance.sombreroastMaxHeat);
         }
     }

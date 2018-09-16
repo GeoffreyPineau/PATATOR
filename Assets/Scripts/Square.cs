@@ -278,7 +278,7 @@ public class Square : MonoBehaviour {
             {
                 if (GameManager.Instance.heldTequila < GameManager.Instance.maxTequila)
                 {
-                    int addedTequila = GameManager.Instance.maxTequila - GameManager.Instance.heldTequila;
+                    int addedTequila = (int)(GameManager.Instance.maxTequila - GameManager.Instance.heldTequila);
                     if(addedTequila > GameManager.Instance.pressTequila)
                     {
                         addedTequila = GameManager.Instance.pressTequila;
