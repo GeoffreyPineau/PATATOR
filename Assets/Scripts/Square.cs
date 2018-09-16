@@ -197,7 +197,7 @@ public class Square : MonoBehaviour {
                     Transform newFly = Instantiate(GameManager.Instance.flyPrefab, GameManager.Instance.flyParent).transform;
                     newFly.position = transform.position;
                     float rand = Random.Range(-0.1f, 0.1f);
-                    newFly.localScale += Vector3(rand, rand, rand);
+                    newFly.localScale += new Vector3(rand, rand, rand);
                 }
             }
         }
