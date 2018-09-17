@@ -23,9 +23,13 @@ public class PauseButton : MonoBehaviour {
         {
             SceneManager.LoadScene("MainMenu");
         }
-        if(Input.GetKeyUp("Escape"))
+        if(Input.GetKeyUp("Q"))
         {
             Application.Quit();
+        }
+        if(Input.GetKeyUp("Escape"))
+        {
+            selected = true;
         }
         if(selected)
         {
