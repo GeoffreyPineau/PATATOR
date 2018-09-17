@@ -61,15 +61,7 @@ public class FlyController : MonoBehaviour {
 
     // Update is called once per frame
     void Update ()
-    {/*
-		if (Input.GetMouseButtonDown(0))
-        {
-            RaycastHit hit;
-            Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition, Camera.MonoOrStereoscopicEye.Mono), out hit, Mathf.Infinity, 1 << 11);
-
-            agent.SetDestination(hit.point);
-        }*/
-        
+    {
         if (!isExploding && Vector3.Distance(transform.position, GameManager.Instance.heartPosition) <= GameManager.Instance.heartRadius)
         {
             agent.isStopped = true;
@@ -101,7 +93,8 @@ public class FlyController : MonoBehaviour {
                 wingSource.Stop();
                 burnSource.Play();
                 combustion.Play();
-                agent.isStopped = true;
+
+                agent.enabled = false;
                 foreach (MeshRenderer meshRenderer in rendererList)
                 {
                     meshRenderer.material.DOColor(burnColor,fallSpeed);
