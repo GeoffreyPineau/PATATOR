@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public GameObject squarePrefab;
     public Transform squareParentTransform;
     public List<Square> dirtSquareList = new List<Square>();
+    public List<Square> holableSquares;
     List<Square> emptySquares;
 
     [Header("UI")]
@@ -65,6 +66,9 @@ public class GameManager : MonoBehaviour
 
     [Header("Potato Spawning")]
     public int initialPotatoNumber;
+    public int potatoIncrement;
+    int wave;
+    public float potatoSpawningDelay;
     public int maxPotatoes;
     public AnimationCurve potatoAddingCurve;
     public int twoLeavesMin;
@@ -144,6 +148,10 @@ public class GameManager : MonoBehaviour
                         if(position == new Vector2(x, y))
                         {
                             newSquareComponent.canBeHoled = false;
+                        }
+                        else
+                        {
+                            holableSquares.Add(newSquareComponent);
                         }
                     }
 
@@ -290,7 +298,7 @@ public class GameManager : MonoBehaviour
             targetScale = Vector3.zero;
         }
 
-        tequilaTransform.localScale = Vector3.Lerp(tequilaTransform.localScale, targetScale, 0.2f);
+        tequilaTransform.localScale = targetScale;
 
         if(grenadas > 0)
         {
@@ -306,19 +314,24 @@ public class GameManager : MonoBehaviour
     public void SpawnPotatos()
     {
         float ia = 0;
-        for (int i = 0; i < initialPotatoNumber; i++)
+        for (int i = 0; i < (initialPotatoNumber + (potatoIncrement * wave)); i++)
         {
             RefreshEmptySquares();
             Square chosenSquare = emptySquares[Random.Range(0, emptySquares.Count)];
             StartCoroutine(WaitThenSpawnPotato(ia, chosenSquare));
-            ia += 0.5f;
+            RefreshEmptySquares();
+            chosenSquare = emptySquares[Random.Range(0, emptySquares.Count)];
+            StartCoroutine(WaitThenSpawnPotato(ia, chosenSquare));
+            ia += potatoSpawningDelay;
         }
+
+        wave++;
 
         foreach (Square square in dirtSquareList)
         {
             if (square.state == SquareState.potato)
             {
-                square.AddPotato();
+                square.PotatoGrowth();
             }
         }
     }
