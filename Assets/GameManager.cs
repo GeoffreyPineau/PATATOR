@@ -295,7 +295,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            targetScale = Vector3.zero;
+            //targetScale = Vector3.zero;
         }
 
         tequilaTransform.localScale = targetScale;
