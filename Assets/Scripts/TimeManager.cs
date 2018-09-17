@@ -40,7 +40,7 @@ public class TimeManager : MonoBehaviour {
         DayRise();
     }
 
-
+    bool rises;
     private void Update()
     {
         currentTime += Time.deltaTime;
@@ -59,6 +59,26 @@ public class TimeManager : MonoBehaviour {
                 currentTime = 0;
                 DayRise();
 
+            }
+
+            //sunrise if every hole has exploded
+            if(currentTime < ((cycleTime-currentTime) - 2))
+            {
+                rises = true;
+                foreach(Square holableSquare in GameManager.Instance.holableSquares)
+                {
+                    if(holableSquare.state == SquareState.hole)
+                    {
+                        rises = false;
+                        break;
+                    }
+                }
+
+                if(rises)
+                {
+                    currentTime = 0;
+                    DayRise();
+                }
             }
         }
 
@@ -83,8 +103,14 @@ public class TimeManager : MonoBehaviour {
 
     }
 
+    FlyController[] flies;
     void DayRise()
     {
+        flies = FindObjectsOfType<FlyController>();
+        foreach(FlyController fly in flies)
+        {
+            fly.Damage(999);
+        }
         StartCoroutine("WaitThenWarn");
         isDay = true;
         sunLight.DOColor(dayStartingColor, transitionTime);

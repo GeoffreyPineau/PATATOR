@@ -2007,7 +2007,7 @@ MonoBehaviour:
   potatoesText: {fileID: 759787064}
   hasGrenada: 0
   stepCooldown: 0.05
-  heldTequila: 0
+  heldTequila: 100
   maxTequila: 100
   flameAbsorbtion: 0.5
   sombreroastSpeed: 12
@@ -2032,12 +2032,14 @@ MonoBehaviour:
   flyDamage: 1
   flyLife: 0
   flyBurnedLife: 0
-  pressTequila: 0
+  pressTequila: 200
   maxPressTequila: 2000
   grenadaPotatoes: 0
-  potatoesForGrenada: 3
+  potatoesForGrenada: 2
   grenadas: 0
   initialPotatoNumber: 5
+  potatoIncrement: 1
+  potatoSpawningDelay: 0.7
   maxPotatoes: 20
   potatoAddingCurve:
     serializedVersion: 2
@@ -2045,12 +2047,12 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
+      inSlope: 0.48580298
+      outSlope: 0.48580298
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.10726182
     - serializedVersion: 3
       time: 19
       value: 5
@@ -2078,7 +2080,7 @@ MonoBehaviour:
   fiveLeavesMin: 15
   flyPrefab: {fileID: 1307037009227206, guid: dfc1803fce81107419febba848a011df, type: 2}
   flyParent: {fileID: 1447340276}
-  flyDelay: 3
+  flyDelay: 4
   excludedPositions:
   - {x: 0, y: 7}
   - {x: 0, y: 6}
@@ -2319,10 +2321,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2d91bbc42a0ae44927d8d9c7004c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cycleTime: 90
-  initialDayTime: 40
-  dayTimeReduction: 5
-  minDayTime: 20
+  cycleTime: 60
+  initialDayTime: 20
+  dayTimeReduction: 2
+  minDayTime: 6
   transitionTime: 5
   sunLight: {fileID: 1606536331}
   nightStartingColor: {r: 0, g: 0.061569877, b: 0.5377358, a: 1}
@@ -6641,9 +6643,9 @@ MonoBehaviour:
   dirtSquares: []
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   dangerColor: {r: 0.8490566, g: 0.30838373, b: 0.30838373, a: 1}
-  initialNumber: 1
+  initialNumber: 2
   numberBonus: 1
-  maxHoles: 3
+  maxHoles: 4
 --- !u!4 &1642514504 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 22c0934513fafd747a0a0a68cc5759bb,
@@ -7144,6 +7146,31 @@ Prefab:
         type: 2}
       propertyPath: m_AnchoredPosition.x
       value: -350
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517395900938314, guid: 889d1994e26ce504c92782135c895e98,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 196
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517395900938314, guid: 889d1994e26ce504c92782135c895e98,
+        type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1.5055964
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517395900938314, guid: 889d1994e26ce504c92782135c895e98,
+        type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1.5055964
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517395900938314, guid: 889d1994e26ce504c92782135c895e98,
+        type: 2}
+      propertyPath: m_LocalScale.z
+      value: 1.5055964
+      objectReference: {fileID: 0}
+    - target: {fileID: 224517395900938314, guid: 889d1994e26ce504c92782135c895e98,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 889d1994e26ce504c92782135c895e98, type: 2}

@@ -268,8 +268,8 @@ public class Square : MonoBehaviour {
             {
                     if(GameManager.Instance.potatoesHeld > 0)
                     {
-                        GrowPotato(GameManager.Instance.potatoesHeld);
-                        GameManager.Instance.potatoesHeld = 0;
+                        PlantPotato(1);
+                        GameManager.Instance.potatoesHeld -= 1;
                     }
             } 
             else if(state == SquareState.potato)
@@ -364,13 +364,13 @@ public class Square : MonoBehaviour {
         state = SquareState.potato;
     } 
 
-    public void GrowPotato(int amount)
+    public void PlantPotato(int amount)
     {
         state = SquareState.potato;
         potatoAmount += amount;
     }
 
-    public void AddPotato()
+    public void PotatoGrowth()
     {
         potatoAmount += Mathf.RoundToInt(GameManager.Instance.potatoAddingCurve.Evaluate(potatoAmount));
         if(potatoAmount > GameManager.Instance.maxPotatoes)

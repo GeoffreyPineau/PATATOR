@@ -135,6 +135,7 @@ public class FlyController : MonoBehaviour {
         }
     }
 
+
     IEnumerator BlinkRed()
     {
         foreach (MeshRenderer meshRenderer in rendererList)
