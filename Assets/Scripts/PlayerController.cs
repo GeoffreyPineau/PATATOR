@@ -119,14 +119,20 @@ public class PlayerController : MonoBehaviour {
         interactionPosition = transform.position + (aimDirection * interactionPositionOffset);
         interactionPosition = Utilities.GetFlooredPosition(interactionPosition);
 
+        if (interactionPosition.x > GameManager.Instance.squaresArray.GetLength(0) ||
+            interactionPosition.x < 0 ||
+            interactionPosition.y > GameManager.Instance.squaresArray.GetLength(1) ||
+            interactionPosition.y < 0)
+            return;
+
         interactionInput = Input.GetMouseButtonDown(1);
         if (interactionInput)
         {
             GameManager.Instance.squaresArray[(int)interactionPosition.x, (int)interactionPosition.z].Interact();
             print(GameManager.Instance.squaresArray[(int)interactionPosition.x, (int)interactionPosition.z].state);
         }
-        GameManager.Instance.squaresArray[(int)interactionPosition.x, (int)interactionPosition.z].Select();
 
+        GameManager.Instance.squaresArray[(int)interactionPosition.x, (int)interactionPosition.z].Select();
         
     }
 

@@ -26,7 +26,7 @@ public class Square : MonoBehaviour {
     public SquareType type;
 
     public GameObject selectionLid;
-
+    
     [Header("Dirt")]
     public Animator numberPanelAnim;
     public TextMeshPro numberPanelText;
@@ -276,6 +276,8 @@ public class Square : MonoBehaviour {
             {
                 if((GameManager.Instance.potatoesHeld + potatoAmount) <= GameManager.Instance.maxPotatoes)
                 {
+                    AudioSource.PlayClipAtPoint(GameManager.Instance.potatoUproot, transform.position, GameManager.Instance.uprootVolume);
+
                     GameManager.Instance.potatoesHeld += potatoAmount;
                     if(GameManager.Instance.hasGrenada)
                     {
@@ -368,6 +370,8 @@ public class Square : MonoBehaviour {
     {
         state = SquareState.potato;
         potatoAmount += amount;
+
+        AudioSource.PlayClipAtPoint(GameManager.Instance.potatoPlanting, transform.position, GameManager.Instance.plantingVolume);
     }
 
     public void PotatoGrowth()
@@ -401,6 +405,9 @@ public class Square : MonoBehaviour {
     {
         GameManager.Instance.grenadaPotatoes += potatoAmount;
         GameManager.Instance.grenadaFabricAnim.SetTrigger("compress");
+
+        AudioSource.PlayClipAtPoint(GameManager.Instance.grenadaDrop, transform.position, GameManager.Instance.dropVolume);
+
     }
 
     public void AbsorbPotato(int potatoAmount)

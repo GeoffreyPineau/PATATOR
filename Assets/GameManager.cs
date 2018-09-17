@@ -67,6 +67,9 @@ public class GameManager : MonoBehaviour
     public int potatoesForGrenada;
     public int grenadas;
 
+    public AudioClip grenadaDrop;
+    public float dropVolume;
+
     [Header("Potato Spawning")]
     public int initialPotatoNumber;
     public int potatoIncrement;
@@ -78,6 +81,11 @@ public class GameManager : MonoBehaviour
     public int threeLeavesMin;
     public int fourLeavesMin;
     public int fiveLeavesMin;
+    
+    public AudioClip potatoUproot;
+    public float uprootVolume;
+    public AudioClip potatoPlanting;
+    public float plantingVolume;
 
     [Header("Monster Spawning")]
     public GameObject flyPrefab;
