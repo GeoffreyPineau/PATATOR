@@ -7,7 +7,8 @@ public enum SquareState
 {
     empty,
     potato,
-    hole
+    hole,
+    grenada
 }
 
 public enum SquareType
@@ -47,6 +48,7 @@ public class Square : MonoBehaviour {
     [Header("Flies")]
     float flyTimer;
 
+    AudioSource mySource;
 
     void Awake()
     {
@@ -70,6 +72,8 @@ public class Square : MonoBehaviour {
             else rot2 = 0;
 
             graphicsParent.transform.eulerAngles = new Vector3(0, rot2, 0);
+
+            mySource = gameObject.AddComponent<AudioSource>();
 
         }
     }
@@ -190,6 +194,7 @@ public class Square : MonoBehaviour {
                     stateGraphics[1].SetActive(false);
                     stateGraphics[2].SetActive(true);
                     stateGraphics[3].SetActive(false);
+                    stateGraphics[4].SetActive(false);
                 }
             }
             else
@@ -200,6 +205,7 @@ public class Square : MonoBehaviour {
                     stateGraphics[1].SetActive(false);
                     stateGraphics[2].SetActive(true);
                     stateGraphics[3].SetActive(false);
+                    stateGraphics[4].SetActive(false);
                 }
 
                 flyTimer += Time.deltaTime;
@@ -221,9 +227,10 @@ public class Square : MonoBehaviour {
                 stateGraphics[1].SetActive(true);
                 stateGraphics[2].SetActive(false);
                 stateGraphics[3].SetActive(false);
+                stateGraphics[4].SetActive(false);
             }
         }
-        else
+        else if(state == SquareState.empty)
         {
             if (!stateGraphics[0].activeInHierarchy)
             {
@@ -231,6 +238,18 @@ public class Square : MonoBehaviour {
                 stateGraphics[1].SetActive(false);
                 stateGraphics[2].SetActive(false);
                 stateGraphics[3].SetActive(false);
+                stateGraphics[4].SetActive(false);
+            }
+        }
+        else
+        {
+            if (!stateGraphics[4].activeInHierarchy)
+            {
+                stateGraphics[0].SetActive(false);
+                stateGraphics[1].SetActive(false);
+                stateGraphics[2].SetActive(false);
+                stateGraphics[3].SetActive(false);
+                stateGraphics[4].SetActive(true);
             }
         }
 
@@ -252,6 +271,15 @@ public class Square : MonoBehaviour {
         }
     }
 
+    void PlayRandomizedSource(AudioClip clip, float volume)
+    {
+        mySource.Stop();
+        mySource.clip = clip;
+        mySource.volume = volume + Random.Range(-0.02f, 0.02f);
+        mySource.pitch = Random.Range(0.92f, 1.08f);
+        mySource.Play();
+    }
+
     public void Interact()
     {
         if (type == SquareType.dirt)
@@ -266,26 +294,53 @@ public class Square : MonoBehaviour {
             }
             else if(state == SquareState.empty)
             {
-                    if(GameManager.Instance.potatoesHeld > 0)
+                if(GameManager.Instance.hasGrenada)
+                {
+                    state = SquareState.grenada;
+                    potatoAmount = 0;
+                    GameManager.Instance.hasGrenada = false;
+                }
+                else
+                {
+                    if (GameManager.Instance.potatoesHeld > 0)
                     {
                         PlantPotato(1);
                         GameManager.Instance.potatoesHeld -= 1;
                     }
+                }
             } 
             else if(state == SquareState.potato)
             {
-                if((GameManager.Instance.potatoesHeld + potatoAmount) <= GameManager.Instance.maxPotatoes)
+                if(GameManager.Instance.hasGrenada)
                 {
-                    AudioSource.PlayClipAtPoint(GameManager.Instance.potatoUproot, transform.position, GameManager.Instance.uprootVolume);
-
-                    GameManager.Instance.potatoesHeld += potatoAmount;
-                    if(GameManager.Instance.hasGrenada)
-                    {
-                        GameManager.Instance.hasGrenada = false;
-                        GameManager.Instance.grenadas++;
-                    }
-                    state = SquareState.empty;
+                    state = SquareState.grenada;
                     potatoAmount = 0;
+                    GameManager.Instance.hasGrenada = false;
+                }
+                else
+                {
+                    if ((GameManager.Instance.potatoesHeld + potatoAmount) <= GameManager.Instance.maxPotatoes)
+                    {
+                        PlayRandomizedSource(GameManager.Instance.potatoUproot, GameManager.Instance.uprootVolume);
+                        //AudioSource.PlayClipAtPoint(GameManager.Instance.potatoUproot, transform.position, GameManager.Instance.uprootVolume);
+
+                        GameManager.Instance.potatoesHeld += potatoAmount;
+                        if (GameManager.Instance.hasGrenada)
+                        {
+                            GameManager.Instance.hasGrenada = false;
+                            GameManager.Instance.grenadas++;
+                        }
+                        state = SquareState.empty;
+                        potatoAmount = 0;
+                    }
+                }
+            }
+            else if(state == SquareState.grenada)
+            {
+                if(!GameManager.Instance.hasGrenada)
+                {
+                    GameManager.Instance.hasGrenada = true;
+                    state = SquareState.empty;
                 }
             }
 
@@ -371,7 +426,8 @@ public class Square : MonoBehaviour {
         state = SquareState.potato;
         potatoAmount += amount;
 
-        AudioSource.PlayClipAtPoint(GameManager.Instance.potatoPlanting, transform.position, GameManager.Instance.plantingVolume);
+        PlayRandomizedSource(GameManager.Instance.potatoPlanting, GameManager.Instance.plantingVolume);
+        //AudioSource.PlayClipAtPoint(GameManager.Instance.potatoPlanting, transform.position, GameManager.Instance.plantingVolume);
     }
 
     public void PotatoGrowth()
@@ -406,7 +462,8 @@ public class Square : MonoBehaviour {
         GameManager.Instance.grenadaPotatoes += potatoAmount;
         GameManager.Instance.grenadaFabricAnim.SetTrigger("compress");
 
-        AudioSource.PlayClipAtPoint(GameManager.Instance.grenadaDrop, transform.position, GameManager.Instance.dropVolume);
+        PlayRandomizedSource(GameManager.Instance.grenadaDrop, GameManager.Instance.dropVolume);
+        //AudioSource.PlayClipAtPoint(GameManager.Instance.grenadaDrop, transform.position, GameManager.Instance.dropVolume);
 
     }
 
