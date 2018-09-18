@@ -70,6 +70,9 @@ public class GameManager : MonoBehaviour
     public AudioClip grenadaDrop;
     public float dropVolume;
 
+    public AudioClip tequilaLiquidSound;
+    public float tequilaLiquidVolume;
+
     [Header("Potato Spawning")]
     public int initialPotatoNumber;
     public int potatoIncrement;

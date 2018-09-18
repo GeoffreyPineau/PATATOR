@@ -366,7 +366,11 @@ public class Square : MonoBehaviour {
                     }
                     GameManager.Instance.pressTequila -= addedTequila;
                     GameManager.Instance.heldTequila += addedTequila;
+
+                    PlayRandomizedSource(GameManager.Instance.tequilaLiquidSound, GameManager.Instance.tequilaLiquidVolume);
                     GameManager.Instance.tequilaPressAnim.SetTrigger("pour");
+
+
                     if (GameManager.Instance.heldTequila > GameManager.Instance.maxTequila)
                     {
                         GameManager.Instance.heldTequila = GameManager.Instance.maxTequila;
@@ -468,6 +472,8 @@ public class Square : MonoBehaviour {
 
     public void PressTequila(int potatoAmount)
     {
+        PlayRandomizedSource(GameManager.Instance.grenadaDrop, GameManager.Instance.dropVolume);
+
         GameManager.Instance.pressTequila += potatoAmount * tequilaMultiplier;
         GameManager.Instance.tequilaPressAnim.SetTrigger("press");
     }
