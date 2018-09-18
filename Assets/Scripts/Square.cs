@@ -404,10 +404,25 @@ public class Square : MonoBehaviour {
         }
     }
 
+    public Collider[] holes;
     void Explode()
     {
         state = SquareState.empty;
         GameManager.Instance.hasGrenada = false;
+        holes = Physics.OverlapSphere(transform.position, 1, LayerMask.GetMask("Hole"));
+        foreach (Collider hole in holes)
+        {
+            hole.GetComponentInParent<Square>().state = SquareState.empty;
+        }
+        StartCoroutine("Explosion");
+    }
+
+    public GameObject explosion;
+    IEnumerator Explosion()
+    {
+        explosion.SetActive(true);
+        yield return new WaitForSeconds(2);
+        explosion.SetActive(false);
     }
 
     public void CreateHole()
