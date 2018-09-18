@@ -1999,6 +1999,7 @@ MonoBehaviour:
     type: 2}
   squareParentTransform: {fileID: 713386753}
   dirtSquareList: []
+  holableSquares: []
   cursor: {fileID: 2800000, guid: 73295c15953154349be6b93d079062ad, type: 3}
   heartExploPrefab: {fileID: 1689451174437574, guid: 8f9e4ec6c14abd847a740a354d36cd81,
     type: 2}
@@ -2040,7 +2041,11 @@ MonoBehaviour:
   grenadaPotatoes: 0
   potatoesForGrenada: 3
   grenadas: 0
+  grenadaDrop: {fileID: 0}
+  dropVolume: 0
   initialPotatoNumber: 5
+  potatoIncrement: 0
+  potatoSpawningDelay: 0
   maxPotatoes: 20
   potatoAddingCurve:
     serializedVersion: 2
@@ -2079,6 +2084,10 @@ MonoBehaviour:
   threeLeavesMin: 5
   fourLeavesMin: 9
   fiveLeavesMin: 15
+  potatoUproot: {fileID: 8300000, guid: d696633d9169c9b48907403044225e61, type: 3}
+  uprootVolume: 0.2
+  potatoPlanting: {fileID: 8300000, guid: 595dfcaa6e85a14429aec8213f0dc0ad, type: 3}
+  plantingVolume: 0.2
   flyPrefab: {fileID: 1307037009227206, guid: dfc1803fce81107419febba848a011df, type: 2}
   flyParent: {fileID: 1447340276}
   flyDelay: 3
