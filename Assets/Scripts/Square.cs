@@ -404,6 +404,7 @@ public class Square : MonoBehaviour {
             if (GameManager.Instance.heartCurrentLife < GameManager.Instance.heartMaxLife)
             {
                 AbsorbPotato(GameManager.Instance.potatoesHeld);
+                GameManager.Instance.potatoesHeld = 0;
             }
         }
     }
@@ -425,7 +426,7 @@ public class Square : MonoBehaviour {
     IEnumerator Explosion()
     {
         explosion.SetActive(true);
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1.5f);
         explosion.SetActive(false);
     }
 

@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     public GameObject heartExploPrefab;
     public Image healthBar;
     public TextMeshProUGUI tequilaText;
+    public Image tequilaBar;
+    public Image tequilaBarBack;
+    float targetFill = 1;
 
     [Header("Player Values")]
     public Vector3 squashStepValue = new Vector3(0.2f, -0.2f, 0.2f);
@@ -109,7 +112,7 @@ public class GameManager : MonoBehaviour
     [Header("Animations")]
     public Animator tequilaPressAnim;
     public Transform tequilaTransform;
-    Vector3 targetScale;
+    Vector3 tequilaTargetScale;
     float scaleMultiplier;
 
     public Transform heartPotatoTransform;
@@ -240,7 +243,13 @@ public class GameManager : MonoBehaviour
         }
         FindObjectOfType<HoleCreator>().dirtSquares = dirtSquareList;
 
-        scaleMultiplier = 1 / maxPressTequila;
+
+    }
+
+    private void Start()
+    {
+        scaleMultiplier = 1f / maxPressTequila;
+        print("Scale multiplier = " + scaleMultiplier);
     }
 
     float newScale;
@@ -304,17 +313,7 @@ public class GameManager : MonoBehaviour
             playerHandsAnim.SetBool("holdsGrenada", true);
         }
 
-        //tequila level
-        if(pressTequila > 0)
-        {
-            targetScale = new Vector3(1, scaleMultiplier * pressTequila, 1);
-        }
-        else
-        {
-            //targetScale = Vector3.zero;
-        }
 
-        tequilaTransform.localScale = targetScale;
 
         if(grenadas > 0)
         {
@@ -325,6 +324,27 @@ public class GameManager : MonoBehaviour
             animatedGrenadaAnim.SetBool("isVisible", false);
         }
 
+    }
+
+    float ref1;
+    float ref2;
+    private void FixedUpdate()
+    {
+        //tequila level
+        if (pressTequila > 0)
+        {
+            tequilaTargetScale = new Vector3(1, scaleMultiplier * pressTequila, 1);
+        }
+        else
+        {
+            tequilaTargetScale = Vector3.zero;
+        }
+
+        tequilaTransform.localScale = Vector3.Lerp(tequilaTransform.localScale, tequilaTargetScale, 0.1f);
+
+        targetFill = (1 / maxTequila) * heldTequila;
+        tequilaBar.fillAmount = Mathf.SmoothDamp(tequilaBar.fillAmount, targetFill, ref ref1, 0.02f);
+        tequilaBarBack.fillAmount = Mathf.SmoothDamp(tequilaBarBack.fillAmount, targetFill, ref ref2, 3f);
     }
 
     public void SpawnPotatos()
