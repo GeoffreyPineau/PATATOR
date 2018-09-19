@@ -82,6 +82,7 @@ public class GameManager : MonoBehaviour
     int wave;
     public float potatoSpawningDelay;
     public int maxPotatoes;
+    public int maxHeldPotatoes;
     public AnimationCurve potatoAddingCurve;
     public int twoLeavesMin;
     public int threeLeavesMin;
@@ -164,15 +165,16 @@ public class GameManager : MonoBehaviour
                     newSquareComponent.canBeHoled = true;
                     foreach (Vector2 position in noHolesPositions)
                     {
-                        if(position == new Vector2(x, y))
+                        if (position == new Vector2(x, y))
                         {
                             newSquareComponent.canBeHoled = false;
                         }
-                        else
-                        {
-                            holableSquares.Add(newSquareComponent);
-                        }
                     }
+                    if(newSquareComponent.canBeHoled)
+                    {
+                        holableSquares.Add(newSquareComponent);
+                    }
+
 
                     newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
                 }
@@ -232,8 +234,9 @@ public class GameManager : MonoBehaviour
                         squaresArray[x, y] = newSquareComponent;
                         newSquareComponent.type = SquareType.heart;
                         newSquare.name = "HeartPosition";
-                        //Destroy(newSquareComponent.selectionLid);
-                        //newSquareComponent.selectionLid = heartLid;
+                        Destroy(newSquareComponent.selectionLid);
+                        newSquareComponent.selectionLid = Instantiate(heartLid);
+                        newSquareComponent.selectionLid.transform.position = heartLid.transform.position;
                         heartSquares.Add(newSquareComponent);
 
                         newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
@@ -258,26 +261,6 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         tequilaText.text = (Mathf.Round(heldTequila)).ToString();
-
-        //heartlid
-        /*bool deselects = true ;
-        foreach(Square heartSquare in heartSquares)
-        {
-            if(heartSquare.selected)
-            {
-                deselects = false;
-            }
-            heartSquare.selected = false;
-        }
-        if(deselects)
-        {
-            heartLid.SetActive(false);
-        }
-        else
-        {
-            heartLid.SetActive(true);
-
-        }*/
     
         //heart scale
         newScale = Mathf.Lerp(newScale, 0.623f + (heartScaleMultiplier * heartCurrentLife), 0.1f);

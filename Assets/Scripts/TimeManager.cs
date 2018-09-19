@@ -134,6 +134,13 @@ public class TimeManager : MonoBehaviour {
         }
         sunLight.DOColor(nightStartingColor, transitionTime);
         MusicManager.Instance.Night();
+        foreach (Square holableSquare in GameManager.Instance.holableSquares)
+        {
+            if (holableSquare.state == SquareState.hole)
+            {
+                holableSquare.SpawnFly();
+            }
+        }
     }
 
     IEnumerator WaitThenWarn()
