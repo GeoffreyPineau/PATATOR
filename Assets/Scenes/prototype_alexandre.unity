@@ -205,6 +205,8 @@ MonoBehaviour:
   heartExploPrefab: {fileID: 0}
   healthBar: {fileID: 0}
   tequilaText: {fileID: 0}
+  tequilaBar: {fileID: 0}
+  tequilaBarBack: {fileID: 0}
   squashStepValue: {x: 0.2, y: -0.2, z: 0.2}
   squashStepDuration: 0.8
   potatoesHeld: 0
@@ -4134,19 +4136,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4036388863266968, guid: 196c130d696583b41a3c18dd475c8857, type: 2}
       propertyPath: m_LocalRotation.x
-      value: -0.5925609
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4036388863266968, guid: 196c130d696583b41a3c18dd475c8857, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0.38583884
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4036388863266968, guid: 196c130d696583b41a3c18dd475c8857, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 0.38583893
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4036388863266968, guid: 196c130d696583b41a3c18dd475c8857, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 0.5925609
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4036388863266968, guid: 196c130d696583b41a3c18dd475c8857, type: 2}
       propertyPath: m_RootOrder
