@@ -35,6 +35,7 @@ public class Square : MonoBehaviour {
 
     public Transform leavesParent;
     public List<GameObject> leaves;
+    public Animator leavesAnim;
 
     public Transform graphicsParent;
 
@@ -188,7 +189,7 @@ public class Square : MonoBehaviour {
         {
             if(TimeManager.Instance.isDay)
             {
-                if(!stateGraphics[3].activeInHierarchy)
+                if(!stateGraphics[2].activeInHierarchy)
                 {
                     stateGraphics[0].SetActive(false);
                     stateGraphics[1].SetActive(false);
@@ -212,10 +213,7 @@ public class Square : MonoBehaviour {
                 if(flyTimer > GameManager.Instance.flyDelay)
                 {
                     flyTimer = 0;
-                    Transform newFly = Instantiate(GameManager.Instance.flyPrefab, GameManager.Instance.flyParent).transform;
-                    newFly.position = transform.position;
-                    float rand = Random.Range(-0.1f, 0.1f);
-                    newFly.localScale += new Vector3(rand, rand, rand);
+                    SpawnFly();
                 }
             }
         }
@@ -259,6 +257,14 @@ public class Square : MonoBehaviour {
             //if(type != SquareType.heart)
             selectionLid.SetActive(false);
         }
+    }
+
+    public void SpawnFly()
+    {
+        Transform newFly = Instantiate(GameManager.Instance.flyPrefab, GameManager.Instance.flyParent).transform;
+        newFly.position = transform.position;
+        float rand = Random.Range(-0.1f, 0.1f);
+        newFly.localScale += new Vector3(rand, rand, rand);
     }
 
     private void LateUpdate()
@@ -315,6 +321,7 @@ public class Square : MonoBehaviour {
                 {
                     state = SquareState.grenada;
                     potatoAmount = 0;
+
                     GameManager.Instance.hasGrenada = false;
                 }
                 else
@@ -332,6 +339,7 @@ public class Square : MonoBehaviour {
                         }
                         state = SquareState.empty;
                         potatoAmount = 0;
+                        leavesAnim.SetTrigger("uproot");
                     }
                 }
             }
@@ -410,6 +418,7 @@ public class Square : MonoBehaviour {
     }
 
     public Collider[] holes;
+    public Collider[] flies;
     void Explode()
     {
         state = SquareState.empty;
@@ -419,6 +428,13 @@ public class Square : MonoBehaviour {
         {
             hole.GetComponentInParent<Square>().state = SquareState.empty;
         }
+
+        flies = Physics.OverlapSphere(transform.position, 1, LayerMask.GetMask("Enemy"));
+        foreach (Collider fly in flies)
+        {
+            fly.GetComponentInParent<FlyController>().Damage(999);
+        }
+
         StartCoroutine("Explosion");
     }
 
@@ -439,12 +455,14 @@ public class Square : MonoBehaviour {
     public void GrowPotato()
     {
         state = SquareState.potato;
+        leavesAnim.SetTrigger("grow");
     } 
 
     public void PlantPotato(int amount)
     {
         state = SquareState.potato;
         potatoAmount += amount;
+        leavesAnim.SetTrigger("plant");
 
         PlayRandomizedSource(GameManager.Instance.potatoPlanting, GameManager.Instance.plantingVolume);
         //AudioSource.PlayClipAtPoint(GameManager.Instance.potatoPlanting, transform.position, GameManager.Instance.plantingVolume);
@@ -457,6 +475,7 @@ public class Square : MonoBehaviour {
         {
             potatoAmount = GameManager.Instance.maxPotatoes;
         }
+        leavesAnim.SetTrigger("growth");
     }
 
     public bool selected;
