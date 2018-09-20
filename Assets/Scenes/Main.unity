@@ -2860,13 +2860,13 @@ MonoBehaviour:
   sombreroastSpeed: 12
   sombreroastLifetime: 2
   sombreroastRateOverTime: 6.33
-  sombreroastMinDamage: 1
-  sombreroastMaxDamage: 3
+  sombreroastMinDamage: 2
+  sombreroastMaxDamage: 5
   sombreroastMinConsumption: 0.05
   sombreroastMaxConsumption: 0.15
   sombreroastCooldown: 0.4
   sombreroastHeatLossMultiplier: 2
-  sombreroastMaxHeat: 6
+  sombreroastMaxHeat: 4
   sombreroastCurrentHeat: 0
   sombreroastMinGlow: {r: 0.09362745, g: 0.035784315, b: 0, a: 0}
   sombreroastMaxGlow: {r: 6.8831816, g: 2.5947073, b: 0, a: 0}
@@ -2874,7 +2874,7 @@ MonoBehaviour:
   sombreroastMaxColor: {r: 0, g: 1.6954161, b: 6.8831816, a: 1}
   heartMaxLife: 100
   heartCurrentLife: 0
-  heartRadius: 1.5
+  heartRadius: 1.2
   heartPosition: {x: 6, y: 0, z: 4}
   flyDamage: 1
   flyLife: 10
