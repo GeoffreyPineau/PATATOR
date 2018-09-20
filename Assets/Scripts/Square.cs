@@ -35,6 +35,7 @@ public class Square : MonoBehaviour {
 
     public Transform leavesParent;
     public List<GameObject> leaves;
+    public Animator leavesAnim;
 
     public Transform graphicsParent;
 
@@ -320,6 +321,7 @@ public class Square : MonoBehaviour {
                 {
                     state = SquareState.grenada;
                     potatoAmount = 0;
+
                     GameManager.Instance.hasGrenada = false;
                 }
                 else
@@ -337,6 +339,7 @@ public class Square : MonoBehaviour {
                         }
                         state = SquareState.empty;
                         potatoAmount = 0;
+                        leavesAnim.SetTrigger("uproot");
                     }
                 }
             }
@@ -452,12 +455,14 @@ public class Square : MonoBehaviour {
     public void GrowPotato()
     {
         state = SquareState.potato;
+        leavesAnim.SetTrigger("grow");
     } 
 
     public void PlantPotato(int amount)
     {
         state = SquareState.potato;
         potatoAmount += amount;
+        leavesAnim.SetTrigger("plant");
 
         PlayRandomizedSource(GameManager.Instance.potatoPlanting, GameManager.Instance.plantingVolume);
         //AudioSource.PlayClipAtPoint(GameManager.Instance.potatoPlanting, transform.position, GameManager.Instance.plantingVolume);
@@ -470,6 +475,7 @@ public class Square : MonoBehaviour {
         {
             potatoAmount = GameManager.Instance.maxPotatoes;
         }
+        leavesAnim.SetTrigger("growth");
     }
 
     public bool selected;

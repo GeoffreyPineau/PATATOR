@@ -2892,6 +2892,7 @@ MonoBehaviour:
   potatoIncrement: 0
   potatoSpawningDelay: 1
   maxPotatoes: 5
+  maxHeldPotatoes: 0
   potatoAddingCurve:
     serializedVersion: 2
     m_Curve:
