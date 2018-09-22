@@ -120,6 +120,8 @@ public class GameManager : MonoBehaviour
     float heartScaleMultiplier;
 
     public Animator grenadaFabricAnim;
+    public Animator grenadaPanelAnim;
+    public TextMeshPro grenadaText;
     public Animator playerHandsAnim;
     public Animator animatedGrenadaAnim;
 
@@ -302,11 +304,17 @@ public class GameManager : MonoBehaviour
         if(grenadas > 0)
         {
             animatedGrenadaAnim.SetBool("isVisible", true);
+            grenadaPanelAnim.SetBool("isBurrowed", false);
+            grenadaText.text = grenadas.ToString();
         }
         else
         {
             animatedGrenadaAnim.SetBool("isVisible", false);
+            grenadaPanelAnim.SetBool("isBurrowed", true);
         }
+
+        //Grenada panel
+       
 
     }
 
