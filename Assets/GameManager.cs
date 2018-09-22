@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public GameObject heartExploPrefab;
     public Image healthBar;
     public TextMeshProUGUI tequilaText;
+    public TextMeshPro pressTequilaText;
     public Image tequilaBar;
     public Image tequilaBarBack;
     float targetFill = 1;
@@ -82,7 +83,6 @@ public class GameManager : MonoBehaviour
     int wave;
     public float potatoSpawningDelay;
     public int maxPotatoes;
-    public int maxHeldPotatoes;
     public AnimationCurve potatoAddingCurve;
     public int twoLeavesMin;
     public int threeLeavesMin;
@@ -261,6 +261,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         tequilaText.text = (Mathf.Round(heldTequila)).ToString();
+        pressTequilaText.text = (Mathf.RoundToInt(pressTequila)).ToString();
     
         //heart scale
         newScale = Mathf.Lerp(newScale, 0.623f + (heartScaleMultiplier * heartCurrentLife), 0.1f);

@@ -326,8 +326,6 @@ public class Square : MonoBehaviour {
                 }
                 else
                 {
-                    if ((GameManager.Instance.potatoesHeld + potatoAmount) <= GameManager.Instance.maxPotatoes)
-                    {
                         PlayRandomizedSource(GameManager.Instance.potatoUproot, GameManager.Instance.uprootVolume);
                         //AudioSource.PlayClipAtPoint(GameManager.Instance.potatoUproot, transform.position, GameManager.Instance.uprootVolume);
 
@@ -340,7 +338,6 @@ public class Square : MonoBehaviour {
                         state = SquareState.empty;
                         potatoAmount = 0;
                         leavesAnim.SetTrigger("uproot");
-                    }
                 }
             }
             else if(state == SquareState.grenada)
