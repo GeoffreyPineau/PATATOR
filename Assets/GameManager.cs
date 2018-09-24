@@ -17,6 +17,11 @@ public class GameManager : MonoBehaviour
     public List<Square> holableSquares;
     List<Square> emptySquares;
 
+    [Header("Leveling")]
+    public List<Level> levels;
+    public int currentLevel;
+    public TextMeshPro levelText;
+
     [Header("UI")]
     public Texture2D cursor;
     public GameObject heartExploPrefab;
