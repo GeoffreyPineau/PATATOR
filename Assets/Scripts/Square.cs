@@ -421,9 +421,6 @@ public class Square : MonoBehaviour {
     {
         state = SquareState.empty;
         GameManager.Instance.hasGrenada = false;
-
-
-
         StartCoroutine("Explosion");
     }
 
@@ -479,7 +476,7 @@ public class Square : MonoBehaviour {
 
     public void PotatoGrowth()
     {
-        potatoAmount += Mathf.RoundToInt(GameManager.Instance.potatoAddingCurve.Evaluate(potatoAmount));
+        potatoAmount += GameManager.Instance.potatoGrowth;
         if(potatoAmount > GameManager.Instance.maxPotatoes)
         {
             potatoAmount = GameManager.Instance.maxPotatoes;
