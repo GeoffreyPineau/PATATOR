@@ -375,6 +375,7 @@ public class Square : MonoBehaviour {
 
                     PlayRandomizedSource(GameManager.Instance.tequilaLiquidSound, GameManager.Instance.tequilaLiquidVolume);
                     GameManager.Instance.tequilaPressAnim.SetTrigger("pour");
+                    GameManager.Instance.tequilaGainText.text = "+ " + addedTequila.ToString();
 
 
                     if (GameManager.Instance.heldTequila > GameManager.Instance.maxTequila)
@@ -423,6 +424,9 @@ public class Square : MonoBehaviour {
         GameManager.Instance.hasGrenada = false;
 
         AudioSource.PlayClipAtPoint(GameManager.Instance.explosionClip, transform.position);
+
+
+
 
         StartCoroutine("Explosion");
     }
@@ -479,7 +483,7 @@ public class Square : MonoBehaviour {
 
     public void PotatoGrowth()
     {
-        potatoAmount += Mathf.RoundToInt(GameManager.Instance.potatoAddingCurve.Evaluate(potatoAmount));
+        potatoAmount += GameManager.Instance.potatoGrowth;
         if(potatoAmount > GameManager.Instance.maxPotatoes)
         {
             potatoAmount = GameManager.Instance.maxPotatoes;
