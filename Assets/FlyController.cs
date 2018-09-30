@@ -17,6 +17,11 @@ public class FlyController : MonoBehaviour {
 
     public ParticleSystem combustion;
     public GameObject ashPrefab;
+    public GameObject explosionPrefab;
+
+    public AudioSource exploSource;
+    public AudioSource burnSource;
+    public AudioSource wingSource;
 
     public NavMeshAgent agent;
     public Transform modelPivot;
@@ -39,6 +44,10 @@ public class FlyController : MonoBehaviour {
 
     private bool isExploding;
     private Tween squashTween;
+
+    private List<SkinnedMeshRenderer> skinnedRendererList = new List<SkinnedMeshRenderer>();
+    private List<Color> skinnedStartColorList = new List<Color>();
+
     [SerializeField] private List<MeshRenderer> rendererList = new List<MeshRenderer>();
     [SerializeField] private List<Color> startColorList = new List<Color>();
 
@@ -46,9 +55,17 @@ public class FlyController : MonoBehaviour {
     {
         foreach(MeshRenderer meshRenderer in GetComponentsInChildren<MeshRenderer>())
         {
+            meshRenderer.material.EnableKeyword("_EMISSION");
             rendererList.Add(meshRenderer);
-            startColorList.Add(meshRenderer.material.color);
+            startColorList.Add(meshRenderer.material.GetColor("_EmissionColor"));
         }
+        foreach (SkinnedMeshRenderer meshRenderer in GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            meshRenderer.material.EnableKeyword("_EMISSION");
+            skinnedRendererList.Add(meshRenderer);
+            skinnedStartColorList.Add(meshRenderer.material.GetColor("_EmissionColor"));
+        }
+
 
         health = GameManager.Instance.flyLife;
         agent.SetDestination(GameManager.Instance.heartPosition);
@@ -56,15 +73,7 @@ public class FlyController : MonoBehaviour {
 
     // Update is called once per frame
     void Update ()
-    {/*
-		if (Input.GetMouseButtonDown(0))
-        {
-            RaycastHit hit;
-            Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition, Camera.MonoOrStereoscopicEye.Mono), out hit, Mathf.Infinity, 1 << 11);
-
-            agent.SetDestination(hit.point);
-        }*/
-        
+    {
         if (!isExploding && Vector3.Distance(transform.position, GameManager.Instance.heartPosition) <= GameManager.Instance.heartRadius)
         {
             agent.isStopped = true;
@@ -74,7 +83,9 @@ public class FlyController : MonoBehaviour {
             if (squashTween != null) squashTween.Kill(true);
             squashTween = modelPivot.DOShakeScale(explodeDuration, explodeShakeStrength, explodeVibrato,90,false).OnComplete(delegate
             {
+                AudioSource.PlayClipAtPoint(exploSource.clip, transform.position,4f);
                 GameManager.Instance.DamageHeart(GameManager.Instance.flyDamage);
+                Instantiate(explosionPrefab, transform.position + Vector3.up *0.5f, explosionPrefab.transform.rotation);
                 Destroy(gameObject);
             });
         }
@@ -91,13 +102,17 @@ public class FlyController : MonoBehaviour {
         {
             if (state == FlyState.alive)
             {
+                wingSource.Stop();
+                burnSource.Play();
                 combustion.Play();
-                agent.isStopped = true;
+
+                agent.enabled = false;
                 foreach (MeshRenderer meshRenderer in rendererList)
                 {
                     meshRenderer.material.DOColor(burnColor,fallSpeed);
                 }
                 modelPivot.DOLocalMoveY(0, fallSpeed);
+                modelPivot.DOPunchScale(new Vector3(0.3f, -0.5f, 0.3f)*2,fallSpeed).SetDelay(fallSpeed);
                 //Die
                 health = GameManager.Instance.flyBurnedLife;
                 state = FlyState.dead;
@@ -106,6 +121,7 @@ public class FlyController : MonoBehaviour {
             }
             else if (state == FlyState.dead)
             {
+                burnSource.Play();
                 combustion.Play();
                 gameObject.layer = 13;
                 modelPivot.gameObject.SetActive(false);
@@ -131,11 +147,16 @@ public class FlyController : MonoBehaviour {
         }
     }
 
+
     IEnumerator BlinkRed()
     {
         foreach (MeshRenderer meshRenderer in rendererList)
         {
-            meshRenderer.material.color = blinkColor;
+            meshRenderer.material.SetColor("_EmissionColor", blinkColor);
+        }
+        foreach (SkinnedMeshRenderer meshRenderer in skinnedRendererList)
+        {
+            meshRenderer.material.SetColor("_EmissionColor", blinkColor);
         }
 
         yield return new WaitForSeconds(blinkTime);
@@ -143,7 +164,13 @@ public class FlyController : MonoBehaviour {
         int i = 0;
         foreach (MeshRenderer meshRenderer in rendererList)
         {
-            meshRenderer.material.color = startColorList[i];
+            meshRenderer.material.SetColor("_EmissionColor", startColorList[i]);
+            i++;
+        }
+        i = 0;
+        foreach (SkinnedMeshRenderer meshRenderer in skinnedRendererList)
+        {
+            meshRenderer.material.SetColor("_EmissionColor", startColorList[i]);
             i++;
         }
     }

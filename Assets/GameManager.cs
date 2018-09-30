@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,9 +14,27 @@ public class GameManager : MonoBehaviour
     public GameObject squarePrefab;
     public Transform squareParentTransform;
     public List<Square> dirtSquareList = new List<Square>();
+    public List<Square> holableSquares;
     List<Square> emptySquares;
 
+    [Header("Leveling")]
+    public List<Level> levels;
+    public int currentLevel;
+    public TextMeshPro levelText;
+
+    [Header("UI")]
+    public Texture2D cursor;
+    public GameObject heartExploPrefab;
+    public Image healthBar;
+    public TextMeshProUGUI tequilaText;
+    public TextMeshPro pressTequilaText;
+    public Image tequilaBar;
+    public Image tequilaBarBack;
+    float targetFill = 1;
+
     [Header("Player Values")]
+    public Vector3 squashStepValue = new Vector3(0.2f, -0.2f, 0.2f);
+    public float squashStepDuration = .8f;
     public int potatoesHeld;
     public TextMeshPro potatoesText;
     public bool hasGrenada;
@@ -57,14 +76,28 @@ public class GameManager : MonoBehaviour
     public int potatoesForGrenada;
     public int grenadas;
 
+    public AudioClip grenadaDrop;
+    public float dropVolume;
+
+    public AudioClip tequilaLiquidSound;
+    public float tequilaLiquidVolume;
+
     [Header("Potato Spawning")]
     public int initialPotatoNumber;
+    public int potatoIncrement;
+    int wave;
+    public float potatoSpawningDelay;
     public int maxPotatoes;
     public AnimationCurve potatoAddingCurve;
     public int twoLeavesMin;
     public int threeLeavesMin;
     public int fourLeavesMin;
     public int fiveLeavesMin;
+    
+    public AudioClip potatoUproot;
+    public float uprootVolume;
+    public AudioClip potatoPlanting;
+    public float plantingVolume;
 
     [Header("Monster Spawning")]
     public GameObject flyPrefab;
@@ -85,16 +118,29 @@ public class GameManager : MonoBehaviour
     [Header("Animations")]
     public Animator tequilaPressAnim;
     public Transform tequilaTransform;
-    Vector3 targetScale;
+    Vector3 tequilaTargetScale;
     float scaleMultiplier;
 
+    public Transform heartPotatoTransform;
+    float heartScaleMultiplier;
+
     public Animator grenadaFabricAnim;
+    public Animator grenadaPanelAnim;
+    public TextMeshPro grenadaText;
     public Animator playerHandsAnim;
     public Animator animatedGrenadaAnim;
+
+    public GameObject heartLid;
+
 
     void Awake()
     {
         Instance = this;
+        heartScaleMultiplier = (0.938f - 0.623f) / heartMaxLife;
+        heartPotatoTransform.localScale = new Vector3(0.938f, 0.938f, 0.938f);
+        newScale = 0.938f;
+
+        Cursor.SetCursor(cursor, new Vector2(cursor.width, cursor.height), CursorMode.Auto);
 
         heartCurrentLife = heartMaxLife;
 
@@ -126,11 +172,16 @@ public class GameManager : MonoBehaviour
                     newSquareComponent.canBeHoled = true;
                     foreach (Vector2 position in noHolesPositions)
                     {
-                        if(position == new Vector2(x, y))
+                        if (position == new Vector2(x, y))
                         {
                             newSquareComponent.canBeHoled = false;
                         }
                     }
+                    if(newSquareComponent.canBeHoled)
+                    {
+                        holableSquares.Add(newSquareComponent);
+                    }
+
 
                     newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
                 }
@@ -179,6 +230,7 @@ public class GameManager : MonoBehaviour
 
                     newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
                 }
+                heartSquares = new List<Square>();
                 foreach(Vector2 position in heartSquaresPositions)
                 {
                     if(new Vector2(x, y) == position)
@@ -189,6 +241,10 @@ public class GameManager : MonoBehaviour
                         squaresArray[x, y] = newSquareComponent;
                         newSquareComponent.type = SquareType.heart;
                         newSquare.name = "HeartPosition";
+                        Destroy(newSquareComponent.selectionLid);
+                        newSquareComponent.selectionLid = Instantiate(heartLid);
+                        newSquareComponent.selectionLid.transform.position = heartLid.transform.position;
+                        heartSquares.Add(newSquareComponent);
 
                         newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
                     }
@@ -197,11 +253,27 @@ public class GameManager : MonoBehaviour
         }
         FindObjectOfType<HoleCreator>().dirtSquares = dirtSquareList;
 
-        scaleMultiplier = 1 / maxPressTequila;
+
     }
 
+    private void Start()
+    {
+        scaleMultiplier = 1f / maxPressTequila;
+        print("Scale multiplier = " + scaleMultiplier);
+    }
+
+    float newScale;
+    float newLifeScale;
+    List<Square> heartSquares;
     void Update()
     {
+        tequilaText.text = (Mathf.Round(heldTequila)).ToString();
+        pressTequilaText.text = (Mathf.RoundToInt(pressTequila)).ToString();
+    
+        //heart scale
+        newScale = Mathf.Lerp(newScale, 0.623f + (heartScaleMultiplier * heartCurrentLife), 0.1f);
+        heartPotatoTransform.localScale = new Vector3(newScale, newScale, newScale);
+
         playerHandsAnim.SetBool("holdsPotato", false);
         playerHandsAnim.SetBool("holdsGrenada", false);
         if (potatoesHeld > 0)
@@ -214,6 +286,9 @@ public class GameManager : MonoBehaviour
         {
             potatoesText.text = "0";
         }
+
+        newLifeScale = Mathf.Lerp(newLifeScale, 0.01f * heartCurrentLife, 0.4f);
+        healthBar.fillAmount = newLifeScale;
 
         //grenada compression
         if(grenadaPotatoes >= potatoesForGrenada)
@@ -229,44 +304,76 @@ public class GameManager : MonoBehaviour
             playerHandsAnim.SetBool("holdsGrenada", true);
         }
 
-        //tequila level
-        if(pressTequila > 0)
-        {
-            targetScale = new Vector3(1, scaleMultiplier * pressTequila, 1);
-        }
-        else
-        {
-            targetScale = Vector3.zero;
-        }
 
-        tequilaTransform.localScale = Vector3.Lerp(tequilaTransform.localScale, targetScale, 0.2f);
 
         if(grenadas > 0)
         {
             animatedGrenadaAnim.SetBool("isVisible", true);
+            grenadaPanelAnim.SetBool("isBurrowed", false);
+            grenadaText.text = grenadas.ToString();
         }
         else
         {
             animatedGrenadaAnim.SetBool("isVisible", false);
+            grenadaPanelAnim.SetBool("isBurrowed", true);
         }
 
+        //Grenada panel
+       
+
+    }
+
+    float ref1;
+    float ref2;
+    private void FixedUpdate()
+    {
+        //tequila level
+        if (pressTequila > 0)
+        {
+            tequilaTargetScale = new Vector3(1, scaleMultiplier * pressTequila, 1);
+        }
+        else
+        {
+            tequilaTargetScale = Vector3.zero;
+        }
+
+        tequilaTransform.localScale = Vector3.Lerp(tequilaTransform.localScale, tequilaTargetScale, 0.1f);
+
+        targetFill = (1 / maxTequila) * heldTequila;
+        tequilaBar.fillAmount = Mathf.SmoothDamp(tequilaBar.fillAmount, targetFill, ref ref1, 0.02f);
+        tequilaBarBack.fillAmount = Mathf.SmoothDamp(tequilaBarBack.fillAmount, targetFill, ref ref2, 3f);
     }
 
     public void SpawnPotatos()
     {
-        for(int i = 0; i < initialPotatoNumber; i++)
+        float ia = 0;
+        for (int i = 0; i < (initialPotatoNumber + (potatoIncrement * wave)); i++)
         {
             RefreshEmptySquares();
             Square chosenSquare = emptySquares[Random.Range(0, emptySquares.Count)];
-            chosenSquare.GrowPotato();
+            StartCoroutine(WaitThenSpawnPotato(ia, chosenSquare));
+            RefreshEmptySquares();
+            chosenSquare = emptySquares[Random.Range(0, emptySquares.Count)];
+            StartCoroutine(WaitThenSpawnPotato(ia, chosenSquare));
+            ia += potatoSpawningDelay;
         }
+
+        wave++;
+
         foreach (Square square in dirtSquareList)
         {
             if (square.state == SquareState.potato)
             {
-                square.AddPotato();
+                square.PotatoGrowth();
             }
         }
+    }
+
+    IEnumerator WaitThenSpawnPotato(float delay, Square square)
+    {
+        yield return new WaitForSeconds(delay);
+        square.GrowPotato();
+        square.potatoAmount = 1;
     }
 
     void RefreshEmptySquares()
@@ -289,12 +396,13 @@ public class GameManager : MonoBehaviour
         if (heartCurrentLife <= 0)
         {
             LoseGame();
+            Instantiate(heartExploPrefab, heartPosition, heartExploPrefab.transform.rotation);
         }
     }
 
     public void LoseGame()
     {
-
+        PauseButton.Instance.GameOver();
     }
 
     public void WinGame()

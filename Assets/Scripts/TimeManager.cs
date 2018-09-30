@@ -27,6 +27,9 @@ public class TimeManager : MonoBehaviour {
     float currentTime;
     public bool isDay;
 
+    [Header("PassingAnims")]
+    public Animator sunAnim;
+    public Animator moonAnim;
     void Awake()
     {
         Instance = this;
@@ -40,7 +43,7 @@ public class TimeManager : MonoBehaviour {
         DayRise();
     }
 
-
+    bool rises;
     private void Update()
     {
         currentTime += Time.deltaTime;
@@ -59,6 +62,26 @@ public class TimeManager : MonoBehaviour {
                 currentTime = 0;
                 DayRise();
 
+            }
+
+            //sunrise if every hole has exploded
+            if(currentTime < ((cycleTime-currentTime) - 2))
+            {
+                rises = true;
+                foreach(Square holableSquare in GameManager.Instance.holableSquares)
+                {
+                    if(holableSquare.state == SquareState.hole)
+                    {
+                        rises = false;
+                        break;
+                    }
+                }
+
+                if(rises)
+                {
+                    currentTime = 0;
+                    DayRise();
+                }
             }
         }
 
@@ -83,8 +106,15 @@ public class TimeManager : MonoBehaviour {
 
     }
 
+    FlyController[] flies;
     void DayRise()
     {
+        sunAnim.SetTrigger("DayTime");
+        flies = FindObjectsOfType<FlyController>();
+        foreach(FlyController fly in flies)
+        {
+            fly.Damage(999);
+        }
         StartCoroutine("WaitThenWarn");
         isDay = true;
         sunLight.DOColor(dayStartingColor, transitionTime);
@@ -94,6 +124,7 @@ public class TimeManager : MonoBehaviour {
 
     void NightFall()
     {
+        moonAnim.SetTrigger("NightTime");
         HoleCreator.Instance.CreateHoles();
         isDay = false;
         currentDayTime -= dayTimeReduction;
@@ -103,6 +134,13 @@ public class TimeManager : MonoBehaviour {
         }
         sunLight.DOColor(nightStartingColor, transitionTime);
         MusicManager.Instance.Night();
+        foreach (Square holableSquare in GameManager.Instance.holableSquares)
+        {
+            if (holableSquare.state == SquareState.hole)
+            {
+                holableSquare.SpawnFly();
+            }
+        }
     }
 
     IEnumerator WaitThenWarn()

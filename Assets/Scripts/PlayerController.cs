@@ -16,6 +16,12 @@ public class PlayerController : MonoBehaviour {
     public GameObject stepPrefab;
     public Transform canonPivot;
     public GameObject armeVidePrefab;
+    public AudioSource flameSource;
+    public AudioSource puffSource;
+    public AudioSource stepSource;
+    public List<AudioClip> footsteps = new List<AudioClip>();
+    public float footstepVolume = 0.2f;
+    public float flameVolume = 0.3f;
 
     [Header("Variables")]
     [Space]
@@ -32,7 +38,7 @@ public class PlayerController : MonoBehaviour {
     private bool interactionInput;
     private bool dashInput;
     private Vector3 directionInput;
-    private float targetAngleFull;
+    //private float targetAngleFull;
     private float targetAngle;
     private float currentRotationVelocity;
 
@@ -69,9 +75,9 @@ public class PlayerController : MonoBehaviour {
         }
         //
         
-        //Turn player model body
         if (directionInput != Vector3.zero)
         {
+            // STEP
             if (Time.time > lastStepTimestamp + GameManager.Instance.stepCooldown)
             {
                 GameObject smokePuff = Instantiate(stepPrefab, transform.position, stepPrefab.transform.rotation);
@@ -79,12 +85,20 @@ public class PlayerController : MonoBehaviour {
                 float totalDuration = parts.main.startLifetime.constantMax;
                 Destroy(smokePuff, totalDuration);
                 lastStepTimestamp = Time.time;
+
+                if (squashTween != null) squashTween.Kill(true);
+                squashTween = modelPivot.DOPunchScale(GameManager.Instance.squashStepValue, GameManager.Instance.squashStepDuration);
+
+                stepSource.clip = footsteps[Random.Range(0, footsteps.Count)];
+                stepSource.Play();
             }
 
             targetAngle = Utilities.Angle(directionInput.x, directionInput.z);
-            targetAngleFull = Utilities.AngleFull(directionInput.x, directionInput.z);
+            //targetAngleFull = Utilities.AngleFull(directionInput.x, directionInput.z);
         }
-        bodyPivot.eulerAngles = new Vector3(0, targetAngle);
+
+        //Turn player model body
+        bodyPivot.eulerAngles = new Vector3(0, Mathf.SmoothDampAngle(modelPivot.eulerAngles.y, targetAngle, ref currentRotationVelocity, turnDamp),0);
         // Mathf.SmoothDampAngle(modelPivot.eulerAngles.y, targetAngle, ref currentRotationVelocity, turnDamp, Mathf.Infinity, Time.deltaTime)
         //
 
@@ -105,14 +119,20 @@ public class PlayerController : MonoBehaviour {
         interactionPosition = transform.position + (aimDirection * interactionPositionOffset);
         interactionPosition = Utilities.GetFlooredPosition(interactionPosition);
 
+        if (interactionPosition.x > GameManager.Instance.squaresArray.GetLength(0) ||
+            interactionPosition.x < 0 ||
+            interactionPosition.y > GameManager.Instance.squaresArray.GetLength(1) ||
+            interactionPosition.y < 0)
+            return;
+
         interactionInput = Input.GetMouseButtonDown(1);
         if (interactionInput)
         {
             GameManager.Instance.squaresArray[(int)interactionPosition.x, (int)interactionPosition.z].Interact();
             print(GameManager.Instance.squaresArray[(int)interactionPosition.x, (int)interactionPosition.z].state);
         }
-        GameManager.Instance.squaresArray[(int)interactionPosition.x, (int)interactionPosition.z].Select();
 
+        GameManager.Instance.squaresArray[(int)interactionPosition.x, (int)interactionPosition.z].Select();
         
     }
 
@@ -123,9 +143,10 @@ public class PlayerController : MonoBehaviour {
         //Shoot
         Shoot();
     }
-
+    
     void Shoot()
     {
+
         bool hasShot = false;
 
         var main = psFlames.main;
@@ -151,6 +172,7 @@ public class PlayerController : MonoBehaviour {
             if (!psDamage.activeInHierarchy) psDamage.SetActive(true);
 
             hasShot = true;
+            if (!flameSource.isPlaying) flameSource.Play();
 
             GameManager.Instance.sombreroastCurrentHeat += Time.deltaTime;
             GameManager.Instance.sombreroastCurrentHeat = Mathf.Clamp(GameManager.Instance.sombreroastCurrentHeat, 0, GameManager.Instance.sombreroastMaxHeat);
@@ -163,12 +185,16 @@ public class PlayerController : MonoBehaviour {
             float totalDuration = parts.main.startLifetime.constantMax;
             Destroy(smokePuff, totalDuration);
 
+            puffSource.Play();
+
             lastFlameTimestamp = Time.time;
         }
     }
 
     void Cooldown()
     {
+        if (flameSource.isPlaying) flameSource.Stop();
+
         if (psFlames.isEmitting) psFlames.Stop();
         if (psDamage.activeInHierarchy) psDamage.SetActive(false);
 
