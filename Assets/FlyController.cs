@@ -44,6 +44,10 @@ public class FlyController : MonoBehaviour {
 
     private bool isExploding;
     private Tween squashTween;
+
+    private List<SkinnedMeshRenderer> skinnedRendererList = new List<SkinnedMeshRenderer>();
+    private List<Color> skinnedStartColorList = new List<Color>();
+
     [SerializeField] private List<MeshRenderer> rendererList = new List<MeshRenderer>();
     [SerializeField] private List<Color> startColorList = new List<Color>();
 
@@ -51,9 +55,17 @@ public class FlyController : MonoBehaviour {
     {
         foreach(MeshRenderer meshRenderer in GetComponentsInChildren<MeshRenderer>())
         {
+            meshRenderer.material.EnableKeyword("_EMISSION");
             rendererList.Add(meshRenderer);
-            startColorList.Add(meshRenderer.material.color);
+            startColorList.Add(meshRenderer.material.GetColor("_EmissionColor"));
         }
+        foreach (SkinnedMeshRenderer meshRenderer in GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            meshRenderer.material.EnableKeyword("_EMISSION");
+            skinnedRendererList.Add(meshRenderer);
+            skinnedStartColorList.Add(meshRenderer.material.GetColor("_EmissionColor"));
+        }
+
 
         health = GameManager.Instance.flyLife;
         agent.SetDestination(GameManager.Instance.heartPosition);
@@ -140,7 +152,11 @@ public class FlyController : MonoBehaviour {
     {
         foreach (MeshRenderer meshRenderer in rendererList)
         {
-            meshRenderer.material.color = blinkColor;
+            meshRenderer.material.SetColor("_EmissionColor", blinkColor);
+        }
+        foreach (SkinnedMeshRenderer meshRenderer in skinnedRendererList)
+        {
+            meshRenderer.material.SetColor("_EmissionColor", blinkColor);
         }
 
         yield return new WaitForSeconds(blinkTime);
@@ -148,7 +164,13 @@ public class FlyController : MonoBehaviour {
         int i = 0;
         foreach (MeshRenderer meshRenderer in rendererList)
         {
-            meshRenderer.material.color = startColorList[i];
+            meshRenderer.material.SetColor("_EmissionColor", startColorList[i]);
+            i++;
+        }
+        i = 0;
+        foreach (SkinnedMeshRenderer meshRenderer in skinnedRendererList)
+        {
+            meshRenderer.material.SetColor("_EmissionColor", startColorList[i]);
             i++;
         }
     }

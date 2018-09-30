@@ -17,11 +17,20 @@ public class GameManager : MonoBehaviour
     public List<Square> holableSquares;
     List<Square> emptySquares;
 
+    [Header("Leveling")]
+    public List<Level> levels;
+    public int currentLevel;
+    public TextMeshPro levelText;
+
     [Header("UI")]
     public Texture2D cursor;
     public GameObject heartExploPrefab;
     public Image healthBar;
     public TextMeshProUGUI tequilaText;
+    public TextMeshPro pressTequilaText;
+    public Image tequilaBar;
+    public Image tequilaBarBack;
+    float targetFill = 1;
 
     [Header("Player Values")]
     public Vector3 squashStepValue = new Vector3(0.2f, -0.2f, 0.2f);
@@ -70,6 +79,9 @@ public class GameManager : MonoBehaviour
     public AudioClip grenadaDrop;
     public float dropVolume;
 
+    public AudioClip tequilaLiquidSound;
+    public float tequilaLiquidVolume;
+
     [Header("Potato Spawning")]
     public int initialPotatoNumber;
     public int potatoIncrement;
@@ -106,13 +118,15 @@ public class GameManager : MonoBehaviour
     [Header("Animations")]
     public Animator tequilaPressAnim;
     public Transform tequilaTransform;
-    Vector3 targetScale;
+    Vector3 tequilaTargetScale;
     float scaleMultiplier;
 
     public Transform heartPotatoTransform;
     float heartScaleMultiplier;
 
     public Animator grenadaFabricAnim;
+    public Animator grenadaPanelAnim;
+    public TextMeshPro grenadaText;
     public Animator playerHandsAnim;
     public Animator animatedGrenadaAnim;
 
@@ -158,15 +172,16 @@ public class GameManager : MonoBehaviour
                     newSquareComponent.canBeHoled = true;
                     foreach (Vector2 position in noHolesPositions)
                     {
-                        if(position == new Vector2(x, y))
+                        if (position == new Vector2(x, y))
                         {
                             newSquareComponent.canBeHoled = false;
                         }
-                        else
-                        {
-                            holableSquares.Add(newSquareComponent);
-                        }
                     }
+                    if(newSquareComponent.canBeHoled)
+                    {
+                        holableSquares.Add(newSquareComponent);
+                    }
+
 
                     newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
                 }
@@ -226,8 +241,9 @@ public class GameManager : MonoBehaviour
                         squaresArray[x, y] = newSquareComponent;
                         newSquareComponent.type = SquareType.heart;
                         newSquare.name = "HeartPosition";
-                        //Destroy(newSquareComponent.selectionLid);
-                        //newSquareComponent.selectionLid = heartLid;
+                        Destroy(newSquareComponent.selectionLid);
+                        newSquareComponent.selectionLid = Instantiate(heartLid);
+                        newSquareComponent.selectionLid.transform.position = heartLid.transform.position;
                         heartSquares.Add(newSquareComponent);
 
                         newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
@@ -237,7 +253,13 @@ public class GameManager : MonoBehaviour
         }
         FindObjectOfType<HoleCreator>().dirtSquares = dirtSquareList;
 
-        scaleMultiplier = 1 / maxPressTequila;
+
+    }
+
+    private void Start()
+    {
+        scaleMultiplier = 1f / maxPressTequila;
+        print("Scale multiplier = " + scaleMultiplier);
     }
 
     float newScale;
@@ -246,26 +268,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         tequilaText.text = (Mathf.Round(heldTequila)).ToString();
-
-        //heartlid
-        /*bool deselects = true ;
-        foreach(Square heartSquare in heartSquares)
-        {
-            if(heartSquare.selected)
-            {
-                deselects = false;
-            }
-            heartSquare.selected = false;
-        }
-        if(deselects)
-        {
-            heartLid.SetActive(false);
-        }
-        else
-        {
-            heartLid.SetActive(true);
-
-        }*/
+        pressTequilaText.text = (Mathf.RoundToInt(pressTequila)).ToString();
     
         //heart scale
         newScale = Mathf.Lerp(newScale, 0.623f + (heartScaleMultiplier * heartCurrentLife), 0.1f);
@@ -301,27 +304,44 @@ public class GameManager : MonoBehaviour
             playerHandsAnim.SetBool("holdsGrenada", true);
         }
 
-        //tequila level
-        if(pressTequila > 0)
-        {
-            targetScale = new Vector3(1, scaleMultiplier * pressTequila, 1);
-        }
-        else
-        {
-            //targetScale = Vector3.zero;
-        }
 
-        tequilaTransform.localScale = targetScale;
 
         if(grenadas > 0)
         {
             animatedGrenadaAnim.SetBool("isVisible", true);
+            grenadaPanelAnim.SetBool("isBurrowed", false);
+            grenadaText.text = grenadas.ToString();
         }
         else
         {
             animatedGrenadaAnim.SetBool("isVisible", false);
+            grenadaPanelAnim.SetBool("isBurrowed", true);
         }
 
+        //Grenada panel
+       
+
+    }
+
+    float ref1;
+    float ref2;
+    private void FixedUpdate()
+    {
+        //tequila level
+        if (pressTequila > 0)
+        {
+            tequilaTargetScale = new Vector3(1, scaleMultiplier * pressTequila, 1);
+        }
+        else
+        {
+            tequilaTargetScale = Vector3.zero;
+        }
+
+        tequilaTransform.localScale = Vector3.Lerp(tequilaTransform.localScale, tequilaTargetScale, 0.1f);
+
+        targetFill = (1 / maxTequila) * heldTequila;
+        tequilaBar.fillAmount = Mathf.SmoothDamp(tequilaBar.fillAmount, targetFill, ref ref1, 0.02f);
+        tequilaBarBack.fillAmount = Mathf.SmoothDamp(tequilaBarBack.fillAmount, targetFill, ref ref2, 3f);
     }
 
     public void SpawnPotatos()

@@ -1387,7 +1387,7 @@ MonoBehaviour:
   hitDuration: 0.1
   hitVibrato: 10
   blinkTime: 0.05
-  blinkColor: {r: 34.29675, g: 0.0000014991134, b: 0, a: 0}
+  blinkColor: {r: 0.7490196, g: 0.003921569, b: 0, a: 0}
   fallSpeed: 0.2
   deathSquashCurve:
     serializedVersion: 2

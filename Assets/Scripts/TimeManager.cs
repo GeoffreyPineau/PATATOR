@@ -27,6 +27,9 @@ public class TimeManager : MonoBehaviour {
     float currentTime;
     public bool isDay;
 
+    [Header("PassingAnims")]
+    public Animator sunAnim;
+    public Animator moonAnim;
     void Awake()
     {
         Instance = this;
@@ -106,6 +109,7 @@ public class TimeManager : MonoBehaviour {
     FlyController[] flies;
     void DayRise()
     {
+        sunAnim.SetTrigger("DayTime");
         flies = FindObjectsOfType<FlyController>();
         foreach(FlyController fly in flies)
         {
@@ -120,6 +124,7 @@ public class TimeManager : MonoBehaviour {
 
     void NightFall()
     {
+        moonAnim.SetTrigger("NightTime");
         HoleCreator.Instance.CreateHoles();
         isDay = false;
         currentDayTime -= dayTimeReduction;
@@ -129,6 +134,13 @@ public class TimeManager : MonoBehaviour {
         }
         sunLight.DOColor(nightStartingColor, transitionTime);
         MusicManager.Instance.Night();
+        foreach (Square holableSquare in GameManager.Instance.holableSquares)
+        {
+            if (holableSquare.state == SquareState.hole)
+            {
+                holableSquare.SpawnFly();
+            }
+        }
     }
 
     IEnumerator WaitThenWarn()
