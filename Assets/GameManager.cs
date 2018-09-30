@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public List<Level> levels;
     public int currentLevel;
     public TextMeshProUGUI levelText;
+    public Animator heartLevelAnim;
 
     [Header("UI")]
     public Texture2D cursor;
@@ -483,7 +484,7 @@ public class GameManager : MonoBehaviour
         fiveLeavesMin = d * 4;
 
         heartLevels[currentLevel].SetActive(true);
-
+        heartLevelAnim.SetTrigger("gainLevel");
     }
 
     Vector3 flyPos;
