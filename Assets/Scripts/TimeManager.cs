@@ -70,7 +70,7 @@ public class TimeManager : MonoBehaviour {
             }
 
             //sunrise if every hole has exploded
-            if(currentTime < ((cycleTime-currentTime) - 2))
+            /*if(currentTime < ((cycleTime-currentTime) - 2))
             {
                 rises = true;
                 foreach(Square holableSquare in GameManager.Instance.holableSquares)
@@ -87,7 +87,7 @@ public class TimeManager : MonoBehaviour {
                     currentTime = 0;
                     DayRise();
                 }
-            }
+            }*/
         }
 
         //color evolution

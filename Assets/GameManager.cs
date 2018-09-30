@@ -18,9 +18,11 @@ public class GameManager : MonoBehaviour
     List<Square> emptySquares;
 
     [Header("Leveling")]
+    public List<GameObject> heartLevels;
     public List<Level> levels;
     public int currentLevel;
     public TextMeshProUGUI levelText;
+    public Animator heartLevelAnim;
 
     [Header("UI")]
     public Texture2D cursor;
@@ -34,6 +36,10 @@ public class GameManager : MonoBehaviour
 
     [Header("Player Values")]
     public Vector3 squashStepValue = new Vector3(0.2f, -0.2f, 0.2f);
+    public Vector3 squashDashValue = new Vector3(0.6f, -0.6f, 0.6f);
+    public float dashHoldMax = 1f;
+    public float dashSpeedMin = 50;
+    public float dashSpeedMax = 150;
     public float squashStepDuration = .8f;
     public int potatoesHeld;
     public TextMeshPro potatoesText;
@@ -70,12 +76,14 @@ public class GameManager : MonoBehaviour
     public float flyBurnedLife;
 
     [Header("Containers Values")]
+    public TextMeshPro tequilaGainText;
     public int pressTequila;
     public int maxPressTequila;
     public int grenadaPotatoes;
     public int potatoesForGrenada;
     public int grenadas;
 
+    public AudioClip explosionClip;
     public AudioClip grenadaDrop;
     public float dropVolume;
 
@@ -88,7 +96,7 @@ public class GameManager : MonoBehaviour
     int wave;
     public float potatoSpawningDelay;
     public int maxPotatoes;
-    public AnimationCurve potatoAddingCurve;
+    public int potatoGrowth;
     public int twoLeavesMin;
     public int threeLeavesMin;
     public int fourLeavesMin;
@@ -100,6 +108,9 @@ public class GameManager : MonoBehaviour
     public float plantingVolume;
 
     [Header("Monster Spawning")]
+    float flyTimer;
+    public float outsideFlyDelay;
+    public AnimationCurve yCurve;
     public GameObject flyPrefab;
     public Transform flyParent;
     public float flyDelay;
@@ -261,16 +272,26 @@ public class GameManager : MonoBehaviour
         scaleMultiplier = 1f / maxPressTequila;
         print("Scale multiplier = " + scaleMultiplier);
         levelText.text = "1";
+        heartMaxLife = levels[0].heartMaxLife;
         heartCurrentLife = heartMaxLife / 2;
+        potatoGrowth = levels[0].potatoGrowth;
+        maxPotatoes = levels[0].potatoMax;
+        for(int i = 0; i< initialPotatoNumber; i++)
+        {
+            SpawnPotatos();
+        }
+
     }
 
     float newScale;
     float newLifeScale;
+    float currentTequilaNumber;
     List<Square> heartSquares;
     void Update()
     {
         tequilaText.text = (Mathf.Round(heldTequila)).ToString();
-        pressTequilaText.text = (Mathf.RoundToInt(pressTequila)).ToString();
+        currentTequilaNumber = Mathf.Lerp(currentTequilaNumber, pressTequila, 0.1f);
+        pressTequilaText.text = Mathf.RoundToInt(currentTequilaNumber).ToString();
     
         //heart scale
         newScale = Mathf.Lerp(newScale, 0.623f + (heartScaleMultiplier * heartCurrentLife), 0.1f);
@@ -289,7 +310,7 @@ public class GameManager : MonoBehaviour
             potatoesText.text = "0";
         }
 
-        newLifeScale = Mathf.Lerp(newLifeScale, 0.01f * heartCurrentLife, 0.4f);
+        newLifeScale = Mathf.Lerp(newLifeScale, (1f/heartMaxLife) * heartCurrentLife, 0.4f);
         healthBar.fillAmount = newLifeScale;
 
         //grenada compression
@@ -320,8 +341,22 @@ public class GameManager : MonoBehaviour
             grenadaPanelAnim.SetBool("isBurrowed", true);
         }
 
-        //Grenada panel
+        //level up
+        if(heartCurrentLife >= heartMaxLife)
+        {
+            LevelUp();
+        }
        
+        //outside fly spawning
+        if(!TimeManager.Instance.isDay)
+        {
+            flyTimer += Time.deltaTime;
+            if(flyTimer >= outsideFlyDelay)
+            {
+                flyTimer = 0;
+                SpawnOutsideFly();
+            }
+        }
 
     }
 
@@ -348,20 +383,6 @@ public class GameManager : MonoBehaviour
 
     public void SpawnPotatos()
     {
-        float ia = 0;
-        for (int i = 0; i < (initialPotatoNumber + (potatoIncrement * wave)); i++)
-        {
-            RefreshEmptySquares();
-            Square chosenSquare = emptySquares[Random.Range(0, emptySquares.Count)];
-            StartCoroutine(WaitThenSpawnPotato(ia, chosenSquare));
-            RefreshEmptySquares();
-            chosenSquare = emptySquares[Random.Range(0, emptySquares.Count)];
-            StartCoroutine(WaitThenSpawnPotato(ia, chosenSquare));
-            ia += potatoSpawningDelay;
-        }
-
-        wave++;
-
         foreach (Square square in dirtSquareList)
         {
             if (square.state == SquareState.potato)
@@ -369,6 +390,21 @@ public class GameManager : MonoBehaviour
                 square.PotatoGrowth();
             }
         }
+        float ia = 0;
+        //for (int i = 0; i < (initialPotatoNumber + (potatoIncrement * wave)); i++)
+        //{
+            RefreshEmptySquares();
+            Square chosenSquare = emptySquares[Random.Range(0, emptySquares.Count)];
+            StartCoroutine(WaitThenSpawnPotato(ia, chosenSquare));
+            //RefreshEmptySquares();
+            //chosenSquare = emptySquares[Random.Range(0, emptySquares.Count)];
+            //StartCoroutine(WaitThenSpawnPotato(potatoSpawningDelay, chosenSquare));
+            //ia += potatoSpawningDelay;
+        //}
+
+        //wave++;
+
+
     }
 
     IEnumerator WaitThenSpawnPotato(float delay, Square square)
@@ -441,6 +477,29 @@ public class GameManager : MonoBehaviour
     {
         currentLevel++;
         levelText.text = (currentLevel + 1).ToString();
-        heartMaxLife = levels[currentLevel].heartMaxLife;
+        Level newLevel = levels[currentLevel];
+        heartMaxLife = newLevel.heartMaxLife;
+        maxPotatoes = newLevel.potatoMax;
+        potatoGrowth = newLevel.potatoGrowth;
+
+        int d = Mathf.RoundToInt(newLevel.potatoMax / 5f);
+        twoLeavesMin = d;
+        threeLeavesMin = d * 2;
+        fourLeavesMin = d * 3;
+        fiveLeavesMin = d * 4;
+
+        heartLevels[currentLevel].SetActive(true);
+        heartLevelAnim.SetTrigger("gainLevel");
+    }
+
+    Vector3 flyPos;
+    public void SpawnOutsideFly()
+    {
+        float x = Random.Range(-10f, 10f);
+        float y = yCurve.Evaluate(x);
+        flyPos = new Vector3(x, 0, y);
+
+        flyPos += heartPosition;
+        FlyController newFly = Instantiate(flyPrefab, flyPos, Quaternion.identity, flyParent).GetComponent<FlyController>();
     }
 }

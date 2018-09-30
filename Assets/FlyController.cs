@@ -11,8 +11,15 @@ public enum FlyState
     ash
 }
 
+public enum FlyType
+{
+    attack,
+    explode
+}
+
 public class FlyController : MonoBehaviour {
 
+    public FlyType type = FlyType.attack;
     public FlyState state = FlyState.alive;
 
     public ParticleSystem combustion;
@@ -22,6 +29,10 @@ public class FlyController : MonoBehaviour {
     public AudioSource exploSource;
     public AudioSource burnSource;
     public AudioSource wingSource;
+
+    public float attackCooldown;
+    public Vector3 attackSquash;
+    public float attackDuration;
 
     public NavMeshAgent agent;
     public Transform modelPivot;
@@ -42,11 +53,13 @@ public class FlyController : MonoBehaviour {
 
     private float health;
 
-    private bool isExploding;
+    private bool reachedHeart;
     private Tween squashTween;
 
     private List<SkinnedMeshRenderer> skinnedRendererList = new List<SkinnedMeshRenderer>();
     private List<Color> skinnedStartColorList = new List<Color>();
+
+    private float lastAttackTimestamp;
 
     [SerializeField] private List<MeshRenderer> rendererList = new List<MeshRenderer>();
     [SerializeField] private List<Color> startColorList = new List<Color>();
@@ -74,27 +87,60 @@ public class FlyController : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-        if (!isExploding && Vector3.Distance(transform.position, GameManager.Instance.heartPosition) <= GameManager.Instance.heartRadius)
+        if (state != FlyState.alive) return;
+
+        if (Vector3.Distance(transform.position, GameManager.Instance.heartPosition) > GameManager.Instance.heartRadius && reachedHeart)
         {
-            agent.isStopped = true;
-
-            isExploding = true;
-
-            if (squashTween != null) squashTween.Kill(true);
-            squashTween = modelPivot.DOShakeScale(explodeDuration, explodeShakeStrength, explodeVibrato,90,false).OnComplete(delegate
-            {
-                AudioSource.PlayClipAtPoint(exploSource.clip, transform.position,4f);
-                GameManager.Instance.DamageHeart(GameManager.Instance.flyDamage);
-                Instantiate(explosionPrefab, transform.position + Vector3.up *0.5f, explosionPrefab.transform.rotation);
-                Destroy(gameObject);
-            });
+            reachedHeart = false;
+            agent.isStopped = false;
         }
+
+        switch (type)
+        {
+            case FlyType.explode:
+                if (!reachedHeart && Vector3.Distance(transform.position, GameManager.Instance.heartPosition) <= GameManager.Instance.heartRadius)
+                {
+                    agent.isStopped = true;
+
+                    reachedHeart = true;
+
+                    if (squashTween != null) squashTween.Kill(true);
+                    squashTween = modelPivot.DOShakeScale(explodeDuration, explodeShakeStrength, explodeVibrato, 90, false).OnComplete(delegate
+                    {
+                        AudioSource.PlayClipAtPoint(exploSource.clip, transform.position, 4f);
+                        GameManager.Instance.DamageHeart(GameManager.Instance.flyDamage);
+                        Instantiate(explosionPrefab, transform.position + Vector3.up * 0.5f, explosionPrefab.transform.rotation);
+                        Destroy(gameObject);
+                    });
+                }
+                break;
+            case FlyType.attack:
+
+                if (!reachedHeart && Vector3.Distance(transform.position, GameManager.Instance.heartPosition) <= GameManager.Instance.heartRadius)
+                {
+                    agent.isStopped = true;
+                    reachedHeart = true;
+                }
+
+                if (Vector3.Distance(transform.position, GameManager.Instance.heartPosition) <= GameManager.Instance.heartRadius)
+                {
+                    if (Time.time > lastAttackTimestamp + attackCooldown)
+                    {
+                        if (squashTween != null) squashTween.Kill(true);
+                        squashTween = modelPivot.DOPunchScale(attackSquash, attackDuration);
+                        GameManager.Instance.DamageHeart(GameManager.Instance.flyDamage);
+                        lastAttackTimestamp = Time.time;
+                    }
+                }
+
+                break;
+        }
+       
 	}
     
     public void Damage(float _damage)
     {
         if (state == FlyState.ash) return;
-        if (isExploding) return;
 
         health -= _damage;
 
