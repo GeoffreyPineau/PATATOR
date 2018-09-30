@@ -375,6 +375,7 @@ public class Square : MonoBehaviour {
 
                     PlayRandomizedSource(GameManager.Instance.tequilaLiquidSound, GameManager.Instance.tequilaLiquidVolume);
                     GameManager.Instance.tequilaPressAnim.SetTrigger("pour");
+                    GameManager.Instance.tequilaGainText.text = "+ " + addedTequila.ToString();
 
 
                     if (GameManager.Instance.heldTequila > GameManager.Instance.maxTequila)

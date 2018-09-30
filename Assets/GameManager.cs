@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     List<Square> emptySquares;
 
     [Header("Leveling")]
+    public List<GameObject> heartLevels;
     public List<Level> levels;
     public int currentLevel;
     public TextMeshProUGUI levelText;
@@ -70,6 +71,7 @@ public class GameManager : MonoBehaviour
     public float flyBurnedLife;
 
     [Header("Containers Values")]
+    public TextMeshPro tequilaGainText;
     public int pressTequila;
     public int maxPressTequila;
     public int grenadaPotatoes;
@@ -479,6 +481,8 @@ public class GameManager : MonoBehaviour
         threeLeavesMin = d * 2;
         fourLeavesMin = d * 3;
         fiveLeavesMin = d * 4;
+
+        heartLevels[currentLevel].SetActive(true);
 
     }
 
