@@ -34,6 +34,10 @@ public class GameManager : MonoBehaviour
 
     [Header("Player Values")]
     public Vector3 squashStepValue = new Vector3(0.2f, -0.2f, 0.2f);
+    public Vector3 squashDashValue = new Vector3(0.6f, -0.6f, 0.6f);
+    public float dashHoldMax = 1f;
+    public float dashSpeedMin = 50;
+    public float dashSpeedMax = 150;
     public float squashStepDuration = .8f;
     public int potatoesHeld;
     public TextMeshPro potatoesText;

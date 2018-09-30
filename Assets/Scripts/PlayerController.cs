@@ -148,11 +148,11 @@ public class PlayerController : MonoBehaviour {
     {
 
         bool hasShot = false;
-
+        /*
         var main = psFlames.main;
         main.startColor = Color.Lerp(GameManager.Instance.sombreroastMinColor, GameManager.Instance.sombreroastMaxColor,
             Mathf.InverseLerp(0, GameManager.Instance.sombreroastMaxHeat, GameManager.Instance.sombreroastCurrentHeat));
-
+            */
         if (!Input.GetMouseButton(0))
         {
             Cooldown();
