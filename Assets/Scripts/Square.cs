@@ -421,6 +421,16 @@ public class Square : MonoBehaviour {
     {
         state = SquareState.empty;
         GameManager.Instance.hasGrenada = false;
+
+
+
+        StartCoroutine("Explosion");
+    }
+
+    public GameObject explosion;
+    IEnumerator Explosion()
+    {
+        yield return new WaitForEndOfFrame();
         holes = Physics.OverlapSphere(transform.position, 1, LayerMask.GetMask("Hole"));
         foreach (Collider hole in holes)
         {
@@ -432,13 +442,6 @@ public class Square : MonoBehaviour {
         {
             fly.GetComponentInParent<FlyController>().Damage(999);
         }
-
-        StartCoroutine("Explosion");
-    }
-
-    public GameObject explosion;
-    IEnumerator Explosion()
-    {
         explosion.SetActive(true);
         yield return new WaitForSeconds(1.5f);
         explosion.SetActive(false);
@@ -446,8 +449,16 @@ public class Square : MonoBehaviour {
 
     public void CreateHole()
     {
-        state = SquareState.hole;
-        potatoAmount = 0;
+        if(state == SquareState.grenada)
+        {
+            Explode();
+        }
+        else
+        {
+            state = SquareState.hole;
+            potatoAmount = 0;
+        }
+
     }
 
     public void GrowPotato()

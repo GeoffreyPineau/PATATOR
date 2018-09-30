@@ -21,10 +21,10 @@ RenderSettings:
   m_LinearFogStart: 19.4
   m_LinearFogEnd: 42
   m_AmbientSkyColor: {r: 0.2775454, g: 0.31692395, b: 0.9339623, a: 1}
-  m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
+  m_AmbientEquatorColor: {r: 0.07876469, g: 0.09853569, b: 0.2830189, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1.64
-  m_AmbientMode: 3
+  m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
@@ -3277,6 +3277,19 @@ MonoBehaviour:
   squarePrefab: {fileID: 0}
   squareParentTransform: {fileID: 0}
   dirtSquareList: []
+  holableSquares: []
+  levels: []
+  currentLevel: 0
+  levelText: {fileID: 0}
+  cursor: {fileID: 0}
+  heartExploPrefab: {fileID: 0}
+  healthBar: {fileID: 0}
+  tequilaText: {fileID: 0}
+  pressTequilaText: {fileID: 0}
+  tequilaBar: {fileID: 0}
+  tequilaBarBack: {fileID: 0}
+  squashStepValue: {x: 0.2, y: -0.2, z: 0.2}
+  squashStepDuration: 0.8
   potatoesHeld: 0
   potatoesText: {fileID: 0}
   hasGrenada: 0
@@ -3311,7 +3324,13 @@ MonoBehaviour:
   grenadaPotatoes: 0
   potatoesForGrenada: 0
   grenadas: 0
+  grenadaDrop: {fileID: 0}
+  dropVolume: 0
+  tequilaLiquidSound: {fileID: 0}
+  tequilaLiquidVolume: 0
   initialPotatoNumber: 0
+  potatoIncrement: 0
+  potatoSpawningDelay: 0
   maxPotatoes: 0
   potatoAddingCurve:
     serializedVersion: 2
@@ -3323,6 +3342,10 @@ MonoBehaviour:
   threeLeavesMin: 0
   fourLeavesMin: 0
   fiveLeavesMin: 0
+  potatoUproot: {fileID: 0}
+  uprootVolume: 0
+  potatoPlanting: {fileID: 0}
+  plantingVolume: 0
   flyPrefab: {fileID: 0}
   flyParent: {fileID: 0}
   flyDelay: 0
@@ -3336,9 +3359,13 @@ MonoBehaviour:
   tequilaMultiplier: 0
   tequilaPressAnim: {fileID: 0}
   tequilaTransform: {fileID: 0}
+  heartPotatoTransform: {fileID: 0}
   grenadaFabricAnim: {fileID: 0}
+  grenadaPanelAnim: {fileID: 0}
+  grenadaText: {fileID: 0}
   playerHandsAnim: {fileID: 0}
   animatedGrenadaAnim: {fileID: 0}
+  heartLid: {fileID: 0}
 --- !u!4 &465012480
 Transform:
   m_ObjectHideFlags: 0
