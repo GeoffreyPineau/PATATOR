@@ -292,6 +292,7 @@ public class Square : MonoBehaviour {
         {
             if(state == SquareState.hole)
             {
+                if (isRed) isRed = false;
                     if(GameManager.Instance.hasGrenada)
                     {
                         Explode();
@@ -514,8 +515,11 @@ public class Square : MonoBehaviour {
         }
     }
 
+    [HideInInspector]
+    public bool isRed;
     public void Redden()
     {
+        isRed = true;
         foreach(GameObject graphic in stateGraphics)
         {
             graphic.GetComponent<MeshRenderer>().material.color = HoleCreator.Instance.dangerColor;
