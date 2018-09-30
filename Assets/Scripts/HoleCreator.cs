@@ -28,7 +28,7 @@ public class HoleCreator : MonoBehaviour {
         availableSquares = new List<Square>();
         foreach(Square square in dirtSquares)
         {
-            if(square.state != SquareState.hole && square.canBeHoled)
+            if(square.state != SquareState.hole && square.canBeHoled && !square.isRed)
             {
                 availableSquares.Add(square);
             }

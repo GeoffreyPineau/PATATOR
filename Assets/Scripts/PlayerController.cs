@@ -14,12 +14,16 @@ public class PlayerController : MonoBehaviour {
     public ParticleSystem psFlames;
     public GameObject psDamage;
     public GameObject stepPrefab;
+    public ParticleSystem psFart;
     public Transform canonPivot;
     public GameObject armeVidePrefab;
     public AudioSource flameSource;
     public AudioSource puffSource;
     public AudioSource stepSource;
+    public AudioSource fartSource;
+    public AudioSource flameFartSource;
     public List<AudioClip> footsteps = new List<AudioClip>();
+    public List<AudioClip> farts = new List<AudioClip>();
     public float footstepVolume = 0.2f;
     public float flameVolume = 0.3f;
 
@@ -62,16 +66,24 @@ public class PlayerController : MonoBehaviour {
         dashInput = Input.GetKeyDown(KeyCode.Space) && directionInput != Vector3.zero;
         if (dashInput)
         {
-            GameObject smokePuff = Instantiate(stepPrefab, transform.position, stepPrefab.transform.rotation);
+            /*GameObject smokePuff = Instantiate(stepPrefab, transform.position, stepPrefab.transform.rotation);
             ParticleSystem parts = smokePuff.GetComponent<ParticleSystem>();
             float totalDuration = parts.main.startLifetime.constantMax;
-            Destroy(smokePuff, totalDuration);
-
+            Destroy(smokePuff, totalDuration);*/
+            psFart.Play();
+            lastStepTimestamp = Time.time;
 
             rb.AddForce(directionInput * dashSpeed, ForceMode.Impulse);
             //Squash
             if (squashTween != null) squashTween.Kill(true);
             squashTween = modelPivot.DOPunchScale(squashDashValue, squashDashDuration);
+
+            fartSource.clip = farts[Random.Range(0, farts.Count)];
+            fartSource.pitch = Random.Range(0.8f, 1.2f);
+            fartSource.Play();
+
+            flameFartSource.pitch = Random.Range(0.7f, 1.3f);
+            flameFartSource.Play();
         }
         //
         

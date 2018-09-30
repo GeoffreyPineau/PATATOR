@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     [Header("Leveling")]
     public List<Level> levels;
     public int currentLevel;
-    public TextMeshPro levelText;
+    public TextMeshProUGUI levelText;
 
     [Header("UI")]
     public Texture2D cursor;
@@ -80,6 +80,7 @@ public class GameManager : MonoBehaviour
     public int potatoesForGrenada;
     public int grenadas;
 
+    public AudioClip explosionClip;
     public AudioClip grenadaDrop;
     public float dropVolume;
 
@@ -264,6 +265,8 @@ public class GameManager : MonoBehaviour
     {
         scaleMultiplier = 1f / maxPressTequila;
         print("Scale multiplier = " + scaleMultiplier);
+        levelText.text = "1";
+        heartCurrentLife = heartMaxLife / 2;
     }
 
     float newScale;
@@ -437,5 +440,12 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    void LevelUp()
+    {
+        currentLevel++;
+        levelText.text = (currentLevel + 1).ToString();
+        heartMaxLife = levels[currentLevel].heartMaxLife;
     }
 }

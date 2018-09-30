@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 
 public class TimeManager : MonoBehaviour {
 
@@ -30,14 +31,18 @@ public class TimeManager : MonoBehaviour {
     [Header("PassingAnims")]
     public Animator sunAnim;
     public Animator moonAnim;
+
+    [Header("Clocks")]
+    public Animator clockAnim;
+    public TextMeshProUGUI clockText;
+
     void Awake()
     {
         Instance = this;
     }
 
     private void Start()
-    {
-        
+    {     
         currentDayTime = initialDayTime;
         sunLight.color = nightEndColor;
         DayRise();
@@ -104,12 +109,21 @@ public class TimeManager : MonoBehaviour {
             sunLight.DOColor(nightEndColor, ((cycleTime - currentDayTime) - transitionTime) / 2);
         }
 
+        if(isDay)
+        {
+            clockText.text = Mathf.RoundToInt(currentDayTime - currentTime).ToString();
+        }
+        else
+        {
+            clockText.text = Mathf.RoundToInt((cycleTime - currentDayTime) - currentTime).ToString();
+        }
     }
 
     FlyController[] flies;
     void DayRise()
     {
         sunAnim.SetTrigger("DayTime");
+        clockAnim.SetTrigger("Day");
         flies = FindObjectsOfType<FlyController>();
         foreach(FlyController fly in flies)
         {
@@ -125,6 +139,7 @@ public class TimeManager : MonoBehaviour {
     void NightFall()
     {
         moonAnim.SetTrigger("NightTime");
+        clockAnim.SetTrigger("Night");
         HoleCreator.Instance.CreateHoles();
         isDay = false;
         currentDayTime -= dayTimeReduction;

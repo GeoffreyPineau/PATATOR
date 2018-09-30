@@ -292,6 +292,7 @@ public class Square : MonoBehaviour {
         {
             if(state == SquareState.hole)
             {
+                if (isRed) isRed = false;
                     if(GameManager.Instance.hasGrenada)
                     {
                         Explode();
@@ -420,6 +421,16 @@ public class Square : MonoBehaviour {
     {
         state = SquareState.empty;
         GameManager.Instance.hasGrenada = false;
+
+        AudioSource.PlayClipAtPoint(GameManager.Instance.explosionClip, transform.position);
+
+        StartCoroutine("Explosion");
+    }
+
+    public GameObject explosion;
+    IEnumerator Explosion()
+    {
+        yield return new WaitForEndOfFrame();
         holes = Physics.OverlapSphere(transform.position, 1, LayerMask.GetMask("Hole"));
         foreach (Collider hole in holes)
         {
@@ -431,13 +442,6 @@ public class Square : MonoBehaviour {
         {
             fly.GetComponentInParent<FlyController>().Damage(999);
         }
-
-        StartCoroutine("Explosion");
-    }
-
-    public GameObject explosion;
-    IEnumerator Explosion()
-    {
         explosion.SetActive(true);
         yield return new WaitForSeconds(1.5f);
         explosion.SetActive(false);
@@ -445,8 +449,16 @@ public class Square : MonoBehaviour {
 
     public void CreateHole()
     {
-        state = SquareState.hole;
-        potatoAmount = 0;
+        if(state == SquareState.grenada)
+        {
+            Explode();
+        }
+        else
+        {
+            state = SquareState.hole;
+            potatoAmount = 0;
+        }
+
     }
 
     public void GrowPotato()
@@ -514,8 +526,11 @@ public class Square : MonoBehaviour {
         }
     }
 
+    [HideInInspector]
+    public bool isRed;
     public void Redden()
     {
+        isRed = true;
         foreach(GameObject graphic in stateGraphics)
         {
             graphic.GetComponent<MeshRenderer>().material.color = HoleCreator.Instance.dangerColor;
