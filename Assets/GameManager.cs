@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     [Header("UI")]
     public Texture2D cursor;
+    public GameObject openHolePrefab;
     public GameObject heartExploPrefab;
     public Image healthBar;
     public TextMeshProUGUI tequilaText;
@@ -151,7 +152,7 @@ public class GameManager : MonoBehaviour
         heartPotatoTransform.localScale = new Vector3(0.938f, 0.938f, 0.938f);
         newScale = 0.938f;
 
-        Cursor.SetCursor(cursor, new Vector2(cursor.width, cursor.height), CursorMode.Auto);
+        Cursor.SetCursor(cursor, new Vector2(cursor.width/2, cursor.height/2), CursorMode.Auto);
 
         heartCurrentLife = heartMaxLife;
 
@@ -206,6 +207,8 @@ public class GameManager : MonoBehaviour
                     newSquare.name = "TequilaPress";
                     newSquareComponent.tequilaMultiplier = tequilaMultiplier;
 
+                    newSquareComponent.hidden = true;
+
                     newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
                 }
                 if (new Vector2(x, y) == tequilaPumpPosition)
@@ -216,6 +219,8 @@ public class GameManager : MonoBehaviour
                     squaresArray[x, y] = newSquareComponent;
                     newSquareComponent.type = SquareType.pump;
                     newSquare.name = "TequilaPump";
+
+                    newSquareComponent.hidden = true;
 
                     newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
                 }
@@ -228,6 +233,8 @@ public class GameManager : MonoBehaviour
                     newSquareComponent.type = SquareType.compressor;
                     newSquare.name = "GrenadaCompressor";
 
+                    newSquareComponent.hidden = true;
+
                     newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
                 }
                 if(new Vector2(x, y) == grenadaPosition)
@@ -238,6 +245,8 @@ public class GameManager : MonoBehaviour
                     squaresArray[x, y] = newSquareComponent;
                     newSquareComponent.type = SquareType.grenada;
                     newSquare.name = "GrenadaPosition";
+
+                    newSquareComponent.hidden = true;
 
                     newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
                 }
@@ -256,6 +265,8 @@ public class GameManager : MonoBehaviour
                         newSquareComponent.selectionLid = Instantiate(heartLid);
                         newSquareComponent.selectionLid.transform.position = heartLid.transform.position;
                         heartSquares.Add(newSquareComponent);
+
+                        newSquareComponent.hidden = true;
 
                         newSquare.transform.position = new Vector3(x + 0.5f, 0, y + 0.5f);
                     }

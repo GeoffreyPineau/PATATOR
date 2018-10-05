@@ -156,7 +156,14 @@ public class FlyController : MonoBehaviour {
                 foreach (MeshRenderer meshRenderer in rendererList)
                 {
                     meshRenderer.material.DOColor(burnColor,fallSpeed);
+                    meshRenderer.material.DOVector(burnColor, "_EmissionColor", fallSpeed);
                 }
+                foreach (SkinnedMeshRenderer meshRenderer in skinnedRendererList)
+                {
+                    meshRenderer.material.DOColor(burnColor, fallSpeed);
+                    meshRenderer.material.DOVector(burnColor, "_EmissionColor", fallSpeed);
+                }
+
                 modelPivot.DOLocalMoveY(0, fallSpeed);
                 modelPivot.DOPunchScale(new Vector3(0.3f, -0.5f, 0.3f)*2,fallSpeed).SetDelay(fallSpeed);
                 //Die

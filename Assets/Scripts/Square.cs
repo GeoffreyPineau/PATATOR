@@ -23,6 +23,8 @@ public enum SquareType
 
 public class Square : MonoBehaviour {
 
+    public bool hidden = false;
+
     public SquareState state;
     public SquareType type;
 
@@ -76,6 +78,11 @@ public class Square : MonoBehaviour {
 
             mySource = gameObject.AddComponent<AudioSource>();
 
+        }
+
+        if (hidden)
+        {
+            graphicsParent.gameObject.SetActive(false);
         }
     }
 
@@ -207,6 +214,8 @@ public class Square : MonoBehaviour {
                     stateGraphics[2].SetActive(true);
                     stateGraphics[3].SetActive(false);
                     stateGraphics[4].SetActive(false);
+
+                    Instantiate(GameManager.Instance.openHolePrefab, transform.position, GameManager.Instance.openHolePrefab.transform.rotation);
                 }
 
                 flyTimer += Time.deltaTime;
@@ -256,6 +265,12 @@ public class Square : MonoBehaviour {
         {
             //if(type != SquareType.heart)
             selectionLid.SetActive(false);
+        }
+
+        
+        if (hidden)
+        {
+            graphicsParent.gameObject.SetActive(false);
         }
     }
 
@@ -484,7 +499,7 @@ public class Square : MonoBehaviour {
     public void PotatoGrowth()
     {
         potatoAmount += GameManager.Instance.potatoGrowth;
-        if(potatoAmount > GameManager.Instance.maxPotatoes)
+        if (potatoAmount > GameManager.Instance.maxPotatoes)
         {
             potatoAmount = GameManager.Instance.maxPotatoes;
         }

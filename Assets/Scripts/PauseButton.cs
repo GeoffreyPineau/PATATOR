@@ -18,7 +18,7 @@ public class PauseButton : MonoBehaviour {
     }
 
     private void Update()
-    {
+    {/*
         if(Input.GetKeyUp("M"))
         {
             SceneManager.LoadScene("MainMenu");
@@ -26,8 +26,8 @@ public class PauseButton : MonoBehaviour {
         if(Input.GetKeyUp("Q"))
         {
             Application.Quit();
-        }
-        if(Input.GetKeyUp("Escape"))
+        }*/
+        if(Input.GetKeyUp(KeyCode.Escape))
         {
             selected = true;
         }
