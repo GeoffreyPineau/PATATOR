@@ -127,7 +127,7 @@ public class TimeManager : MonoBehaviour {
         flies = FindObjectsOfType<FlyController>();
         foreach(FlyController fly in flies)
         {
-            fly.Damage(999);
+            fly.Evaporate();
         }
         StartCoroutine("WaitThenWarn");
         isDay = true;
