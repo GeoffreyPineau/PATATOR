@@ -4099,7 +4099,7 @@ MonoBehaviour:
   tequilaPumpPosition: {x: 0, y: 4}
   grenadaCompressorPosition: {x: 11, y: 6}
   grenadaPosition: {x: 11, y: 4}
-  tequilaMultiplier: 20
+  tequilaMultiplier: 25
   tequilaPressAnim: {fileID: 1444131478}
   tequilaTransform: {fileID: 1994313683}
   heartPotatoTransform: {fileID: 214727648}
