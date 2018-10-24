@@ -36,6 +36,7 @@ public class FlyController : MonoBehaviour {
 
     public NavMeshAgent agent;
     public Transform modelPivot;
+    public Transform bodyPivot;
     public float explodeShakeStrength;
     public float explodeDuration;
     public int explodeVibrato;
@@ -61,11 +62,15 @@ public class FlyController : MonoBehaviour {
 
     private float lastAttackTimestamp;
 
+    private Collider myCollider;
+
     [SerializeField] private List<MeshRenderer> rendererList = new List<MeshRenderer>();
     [SerializeField] private List<Color> startColorList = new List<Color>();
 
     private void Start()
     {
+        myCollider = GetComponent<Collider>();
+
         foreach(MeshRenderer meshRenderer in GetComponentsInChildren<MeshRenderer>())
         {
             meshRenderer.material.EnableKeyword("_EMISSION");
@@ -88,6 +93,16 @@ public class FlyController : MonoBehaviour {
     void Update ()
     {
         if (state != FlyState.alive) return;
+
+
+        RaycastHit hit;
+        Physics.Raycast(new Vector3(transform.position.x,1, transform.position.z),Vector3.down,out hit,10f);
+        Debug.DrawLine(new Vector3(transform.position.x, 1, transform.position.z), hit.point);
+        if (hit.collider != null && hit.collider != myCollider)
+        {
+            Debug.Log(hit.collider.name);
+            bodyPivot.position = new Vector3(bodyPivot.position.x, hit.point.y, bodyPivot.position.z);
+        }
 
         if (Vector3.Distance(transform.position, GameManager.Instance.heartPosition) > GameManager.Instance.heartRadius && reachedHeart)
         {
@@ -198,6 +213,33 @@ public class FlyController : MonoBehaviour {
                 squashTween = modelPivot.DOShakeScale(hitDuration, hitShakeStrength, hitVibrato, 90, false);
             }
         }
+    }
+
+    public void Evaporate()
+    {
+
+        if (state == FlyState.ash) return;
+        
+        wingSource.Stop();
+        burnSource.Play();
+        combustion.Play();
+
+        agent.enabled = false;
+        
+        gameObject.layer = 13;
+
+        modelPivot.gameObject.SetActive(false);
+
+        ashPrefab.SetActive(true);
+        ashPrefab.transform.eulerAngles = new Vector3(-90, Random.Range(-90, 360), 0);
+
+        state = FlyState.ash;
+        GetComponent<BoxCollider>().enabled = false;
+
+        ashPrefab.transform.DOLocalMoveY(-1, 3).SetDelay(5).OnComplete(delegate
+        {
+            Destroy(gameObject);
+        });
     }
 
 

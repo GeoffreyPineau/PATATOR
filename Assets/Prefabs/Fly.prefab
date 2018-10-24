@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4564278228990602}
   - component: {fileID: 33550345790950612}
   - component: {fileID: 23587181832549900}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: aile2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ GameObject:
   - component: {fileID: 4027607107704834}
   - component: {fileID: 33143776817014030}
   - component: {fileID: 23041573132394490}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: oeuil1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,7 +69,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4928268245572286}
   - component: {fileID: 82916818821408600}
-  m_Layer: 12
+  m_Layer: 10
   m_Name: AudioFly
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +84,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4223027599188662}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4709554330667836}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Bone003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: 4074112859081564}
   - component: {fileID: 33236727689533404}
   - component: {fileID: 23499975537930782}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: aile1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -151,7 +151,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4012544789934768}
   - component: {fileID: 82510778986791380}
-  m_Layer: 12
+  m_Layer: 10
   m_Name: AudioExplo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,7 +167,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4186832778098514}
   - component: {fileID: 137755630837680776}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: trompe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,7 +182,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4857237357298984}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Bone001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -198,7 +198,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4142091808066924}
   - component: {fileID: 82027910118462176}
-  m_Layer: 12
+  m_Layer: 10
   m_Name: AudioBurn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 4344940568912736}
   - component: {fileID: 33378173120817552}
   - component: {fileID: 23965184343347262}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bourlet1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -232,7 +232,7 @@ GameObject:
   - component: {fileID: 4346885004117216}
   - component: {fileID: 33134803603217878}
   - component: {fileID: 23486985699398334}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: oeuil2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 4346487471626072}
   - component: {fileID: 198596482408624652}
   - component: {fileID: 199108629590717598}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Combustion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -266,7 +266,7 @@ GameObject:
   - component: {fileID: 4373953276844126}
   - component: {fileID: 33249623835705838}
   - component: {fileID: 23720076662054864}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bourlet2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 4738167331174338}
   - component: {fileID: 33789233536442274}
   - component: {fileID: 23986992335361102}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cendres_fbx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -300,7 +300,7 @@ GameObject:
   - component: {fileID: 4169331976788862}
   - component: {fileID: 33601699335759540}
   - component: {fileID: 23515188119472500}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: tete
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -317,7 +317,7 @@ GameObject:
   - component: {fileID: 4248830660535050}
   - component: {fileID: 33529367638351636}
   - component: {fileID: 23927955037389014}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: mouche
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -333,7 +333,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4615377028142258}
   - component: {fileID: 95645879189761964}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FlyVisuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -348,7 +348,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4072202702528598}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Bone002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -489,7 +489,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1307037009227206}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.29, y: 0, z: 0.53}
+  m_LocalPosition: {x: 0.851, y: 0, z: 2.59}
   m_LocalScale: {x: 0.82586, y: 0.82586, z: 0.82586}
   m_Children:
   - {fileID: 4667961743248908}
@@ -1051,7 +1051,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.36, y: 1, z: 0.36}
+  m_Size: {x: 0.36, y: 2.91, z: 0.36}
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!82 &82027910118462176
 AudioSource:
@@ -1384,6 +1384,7 @@ MonoBehaviour:
   attackDuration: 0.2
   agent: {fileID: 195479001881356096}
   modelPivot: {fileID: 4223027599188662}
+  bodyPivot: {fileID: 4667961743248908}
   explodeShakeStrength: 0.8
   explodeDuration: 0.3
   explodeVibrato: 20
