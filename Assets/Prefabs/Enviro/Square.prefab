@@ -536,7 +536,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1415271810987972}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.5635698, y: 0.96848315, z: 2.7179823}
+  m_LocalPosition: {x: 3.083929, y: 3.345313e-17, z: 1.6494603}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4790455369093350}
@@ -914,7 +914,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1721807748805748}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.374, y: 0, z: -0.263}
+  m_LocalPosition: {x: 0.173, y: 0, z: -0.428}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4931976407271336}
@@ -1704,6 +1704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e2e4075f851fd4bbba594223524fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hidden: 0
   state: 0
   type: 0
   selectionLid: {fileID: 1654033270645822}
@@ -1731,6 +1732,7 @@ MonoBehaviour:
   flies: []
   explosion: {fileID: 1928857265832680}
   selected: 0
+  isRed: 0
 --- !u!114 &114939244359728374
 MonoBehaviour:
   m_ObjectHideFlags: 1
