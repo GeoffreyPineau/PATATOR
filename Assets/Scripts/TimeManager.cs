@@ -8,6 +8,10 @@ public class TimeManager : MonoBehaviour {
 
     public static TimeManager Instance;
 
+    [Header("Infinity")]
+    public bool infinite;
+    public GameObject infinitySymbol;
+
     [Header("Tweaking")]
     public float cycleTime;
     public float initialDayTime;
@@ -51,72 +55,62 @@ public class TimeManager : MonoBehaviour {
     bool rises;
     private void Update()
     {
-        currentTime += Time.deltaTime;
-        if(isDay)
+        if(!infinite)
         {
-            if (currentTime > currentDayTime)
+            infinitySymbol.SetActive(false);
+            currentTime += Time.deltaTime;
+            if (isDay)
             {
-                currentTime = 0;
-                NightFall();
-            }
-        }
-        else
-        {
-            if(currentTime > cycleTime - currentDayTime)
-            {
-                currentTime = 0;
-                DayRise();
-
-            }
-
-            //sunrise if every hole has exploded
-            /*if(currentTime < ((cycleTime-currentTime) - 2))
-            {
-                rises = true;
-                foreach(Square holableSquare in GameManager.Instance.holableSquares)
+                if (currentTime > currentDayTime)
                 {
-                    if(holableSquare.state == SquareState.hole)
-                    {
-                        rises = false;
-                        break;
-                    }
+                    currentTime = 0;
+                    NightFall();
                 }
-
-                if(rises)
+            }
+            else
+            {
+                if (currentTime > cycleTime - currentDayTime)
                 {
                     currentTime = 0;
                     DayRise();
+
                 }
-            }*/
-        }
+            }
 
-        //color evolution
-        if(sunLight.color == dayStartingColor)
-        {
-            sunLight.DOColor(dayMiddleColor, (currentDayTime - transitionTime) / 2);
-        }
-        if(sunLight.color == dayMiddleColor)
-        {
+            //color evolution
+            if (sunLight.color == dayStartingColor)
+            {
+                sunLight.DOColor(dayMiddleColor, (currentDayTime - transitionTime) / 2);
+            }
+            if (sunLight.color == dayMiddleColor)
+            {
 
-            sunLight.DOColor(dayEndColor, (currentDayTime - transitionTime) / 2);
-        }
-        if(sunLight.color == nightStartingColor)
-        {
-            sunLight.DOColor(nightMiddleColor, ((cycleTime - currentDayTime) - transitionTime) / 2);
-        }
-        if (sunLight.color == nightMiddleColor)
-        {
-            sunLight.DOColor(nightEndColor, ((cycleTime - currentDayTime) - transitionTime) / 2);
-        }
+                sunLight.DOColor(dayEndColor, (currentDayTime - transitionTime) / 2);
+            }
+            if (sunLight.color == nightStartingColor)
+            {
+                sunLight.DOColor(nightMiddleColor, ((cycleTime - currentDayTime) - transitionTime) / 2);
+            }
+            if (sunLight.color == nightMiddleColor)
+            {
+                sunLight.DOColor(nightEndColor, ((cycleTime - currentDayTime) - transitionTime) / 2);
+            }
 
-        if(isDay)
-        {
-            clockText.text = Mathf.RoundToInt(currentDayTime - currentTime).ToString();
+            if (isDay)
+            {
+                clockText.text = Mathf.RoundToInt(currentDayTime - currentTime).ToString();
+            }
+            else
+            {
+                clockText.text = Mathf.RoundToInt((cycleTime - currentDayTime) - currentTime).ToString();
+            }
         }
         else
         {
-            clockText.text = Mathf.RoundToInt((cycleTime - currentDayTime) - currentTime).ToString();
+            infinitySymbol.SetActive(true);
+            clockText.text = "";
         }
+
     }
 
     FlyController[] flies;
@@ -132,7 +126,10 @@ public class TimeManager : MonoBehaviour {
         StartCoroutine("WaitThenWarn");
         isDay = true;
         sunLight.DOColor(dayStartingColor, transitionTime);
-        GameManager.Instance.SpawnPotatos();
+        if(!TutorialManager.Instance.tutorialOnGoing)
+        {
+            GameManager.Instance.SpawnPotatos();
+        }
         MusicManager.Instance.Day();
     }
 
@@ -161,6 +158,9 @@ public class TimeManager : MonoBehaviour {
     IEnumerator WaitThenWarn()
     {
         yield return new WaitForSeconds(currentDayTime / 2);
-        HoleCreator.Instance.WarnHoles();
+        if(!infinite)
+        {
+            HoleCreator.Instance.WarnHoles();
+        }
     }
 }

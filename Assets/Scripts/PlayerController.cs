@@ -54,6 +54,8 @@ public class PlayerController : MonoBehaviour {
 
     private float lastFlameTimestamp;
 
+    public bool canMove;
+
     private void Update()
     {
         //Get player input
@@ -87,7 +89,7 @@ public class PlayerController : MonoBehaviour {
         }
         //
         
-        if (directionInput != Vector3.zero)
+        if (directionInput != Vector3.zero && canMove)
         {
             // STEP
             if (Time.time > lastStepTimestamp + GameManager.Instance.stepCooldown)

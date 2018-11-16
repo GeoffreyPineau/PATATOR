@@ -274,8 +274,6 @@ public class GameManager : MonoBehaviour
             }
         }
         FindObjectOfType<HoleCreator>().dirtSquares = dirtSquareList;
-
-
     }
 
     private void Start()
@@ -287,9 +285,18 @@ public class GameManager : MonoBehaviour
         heartCurrentLife = heartMaxLife / 2;
         potatoGrowth = levels[0].potatoGrowth;
         maxPotatoes = levels[0].potatoMax;
-        for(int i = 0; i< initialPotatoNumber; i++)
+
+        //start game if tutorial isn't enabled
+        if(!TutorialManager.Instance.tutorialEnabled)
         {
-            SpawnPotatos();
+            for (int i = 0; i < initialPotatoNumber; i++)
+            {
+                SpawnPotatos();
+            }
+        }
+        else
+        {
+
         }
 
     }
@@ -300,7 +307,7 @@ public class GameManager : MonoBehaviour
     List<Square> heartSquares;
     void Update()
     {
-        tequilaText.text = (Mathf.Round(heldTequila)).ToString();
+        //tequilaText.text = (Mathf.Round(heldTequila)).ToString();
         currentTequilaNumber = Mathf.Lerp(currentTequilaNumber, pressTequila, 0.1f);
         pressTequilaText.text = Mathf.RoundToInt(currentTequilaNumber).ToString();
     
